@@ -1,7 +1,0 @@
-root = true
-
-[*.cs]
-dotnet_diagnostic.IDE0051.severity = none
-dotnet_analyzer_diagnostic.category-Style.severity = none
-dotnet_analyzer_diagnostic.category-Simplification.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.severity = none
