@@ -110,11 +110,23 @@ public static class statics{
         }
 
         public static void check_is_gameover(){
-            if (mngr_balance.amount >= consts.max_val){
+            if (mngr_balance.amount >= consts.max_val
+            || mngr_cb.amount >= consts.max_val
+            || mngr_upgrs.gps >= consts.max_val){
                 is_gameover = true;
+
+                mngr_balance.amount = 0f;
+                mngr_balance.max_amount = 0f;
+                mngr_balance.on_val_change();
+
+                mngr_cb.amount = 0f;
+                mngr_cb.on_val_change();
+
+                mngr_upgrs.gps = 0f;
+                mngr_upgrs.act_ui(new(){"stats"});
+
                 act_ui();
                 save_module.save_gameover_status();
-                statics.mngr_upgrs.gps = 0f;
             }
         }
 

@@ -25,12 +25,16 @@ public static class common_utils{
 
     public static string f2s(float num) {
         string format = "0.##";
-        if (Math.Abs(num) < 1000f) return num.ToString(format); 
+        if (float.IsNaN(num) || float.IsInfinity(num) || Math.Abs(num) >= consts.max_val){
+            statics.mngr_gameover.check_is_gameover();
+            return "0";
+        }
+        if (Math.Abs(num) < 1000f) return num.ToString(format);
         int magnitude = (int)Math.Floor(Math.Log10(Math.Abs(num)) / 3);
         magnitude = Math.Min(magnitude, consts.suffixes.Count - 1);
         float scaled = (float)(num / Math.Pow(1000f, magnitude));
         return scaled.ToString(format, CultureInfo.InvariantCulture) + consts.suffixes[magnitude];
-    }   
+    }
 
     public static List<string> f2s(List<float> nums) {
         List<string> res = new();
