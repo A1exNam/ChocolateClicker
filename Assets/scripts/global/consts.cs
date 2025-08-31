@@ -267,13 +267,13 @@ public static class consts{
             "pure chocolate perfection in every tap! For those who appreciate classic style with every click!")},
         {"Cocoa Whirl", (10, 10,
             "smooth, rich chocolate candy with a signature swirl, offering a perfect blend of deep cocoa flavor and sweetness.")},
-        {"Caramel Drizzle", (300, 40, 
+        {"Caramel Drizzle", (300, 20, 
             "A smooth chocolate candy with delicate caramel streaks, offering a rich cocoa flavor paired with a gentle caramel sweetness.")},
-        {"Nutty Crunch", (450, 50, 
-            "A rich chocolate shell filled with a delightful mix of crunchy nuts and a hint of caramel, blending textures and flavors for the perfect bite.")},
-        {"Cherry Delight", (700, 60, 
+        {"Nutty Crunch", (450, 30, 
+            "A rich chocolate shell with crunchy nuts and a hint of caramel for the perfect bite.")},
+        {"Cherry Delight", (700, 40, 
             "Decadent chocolate cake with rich layers and a cherry on top, balancing sweetness and depth.")},
-        {"Choco Pop", (1, 70, 
+        {"Choco Pop", (1, 99, 
             "Classic chocolate-coated ice cream bar with a creamy, rich center, perfect for a cool treat.")},
     };
 

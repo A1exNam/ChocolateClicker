@@ -1031,8 +1031,12 @@ public static class statics{
             urefs.as_circle_timer_go.SetActive(true);
             urefs.as_numbers_timer_go.SetActive(true);
             while (elapsedTime < duration){
+                float rem = duration - elapsedTime;
+                int minutes = (int)(rem / 60);
+                int seconds = (int)(rem % 60);
                 elapsedTime += Time.deltaTime;
-                urefs.as_numbers_timer_txt.text = "00:" + ((int)(duration - elapsedTime)).ToString("D2");
+                urefs.as_numbers_timer_txt.text = 
+                    minutes.ToString("D2") + ":" + seconds.ToString("D2");
                 yield return null;
             }
             urefs.as_circle_timer_go.SetActive(false);
