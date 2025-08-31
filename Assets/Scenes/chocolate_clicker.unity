@@ -6202,8 +6202,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 704, y: -287}
-  m_SizeDelta: {x: 911.955, y: 911.955}
+  m_AnchoredPosition: {x: 686, y: -335.1}
+  m_SizeDelta: {x: 859.12, y: 640.631}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &397762300
 MonoBehaviour:
@@ -12059,7 +12059,7 @@ GameObject:
   m_Layer: 5
   m_Name: dim_prof_window
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
@@ -14656,8 +14656,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 748.06396, y: -291.638}
-  m_SizeDelta: {x: 645.321, y: 675.752}
+  m_AnchoredPosition: {x: 737, y: -322}
+  m_SizeDelta: {x: 676.946, y: 528.592}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &982858747
 MonoBehaviour:
@@ -18842,8 +18842,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -26, y: -22}
-  m_SizeDelta: {x: 382.41, y: 208}
+  m_AnchoredPosition: {x: -52, y: -21}
+  m_SizeDelta: {x: 398.587, y: 208}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1180749031
 MonoBehaviour:
@@ -18865,7 +18865,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Each \nprofession gives unique bonus! \nChoose wisely"
+  m_text: "Each profession gives unique bonus! \nChoose wisely!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d01c456f0c3ef064eaf0653ca07cd2e8, type: 2}
   m_sharedMaterial: {fileID: 9054978261251810092, guid: d01c456f0c3ef064eaf0653ca07cd2e8, type: 2}
@@ -18892,8 +18892,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 44
+  m_fontSizeBase: 44
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -18902,9 +18902,9 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -3.39
+  m_characterSpacing: -7.59
   m_wordSpacing: 0
-  m_lineSpacing: -31.97
+  m_lineSpacing: -43.11
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -35792,7 +35792,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 55.178, y: -37.38}
-  m_SizeDelta: {x: 208.02, y: 0}
+  m_SizeDelta: {x: 208.02, y: 74.76}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &1812666447865668268
 RectTransform:
@@ -36972,9 +36972,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8405475794142965659}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 25.589, y: -37.38}
   m_SizeDelta: {x: 51.178, y: 47.928}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9095141445608478859
