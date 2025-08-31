@@ -29,7 +29,6 @@ public static class consts{
     public static float 
         //common
         bttn_min_alpha = 0.8f, //for upgrs, arts buttons only
-        max_val = float.MaxValue/10f,
 
         //tap number
         x1_nmbr_tap_crd,

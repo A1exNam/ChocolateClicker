@@ -109,13 +109,10 @@ public static class statics{
             urefs.restart_game_bcc.on_click.AddListener(restart);
         }
 
-        public static void check_is_gameover(){
-            if (mngr_balance.amount >= consts.max_val){
-                is_gameover = true;
-                act_ui();
-                save_module.save_gameover_status();
-                statics.mngr_upgrs.gps = 0f;
-            }
+        public static void gameover(){
+            is_gameover = true;
+            act_ui();
+            save_module.save_gameover_status();
         }
 
         public static void act_ui(){

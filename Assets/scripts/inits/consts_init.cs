@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class consts_init: MonoBehaviour{
     void Awake(){
         common_utils.InitStaticDataClassFromMono(typeof(consts), this);
-        common_utils.fill_suffix_num_list(38);
+        common_utils.fill_suffix_num_list();
     }
 
     void Start(){

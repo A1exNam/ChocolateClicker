@@ -24,6 +24,10 @@ public static class common_utils{
     }
 
     public static string f2s(float num) {
+        if (float.IsNaN(num) || float.IsInfinity(num)){
+            statics.mngr_gameover.gameover();
+            return "0";
+        }
         string format = "0.##";
         if (Math.Abs(num) < 1000f) return num.ToString(format); 
         int magnitude = (int)Math.Floor(Math.Log10(Math.Abs(num)) / 3);
@@ -111,13 +115,11 @@ public static class common_utils{
             }
             save_module.save_balance();
 
-            statics.mngr_gameover.check_is_gameover();
-
             yield return new WaitForSeconds(1f);
         }
     }
 
-    public static void fill_suffix_num_list(int max_pow_cnt){
+    public static void fill_suffix_num_list(){
         consts.suffixes.Add("");
 
         // Первые стандартные
@@ -126,15 +128,11 @@ public static class common_utils{
         consts.suffixes.Add("B"); // 10^9
         consts.suffixes.Add("T"); // 10^12
 
-        int suffixes_cnt = (max_pow_cnt / 3) + 1;
-
         // Генерация двухбуквенных (aa, ab, ..., zz)
         for (char first = 'a'; first <= 'z'; first++){
             for (char second = 'a'; second <= 'z'; second++){
                 consts.suffixes.Add($"{first}{second}");
-                if (consts.suffixes.Count >= suffixes_cnt) break;
             }
-            if (consts.suffixes.Count >= suffixes_cnt) break;
         }
     }
 
