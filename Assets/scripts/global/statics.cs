@@ -190,7 +190,7 @@ public static class statics{
         public static Dictionary<string, (TextMeshProUGUI min_lvl_txt, GameObject min_lvl_go, 
         CanvasGroup bttn_cg, int min_lvl, Animator bttn_anmtr)> bttn_tutor_dict_collection;
 
-        public static Dictionary<string, (GameObject go, button_custom_class bcc)> tutor_go_bcc_dict;
+        public static Dictionary<string, (GameObject go, button_custom_class bcc, Animator anmtr, TextMeshProUGUI txt)> tutor_go_bcc_dict;
         public static Dictionary<string, int> tutor_state_dict = new();
 
         public static Dictionary<string, bool> 
@@ -218,18 +218,18 @@ public static class statics{
             act_ui(new(bttn_tutor_dict_collection.Keys));
 
             tutor_go_bcc_dict = new(){
-                {"tutor_click", (urefs.tutor_click_go, urefs.tutor_click_bcc)},
-                {"tutor_tap", (urefs.tutor_tap_go, urefs.tutor_tap_bcc)},                
-                {"tutor_upgr", (urefs.tutor_upgr_go, urefs.tutor_upgr_bcc)},
-                {"tutor_arts", (urefs.tutor_arts_panel_bttn_go, urefs.tutor_arts_panel_bttn_bcc)},
-                {"tutor_arts_discover", (urefs.tutor_arts_discover_go, urefs.tutor_arts_discover_bcc)},
-                {"tutor_tempering_win_bttn", (urefs.tutor_tempering_win_bttn_go, urefs.tutor_tempering_win_bttn_bcc)},
-                {"tutor_tempering", (urefs.tutor_tempering_go, urefs.tutor_tempering_bcc)},
-                {"tutor_prof_win_bttn", (urefs.tutor_prof_win_bttn_go, urefs.tutor_prof_win_bttn_bcc)},
-                {"tutor_prof", (urefs.tutor_prof_go, null)},
-                {"tutor_skin_win_bttn", (urefs.tutor_skin_win_bttn_go, urefs.tutor_skin_win_bttn_bcc)},
-                {"tutor_ach_win_bttn", (urefs.tutor_ach_win_bttn_go, urefs.tutor_ach_win_bttn_bcc)},
-                {"tutor_diamonds", (urefs.tutor_diamonds_go, null)}
+                {"tutor_click", (urefs.tutor_click_go, urefs.tutor_click_bcc, urefs.tutor_click_anmtr, urefs.tutor_click_txt)},
+                {"tutor_tap", (urefs.tutor_tap_go, urefs.tutor_tap_bcc, urefs.tutor_tap_anmtr, urefs.tutor_tap_txt)},                
+                {"tutor_upgr", (urefs.tutor_upgr_go, urefs.tutor_upgr_bcc, urefs.tutor_upgr_anmtr, urefs.tutor_upgr_txt)},
+                {"tutor_arts", (urefs.tutor_arts_panel_bttn_go, urefs.tutor_arts_panel_bttn_bcc, urefs.tutor_arts_panel_bttn_anmtr, urefs.tutor_arts_panel_bttn_txt)},
+                {"tutor_arts_discover", (urefs.tutor_arts_discover_go, urefs.tutor_arts_discover_bcc, urefs.tutor_arts_discover_anmtr, urefs.tutor_arts_discover_txt)},
+                {"tutor_tempering_win_bttn", (urefs.tutor_tempering_win_bttn_go, urefs.tutor_tempering_win_bttn_bcc, urefs.tutor_tempering_win_bttn_anmtr, urefs.tutor_tempering_win_bttn_txt)},
+                {"tutor_tempering", (urefs.tutor_tempering_go, urefs.tutor_tempering_bcc, urefs.tutor_tempering_anmtr, null)},
+                {"tutor_prof_win_bttn", (urefs.tutor_prof_win_bttn_go, urefs.tutor_prof_win_bttn_bcc, urefs.tutor_prof_win_bttn_anmtr, urefs.tutor_prof_win_bttn_txt)},
+                {"tutor_prof", (urefs.tutor_prof_go, null, urefs.tutor_prof_anmtr, urefs.tutor_prof_txt)},
+                {"tutor_skin_win_bttn", (urefs.tutor_skin_win_bttn_go, urefs.tutor_skin_win_bttn_bcc, urefs.tutor_skin_win_bttn_anmtr, urefs.tutor_skin_win_bttn_txt)},
+                {"tutor_ach_win_bttn", (urefs.tutor_ach_win_bttn_go, urefs.tutor_ach_win_bttn_bcc, urefs.tutor_ach_win_bttn_anmtr, urefs.tutor_ach_win_bttn_txt)},
+                {"tutor_diamonds", (urefs.tutor_diamonds_go, null, urefs.tutor_diamonds_anmtr, urefs.tutor_diamonds_txt)}
             };
 
             foreach (string tutor_nm in tutor_go_bcc_dict.Keys){
@@ -257,6 +257,8 @@ public static class statics{
 		public static void try_show_tutor(string tutor_nm){
 			if (tutor_state_dict[tutor_nm] == 0){
 				tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
+                if (tutor_go_bcc_dict[tutor_nm].txt)
+                    logic_module.StartCoroutine(common_utils.retypewrite(tutor_go_bcc_dict[tutor_nm].txt));
 				tutor_state_dict[tutor_nm] = 1;
 			}
 		}
@@ -274,10 +276,16 @@ public static class statics{
             foreach (string nm in tutor_list){
                 if (tutor_state_dict[nm] == 1){
                     tutor_state_dict[nm] = 2;
-                    tutor_go_bcc_dict[nm].go.SetActive(false);
+                    logic_module.StartCoroutine(deact_tutor_after_delay(nm));
                     save_module.save_tutor(nm);
                 }
             }
+        }
+
+        public static IEnumerator deact_tutor_after_delay(string tutor_nm){
+            tutor_go_bcc_dict[tutor_nm].anmtr.Play("dissappear");
+            yield return common_utils.wait_until_state_end(tutor_go_bcc_dict[tutor_nm].anmtr, "dissappear");
+            tutor_go_bcc_dict[tutor_nm].go.SetActive(false);
         }
         
         public static void act_ui(HashSet<string> modes){

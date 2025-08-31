@@ -105,6 +105,7 @@ public static class consts{
         hand_tutor_speed = 20f,
         hand_tutor_max_dist = 10f,
         diamonds_tutor_interval = 4f,
+        typewriter_delay = 0.05f,
 
         //ach
         ach_noft_shrink_period = 1f,
@@ -359,7 +360,8 @@ public static class consts{
         change_shop_ac,
         diamond_on_tap_ac,
         reveal_bttn_from_lock_ac,
-        quest_completion_ac;
+        quest_completion_ac,
+        typewrite_ac;
 
     public static Color32
         active_skin_bttn_clr,

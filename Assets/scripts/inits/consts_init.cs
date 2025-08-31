@@ -73,7 +73,8 @@ public class consts_init: MonoBehaviour{
         change_shop_ac,
         diamond_on_tap_ac,
         reveal_bttn_from_lock_ac,
-        quest_completion_ac;
+        quest_completion_ac,
+        typewrite_ac;
 
     public Color32 
         active_skin_bttn_clr,

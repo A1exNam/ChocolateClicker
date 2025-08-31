@@ -133,7 +133,19 @@ public static class urefs{
         offln_rwrd_xtra_rwrd_bttn_txt,
         quest_progress_desc_txt,
         quest_progress_val_txt,
-        quest_reward_txt;
+        quest_reward_txt,
+        tutor_click_txt,
+        tutor_tap_txt,
+        tutor_upgr_txt,
+        tutor_arts_panel_bttn_txt,
+        tutor_arts_discover_txt,
+        tutor_tempering_win_bttn_txt,
+        tutor_tempering_txt,
+        tutor_prof_win_bttn_txt,
+        tutor_prof_txt,
+        tutor_skin_win_bttn_txt,
+        tutor_ach_win_bttn_txt,
+        tutor_diamonds_txt;
 
     public static AudioSource
         sound_asrc_as,
@@ -211,7 +223,19 @@ public static class urefs{
         open_arts_panel_bttn_anmtr,
         lvl_text_anmtr,
         ad_error_lbl_anmtr,
-        coin_get_rwrd_anmtr;
+        coin_get_rwrd_anmtr,
+        tutor_click_anmtr,
+        tutor_tap_anmtr,
+        tutor_upgr_anmtr,
+        tutor_arts_panel_bttn_anmtr,
+        tutor_arts_discover_anmtr,
+        tutor_tempering_win_bttn_anmtr,
+        tutor_tempering_anmtr,
+        tutor_prof_win_bttn_anmtr,
+        tutor_prof_anmtr,
+        tutor_skin_win_bttn_anmtr,
+        tutor_ach_win_bttn_anmtr,
+        tutor_diamonds_anmtr;
 
     public static CanvasGroup
         prof_window_reset_bt_cg,
