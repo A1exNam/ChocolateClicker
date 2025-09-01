@@ -17,7 +17,7 @@ public static class save_module{
                 elapsed_t += Time.deltaTime;
             }
             if (CrazySDK.IsInitialized){
-                CrazySDK.Data.DeleteAll();
+                //CrazySDK.Data.DeleteAll();
                 save_module.call_restores();
 
                 statics.mngr_tempering.init_after_save_restore();

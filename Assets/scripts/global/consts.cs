@@ -250,7 +250,7 @@ public static class consts{
         {"Chocoextender", (1.2f, "m", -1, 1f, "x{0} Active Skill Duration")},
         {"Chococharger", (1.2f, "m", -1, 1f, "x{0} Active Skill Efficiency")},
         {"Fortune Crystal", (0.001f, "p", 10, 0f, "+{0}% Diamond Chance on Tap")},
-        {"Caramel Essence", (0.01f, "p", 15, 0f, "+{0}% Tap Gain From Passive")},
+        {"Caramel Essence", (0.01f, "p", 15, 0f, "+{0}% Tap Chocolate From Upgrades")},
     };
 
     //nm: price, min_lvl, desc
