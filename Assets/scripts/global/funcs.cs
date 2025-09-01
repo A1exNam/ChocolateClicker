@@ -144,10 +144,13 @@ public static class common_utils{
         return res;
     }
 
-    public static IEnumerator retypewrite(TextMeshProUGUI txt){
+    public static IEnumerator retypewrite(TextMeshProUGUI txt, Func<bool> stop_cond = null){
         string tmp_txt = txt.text;
         txt.text = "";
         foreach (char c in tmp_txt){
+            if (stop_cond != null && stop_cond()){
+                yield break; 
+            }
             txt.text += c;
             yield return new WaitForSeconds(consts.typewriter_delay);
             urefs.sound_asrc_as.PlayOneShot(consts.typewrite_ac);

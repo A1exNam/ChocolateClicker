@@ -256,9 +256,15 @@ public static class statics{
 
 		public static void try_show_tutor(string tutor_nm){
 			if (tutor_state_dict[tutor_nm] == 0){
+                urefs.music_asrc_as.volume *= consts.music_val_dec_while_tutor;
 				tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
                 if (tutor_go_bcc_dict[tutor_nm].txt)
-                    logic_module.StartCoroutine(common_utils.retypewrite(tutor_go_bcc_dict[tutor_nm].txt));
+                    logic_module.StartCoroutine(
+                        common_utils.retypewrite(
+                            tutor_go_bcc_dict[tutor_nm].txt,
+                            () => !tutor_go_bcc_dict[tutor_nm].go.activeSelf
+                        )
+                    );
 				tutor_state_dict[tutor_nm] = 1;
 			}
 		}
@@ -273,18 +279,24 @@ public static class statics{
                 tutor_list.Add(tutor_nm);
             }
 
+            bool at_least_one_closed = false;
+            
             foreach (string nm in tutor_list){
                 if (tutor_state_dict[nm] == 1){
                     tutor_state_dict[nm] = 2;
                     logic_module.StartCoroutine(deact_tutor_after_delay(nm));
                     save_module.save_tutor(nm);
+                    at_least_one_closed = true;
                 }
             }
+
+            if (at_least_one_closed)
+                urefs.music_asrc_as.volume /= consts.music_val_dec_while_tutor;
         }
 
         public static IEnumerator deact_tutor_after_delay(string tutor_nm){
-            tutor_go_bcc_dict[tutor_nm].anmtr.Play("dissappear");
-            yield return common_utils.wait_until_state_end(tutor_go_bcc_dict[tutor_nm].anmtr, "dissappear");
+            tutor_go_bcc_dict[tutor_nm].anmtr.Play("disappear");
+            yield return common_utils.wait_until_state_end(tutor_go_bcc_dict[tutor_nm].anmtr, "disappear");
             tutor_go_bcc_dict[tutor_nm].go.SetActive(false);
         }
         
@@ -1066,18 +1078,9 @@ public static class statics{
             }
         }
 
-        public static IEnumerator start_rd(){
-            while (statics.mngr_prof.as_activated){
-                GameObject rd_instance_temp = 
-                    UnityEngine.Object.Instantiate(consts.raindrop_pf, urefs.cfrd_zone_rt);
-
-                UnityEngine.Object.Destroy(rd_instance_temp, consts.rd_sample_lifetime);
-                yield return new WaitForSeconds(consts.rd_spawn_interval);
-            }
-        }
-
         public static IEnumerator try_activate_as(){
             if (consts.profs_data[cur_prof_nm].grade != 0){
+                logic_module.StartCoroutine(show_as_label());
                 urefs.sound_asrc_as.PlayOneShot(consts.active_skill_ac);
                 if (urefs.tutor_as_go.activeSelf){
                     urefs.tutor_as_go.SetActive(false);
@@ -1087,7 +1090,6 @@ public static class statics{
                 save_module.save_as_status();
                 change_params_for_as();
                 logic_module.StartCoroutine(start_cf());
-                logic_module.StartCoroutine(start_rd());
                 yield return start_as_timer();
                 as_activated = false;
                 save_module.save_as_status();
@@ -1095,6 +1097,16 @@ public static class statics{
                 statics.mngr_tap.click_cnt_while_as = 0;
                 yield return start_cd();
             }
+        }
+
+        public static IEnumerator show_as_label(){
+            urefs.as_label_to_trigger_go.SetActive(true);
+            //yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr, "appear", 1);
+            urefs.as_label_to_trigger_anmtr.Play("inc-dec", 0);
+            yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr,"inc-dec", 0);
+            urefs.as_label_to_trigger_anmtr.Play("disappear", 1);
+            yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr,"disappear", 1);
+            urefs.as_label_to_trigger_go.SetActive(false);
         }
 
         public static IEnumerator start_cd(){

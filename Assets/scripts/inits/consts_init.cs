@@ -21,20 +21,6 @@ public class consts_init: MonoBehaviour{
 
         consts.cf_sample_lifetime = 
             Mathf.Sqrt(2f * (urefs.cfrd_zone_rt.rect.height + cf_pf_height_temp) / consts.cf_acceleration);
-
-        float 
-            rd_pf_width_temp = (consts.raindrop_pf.transform as RectTransform).rect.width,
-            rd_pf_height_temp = (consts.raindrop_pf.transform as RectTransform).rect.height;
-        
-        consts.x1_rd_crd = 
-            - urefs.cfrd_zone_rt.rect.width/2 + rd_pf_width_temp/2;
-        consts.x2_rd_crd =
-            + urefs.cfrd_zone_rt.rect.width/2 - rd_pf_width_temp/2;
-        consts.y_rd_crd = 
-            + urefs.cfrd_zone_rt.rect.height/2 + rd_pf_height_temp/2;
-
-        consts.rd_sample_lifetime = 
-            Mathf.Sqrt(2f * (urefs.cfrd_zone_rt.rect.height + rd_pf_height_temp) / consts.cf_acceleration);
         
         consts.x1_nmbr_tap_crd = - urefs.chocolate_rt.rect.width/2;
         consts.x2_nmbr_tap_crd = + urefs.chocolate_rt.rect.width/2;
@@ -52,7 +38,6 @@ public class consts_init: MonoBehaviour{
         ach_slot_pf,
         skin_slot_pf,
         ach_star_pf,
-        raindrop_pf,
         gen_choco_pf;
 
     public AudioClip 

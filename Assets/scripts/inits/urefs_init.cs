@@ -62,7 +62,8 @@ public class urefs_init : MonoBehaviour{
         tutor_arts_discover_go,
         quest_reward_go,
         quest_progress_go,
-        quest_go;
+        quest_go,
+        as_label_to_trigger_go;
 
     public Transform 
         arts_shop_tr, 
@@ -239,7 +240,8 @@ public class urefs_init : MonoBehaviour{
         tutor_prof_anmtr,
         tutor_skin_win_bttn_anmtr,
         tutor_ach_win_bttn_anmtr,
-        tutor_diamonds_anmtr;
+        tutor_diamonds_anmtr,
+        as_label_to_trigger_anmtr;
 
     public CanvasGroup
         prof_window_reset_bt_cg,

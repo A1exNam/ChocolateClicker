@@ -42,20 +42,12 @@ public static class consts{
         x1_cf_crd,
         x2_cf_crd,
         y_cf_crd,
-        cf_acceleration = 380f,
+        cf_acceleration = 440f,
         cf_min_size = 0.6f,
         cf_max_size = 0.9f,
         cf_sample_lifetime,
-        cf_spawn_interval = 0.3f,
-        cf_min_alpha = 0.75f,
-
-        //rd
-        x1_rd_crd,
-        x2_rd_crd,
-        y_rd_crd,
-        rd_sample_lifetime,
-        rd_spawn_interval = 0.03f,
-        rd_acceleration = 1300f,
+        cf_spawn_interval = 0.2f,
+        cf_min_alpha = 0.7f,
 
         //discover
         discover_price_base = 2f,
@@ -85,7 +77,7 @@ public static class consts{
         //arts
         st_arts_price = 1f,
         arts_price_coef = 1.5f,
-        arts_str_coef = 1.3f,
+        arts_str_coef = 1.1f,
 
         //tempering
         tempering_base_reward = 1.35f, //cb_base^(lvl-min_temper_lvl)
@@ -105,7 +97,8 @@ public static class consts{
         hand_tutor_speed = 20f,
         hand_tutor_max_dist = 10f,
         diamonds_tutor_interval = 4f,
-        typewriter_delay = 0.05f,
+        typewriter_delay = 0.04f,
+        music_val_dec_while_tutor = 0.2f,
 
         //ach
         ach_noft_shrink_period = 1f,
@@ -248,14 +241,14 @@ public static class consts{
     public static Dictionary<string, (float start_str, string type, int max_lvl, float default_val, string desc)> 
     arts_data = new(){   
         //(upgr_nm, upgr_base_str, max_lvl, default_val, upgr_desc)
-        {"Bar of Wealth", (1.5f, "m", -1, 1f, "x{0} All Chocolate")},
-        {"Sweetie Hand", (2f, "m", -1, 1f, "x{0} Tap Chocolate")},
-        {"Time Accelerator", (2f, "m", -1, 1f, "x{0} Passive Chocolate")},
-        {"Cacao Multiplier", (1.5f, "m", -1, 1f, "x{0} Cacao Beans")},
-        {"Critical Chocoarrow", (0.02f, "p", 10, 0f, "+{0}% Critical Chance")},
-        {"Smooth Gear", (1.5f, "m", -1, 1f, "x{0} Passive Skill Efficiency")},
-        {"Chocoextender", (1.5f, "m", -1, 1f, "x{0} Active Skill Duration")},
-        {"Chococharger", (1.5f, "m", -1, 1f, "x{0} Active Skill Efficiency")},
+        {"Bar of Wealth", (1.3f, "m", -1, 1f, "x{0} All Chocolate")},
+        {"Sweetie Hand", (1.5f, "m", -1, 1f, "x{0} Tap Chocolate")},
+        {"Time Accelerator", (1.3f, "m", -1, 1f, "x{0} Passive Chocolate")},
+        {"Cacao Multiplier", (1.15f, "m", -1, 1f, "x{0} Cacao Beans")},
+        {"Critical Chocoarrow", (0.05f, "p", 10, 0f, "+{0}% Critical Chance")},
+        {"Smooth Gear", (1.3f, "m", -1, 1f, "x{0} Passive Skill Efficiency")},
+        {"Chocoextender", (1.2f, "m", -1, 1f, "x{0} Active Skill Duration")},
+        {"Chococharger", (1.2f, "m", -1, 1f, "x{0} Active Skill Efficiency")},
         {"Fortune Crystal", (0.001f, "p", 10, 0f, "+{0}% Diamond Chance on Tap")},
         {"Caramel Essence", (0.01f, "p", 15, 0f, "+{0}% Tap Gain From Passive")},
     };
@@ -311,14 +304,14 @@ public static class consts{
         .OrderBy(kvp => kvp.Value.open_lvl).Select(kvp => kvp.Key).ToList();
 
     public static Dictionary<string, (string desc, List<float> val_list, string mode)> achs_data = new(){
-        {"tap", ("Tap {0} times", new List<float> {150f, 500f, 1e3f, 1e4f, 1e5f}, "int")}, 
-        {"artifacts", ("Discover {0} artifact(s)", new List<float> {1f, 5f, 10f}, "int")},
-        {"lvl", ("Achieve {0} level", new List<float> {15f, 25f, 40f, 60f, 100f}, "int")},
+        {"tap", ("Tap {0} times", new List<float> {150f, 600f, 2.5e3f, 1e5f, 4e5f}, "int")}, 
+        {"artifacts", ("Discover {0} artifact(s)", new List<float> {1f, 6f, 10f}, "int")},
+        {"lvl", ("Achieve {0} level", new List<float> {20f, 30f, 40f, 50f, 99f}, "int")},
         {"skins", ("Purchase {0} skin(s)", new List<float> {1f, 2f, 5f}, "int")},
-        {"hours", ("Play {0} hour(s)", new List<float> {1f, 2f, 4f, 16f, 32f}, "time")}, 
-        {"upgrs", ("Unlock {0} upgrade(s)", new List<float> {3f, 9f, 15f}, "int")},
-        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e4f, 1e8f, 1e13f, 1e20f}, "int")}, 
-        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 20f, 300f, 1.5e3f, 1e7f}, "int")}
+        {"hours", ("Play {0} hour(s)", new List<float> {1f, 2f, 3f, 4f, 5f}, "time")}, 
+        {"upgrs", ("Unlock {0} upgrade(s)", new List<float> {6f, 9f, 12f}, "int")},
+        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e7f, 1e12f, 1e20f, 1e30f}, "int")}, 
+        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 100f, 1e3f, 1e7f, 1e20f}, "int")}
     };
 
     public static Dictionary<int, int> achs_reward = new(){
@@ -339,7 +332,6 @@ public static class consts{
         ach_slot_pf,
         skin_slot_pf,
         ach_star_pf,
-        raindrop_pf,
         gen_choco_pf;
 
     public static AudioClip 
