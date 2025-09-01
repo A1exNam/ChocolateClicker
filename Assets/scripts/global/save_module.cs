@@ -9,6 +9,7 @@ public static class save_module{
         is_saves_restored_or_timeout = false,
         is_all_keys_deleted = false;
     public static IEnumerator init(){
+        urefs.load_scr_go.SetActive(true);
         if (CrazySDK.IsAvailable){
             CrazySDK.Init(() => {});
             float elapsed_t = 0f;
