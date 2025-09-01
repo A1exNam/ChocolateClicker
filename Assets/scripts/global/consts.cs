@@ -78,6 +78,7 @@ public static class consts{
         st_arts_price = 1f,
         arts_price_coef = 1.5f,
         arts_str_coef = 1.1f,
+        o_art_damping_power = 3f,
 
         //tempering
         tempering_base_reward = 1.35f, //cb_base^(lvl-min_temper_lvl)
@@ -130,7 +131,10 @@ public static class consts{
         arts_order_postfix = "_order",
         achs_postfix = "_ach",
         achs_rewarded_cnt_postfix = achs_postfix + "_rwrd_cnt",
-        achs_noft_idx_postfix = achs_postfix + "_noft_idx";
+        achs_noft_idx_postfix = achs_postfix + "_noft_idx",
+
+        //arts
+        first_art = "Bar of Wealth";
 
     public static List<string> tutor_label_list = 
         new(){"prof_lbl_tutor", "tempering_lbl_tutor", "skins_lbl_tutor", "arts_lbl_tutor", "click_lbl_tutor"};

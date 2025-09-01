@@ -880,7 +880,7 @@ public static class statics{
                         break;
                     case "o":
                         if (statics.mngr_arts.opened_arts_dict.TryGetValue("Chococharger", out var art3)){
-                            temp1 = 1 - (1 - temp1) * art3.str;
+                            temp1 = (float)Math.Pow(temp1, Math.Pow(art3.str, 1/consts.o_art_damping_power));
                         }
                         break;
                 }
@@ -1770,6 +1770,9 @@ public static class statics{
             new_art_to_open = closed_arts_set.ElementAt(
                 UnityEngine.Random.Range(0, closed_arts_set.Count)
             );
+            if (mngr_arts.arts_list.Count == 0){
+                new_art_to_open = consts.first_art;
+            }
         }
 
         public static void open_new_art(){
