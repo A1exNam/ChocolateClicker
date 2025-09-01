@@ -33,10 +33,10 @@ public static class statics{
             int next_quest_idx = consts.quests_data[cur_quest_nm].idx + 1;
             if (next_quest_idx < consts.quests_data.Count){
                 cur_quest_nm = consts.idx_quests_mapping[next_quest_idx];
-                save_module.save_quest();
             } else {
                 cur_quest_nm = null;
             }
+            save_module.save_quest();
             is_reward_shown = false;
             act_ui();
         }
@@ -94,8 +94,7 @@ public static class statics{
         }
 
         public static void init_after_restore(){
-            act_ui();
-            if (is_quest_completed()){
+            if (cur_quest_nm != null && is_quest_completed()){
                 is_reward_shown = true;
                 logic_module.StartCoroutine(turn_off_and_go_next());
             }

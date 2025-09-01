@@ -288,6 +288,8 @@ public static class save_module{
     public static void restore_quests(){
         if (CrazySDK.Data.HasKey("quest_nm")){
             statics.mngr_quests.cur_quest_nm = CrazySDK.Data.GetString("quest_nm");
+            if (statics.mngr_quests.cur_quest_nm == "")
+                statics.mngr_quests.cur_quest_nm = null;
             statics.mngr_quests.act_ui();
         }
     }
