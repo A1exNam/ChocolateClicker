@@ -8,7 +8,7 @@ public static class sdk_common{
         is_ad_watched = false;
 
     public static float 
-        sdk_timeout_init = 5f;
+        sdk_timeout_init = 30f;
 
     public static IEnumerator start_ad_error_lbl(){
         urefs.ad_error_lbl_go.SetActive(true);
