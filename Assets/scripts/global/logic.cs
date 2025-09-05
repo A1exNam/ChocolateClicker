@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 using CrazyGames;
 
 public class logic_module : MonoBehaviour{
-    void Start(){
-        save_module.init();
-        
+    void Start(){        
         statics.mngr_achs.init();
         statics.mngr_skins.init();
         statics.mngr_cb.init();

@@ -141,7 +141,6 @@ public static class urefs{
         tutor_arts_panel_bttn_txt,
         tutor_arts_discover_txt,
         tutor_tempering_win_bttn_txt,
-        tutor_tempering_txt,
         tutor_prof_win_bttn_txt,
         tutor_prof_txt,
         tutor_skin_win_bttn_txt,

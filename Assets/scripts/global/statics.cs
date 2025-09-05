@@ -7,7 +7,7 @@ using TMPro;
 
 public static class statics{
     public static class mngr_quests{
-        public static string cur_quest_nm = null;
+        public static string cur_quest_nm;
         public static bool is_reward_shown = false;
 
         public static void init(){
@@ -34,7 +34,7 @@ public static class statics{
             if (next_quest_idx < consts.quests_data.Count){
                 cur_quest_nm = consts.idx_quests_mapping[next_quest_idx];
             } else {
-                cur_quest_nm = null;
+                cur_quest_nm = "questline_finished";
             }
             save_module.save_quest();
             is_reward_shown = false;
@@ -66,7 +66,7 @@ public static class statics{
 
         //есть защита cur_quest_nm = null
         public static void act_ui(){
-            if (cur_quest_nm == null){
+            if (cur_quest_nm == "questline_finished"){
                 urefs.quest_go.SetActive(false);
                 return;
             }
@@ -93,8 +93,8 @@ public static class statics{
             urefs.quest_progress_bar_rt.anchoredPosition = temp;
         }
 
-        public static void init_after_restore(){
-            if (cur_quest_nm != null && is_quest_completed()){
+        public static void init_after_restore(){  
+            if (cur_quest_nm != "questline_finished" && is_quest_completed()){
                 is_reward_shown = true;
                 logic_module.StartCoroutine(turn_off_and_go_next());
             }

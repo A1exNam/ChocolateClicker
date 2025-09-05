@@ -3,6 +3,7 @@ using CrazyGames;
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public static class save_module{
     public static bool 
@@ -288,10 +289,16 @@ public static class save_module{
     public static void restore_quests(){
         if (CrazySDK.Data.HasKey("quest_nm")){
             statics.mngr_quests.cur_quest_nm = CrazySDK.Data.GetString("quest_nm");
-            if (statics.mngr_quests.cur_quest_nm == "")
-                statics.mngr_quests.cur_quest_nm = null;
-            statics.mngr_quests.act_ui();
+        } else {
+            statics.mngr_quests.cur_quest_nm = consts.idx_quests_mapping.Last().Value;
+            //stub
+            if (statics.mngr_quests.is_quest_completed()){
+                statics.mngr_quests.cur_quest_nm = "questline_finished";
+            } else {
+                statics.mngr_quests.cur_quest_nm = consts.idx_quests_mapping[0];
+            }
         }
+        statics.mngr_quests.act_ui();
     }
         
     public static void save_upgr(upgr u){
