@@ -303,7 +303,8 @@ public static class save_module{
         
     public static void save_upgr(upgr u){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(u.nm, u.lvl);
+            if (common_utils.is_valid(u.lvl))   
+                CrazySDK.Data.SetInt(u.nm, u.lvl);
         }
     }
 
@@ -317,122 +318,153 @@ public static class save_module{
 
     public static void save_lvlxp(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("level", statics.mngr_xp.lvl);
-            CrazySDK.Data.SetInt("max_lvl", statics.mngr_xp.max_lvl);
-            CrazySDK.Data.SetFloat("xp", statics.mngr_xp.xp);
+            if (common_utils.is_valid(statics.mngr_xp.lvl) 
+            && common_utils.is_valid(statics.mngr_xp.max_lvl) 
+            && common_utils.is_valid(statics.mngr_xp.xp)){
+                CrazySDK.Data.SetInt("level", statics.mngr_xp.lvl);
+                CrazySDK.Data.SetInt("max_lvl", statics.mngr_xp.max_lvl);
+                CrazySDK.Data.SetFloat("xp", statics.mngr_xp.xp);
+            }
         }
     }
 
     public static void save_diamonds(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("diamonds", statics.mngr_diamonds.amount);
+            if (common_utils.is_valid(statics.mngr_diamonds.amount))
+                CrazySDK.Data.SetInt("diamonds", statics.mngr_diamonds.amount);
         }   
     }
 
     public static void save_cb(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetFloat("cb", statics.mngr_cb.amount);
+            if (common_utils.is_valid(statics.mngr_cb.amount))
+                CrazySDK.Data.SetFloat("cb", statics.mngr_cb.amount);
         }
     }
 
     public static void save_bttn_tutor(string tutor_nm){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(tutor_nm, statics.mngr_tutor.is_opened_dict[tutor_nm] ? 1 : 0);
+            int res = statics.mngr_tutor.is_opened_dict[tutor_nm] ? 1 : 0;
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt(tutor_nm, res);
         }
     }
 
     public static void save_as_tutor(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("as_tutor", statics.mngr_tutor.is_shown_tutor_as ? 1 : 0);
+            int res = statics.mngr_tutor.is_shown_tutor_as ? 1 : 0;
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt("as_tutor", res);
         }
     }
 
     public static void save_art(art a){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(a.nm, a.lvl);
+            if (common_utils.is_valid(a.lvl))
+                CrazySDK.Data.SetInt(a.nm, a.lvl);
         }
     }
 
     public static void save_art_order(art a, int order){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(a.nm + "_order", order);
+            if (common_utils.is_valid(order))
+                CrazySDK.Data.SetInt(a.nm + "_order", order);
         }
     }
 
     public static void save_skin(skin s){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(s.nm, s.state);
+            if (common_utils.is_valid(s.state))
+                CrazySDK.Data.SetInt(s.nm, s.state);
         }
     }
 
     public static void save_sound_vol(){  
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetFloat("sound_vol", urefs.sound_slider_sl.value);
+            if (common_utils.is_valid(urefs.sound_slider_sl.value))
+                CrazySDK.Data.SetFloat("sound_vol", urefs.sound_slider_sl.value);
         }
     }
 
     public static void save_music_vol(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetFloat("music_vol", urefs.music_slider_sl.value);
+            if (common_utils.is_valid(urefs.music_slider_sl.value))
+                CrazySDK.Data.SetFloat("music_vol", urefs.music_slider_sl.value);
         }
     }
 
     public static void save_as_status(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("as_activated_or_cd", 
-                statics.mngr_prof.as_activated || statics.mngr_prof.is_cd ? 1 : 0
-            );
+            int res = statics.mngr_prof.as_activated || statics.mngr_prof.is_cd ? 1 : 0;
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt("as_activated_or_cd", res);
         }
     }
 
     public static void save_prof(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetString("cur_prof", statics.mngr_prof.cur_prof_nm);
+            if (common_utils.is_valid(statics.mngr_prof.cur_prof_nm))
+                CrazySDK.Data.SetString("cur_prof", statics.mngr_prof.cur_prof_nm);
         }
     }
 
     public static void save_ach(ach a){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetFloat(a.nm + consts.achs_postfix, a.val);
-            CrazySDK.Data.SetInt(a.nm + consts.achs_rewarded_cnt_postfix, a.rewarded_cnt);
-            CrazySDK.Data.SetInt(a.nm + consts.achs_noft_idx_postfix, a.last_nofted_idx);
+            if (common_utils.is_valid(a.val) 
+            && common_utils.is_valid(a.rewarded_cnt) 
+            && common_utils.is_valid(a.last_nofted_idx)){
+                CrazySDK.Data.SetFloat(a.nm + consts.achs_postfix, a.val);
+                CrazySDK.Data.SetInt(a.nm + consts.achs_rewarded_cnt_postfix, a.rewarded_cnt);
+                CrazySDK.Data.SetInt(a.nm + consts.achs_noft_idx_postfix, a.last_nofted_idx);
+            }
         }
     }
 
     public static void save_tap(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("tap", statics.mngr_tap.lvl);
+            if (common_utils.is_valid(statics.mngr_tap.lvl))
+                CrazySDK.Data.SetInt("tap", statics.mngr_tap.lvl);
         }
     }
 
     public static void save_last_played_dttm(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetString("last_played_dttm", DateTime.Now.ToString("o"));
+            string res = DateTime.Now.ToString("o");
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetString("last_played_dttm", res);
         }
     }
 
     public static void save_balance(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetFloat("balance", statics.mngr_balance.amount);
-            CrazySDK.Data.SetFloat("max_balance", statics.mngr_balance.max_amount);
+            if (common_utils.is_valid(statics.mngr_balance.amount) 
+            && common_utils.is_valid(statics.mngr_balance.max_amount)){
+                CrazySDK.Data.SetFloat("balance", statics.mngr_balance.amount);
+                CrazySDK.Data.SetFloat("max_balance", statics.mngr_balance.max_amount);
+            }
         }
     }
 
     public static void save_gameover_status(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt("is_gameover", statics.mngr_gameover.is_gameover ? 1 : 0);
+            int res = statics.mngr_gameover.is_gameover ? 1 : 0;
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt("is_gameover", res);
         }
     }
 
     public static void save_tutor(string tutor_nm){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetInt(tutor_nm, statics.mngr_tutor.tutor_state_dict[tutor_nm]);
+        if (!is_all_keys_deleted && is_saves_restored_or_timeout){ 
+            int res = statics.mngr_tutor.tutor_state_dict[tutor_nm];
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt(tutor_nm, res);
         }
     }
 
     public static void save_quest(){
         if (!is_all_keys_deleted && is_saves_restored_or_timeout){
-            CrazySDK.Data.SetString("quest_nm", statics.mngr_quests.cur_quest_nm);
+            if (common_utils.is_valid(statics.mngr_quests.cur_quest_nm))
+                CrazySDK.Data.SetString("quest_nm", statics.mngr_quests.cur_quest_nm);
         }
     }
 

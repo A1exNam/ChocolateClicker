@@ -157,6 +157,21 @@ public static class common_utils{
         }
     }
 
+    public static bool is_valid(object value){
+        if (value == null)
+            return false;
+        switch (value){
+            case float f:
+                return !float.IsNaN(f) && !float.IsInfinity(f);
+            case int i:
+                return true;
+            case string s:
+                return !string.IsNullOrEmpty(s);
+            default:
+                return false;
+        }
+    }
+
 }
 
 
