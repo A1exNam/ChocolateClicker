@@ -120,7 +120,9 @@ public static class consts{
         gen_lifetime = 3f,
 
         //quests
-        reward_period = 4f;
+        reward_period = 4f,
+        //anticlicker
+        max_taps_per_sec = 45f;
 
     public static string
         //prof

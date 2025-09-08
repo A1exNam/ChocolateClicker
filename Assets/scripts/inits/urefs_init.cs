@@ -63,7 +63,8 @@ public class urefs_init : MonoBehaviour{
         quest_reward_go,
         quest_progress_go,
         quest_go,
-        as_label_to_trigger_go;
+        as_label_to_trigger_go,
+        gameover_ac_screen_go;
 
     public Transform 
         arts_shop_tr, 

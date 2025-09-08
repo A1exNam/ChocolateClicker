@@ -7,7 +7,8 @@ using System.Linq;
 
 public static class save_module{
     public static bool 
-        is_saves_restored_or_timeout = false,
+        is_saves_restored = false,
+        is_saves_timeout = false,
         is_all_keys_deleted = false;
     public static IEnumerator init(){
         urefs.load_scr_go.SetActive(true);
@@ -26,17 +27,19 @@ public static class save_module{
                 statics.mngr_ad_bttn.init_after_save_restore();
                 statics.mngr_tutor.init_after_restore();
                 statics.mngr_quests.init_after_restore();
-
-                sdk_common.gp_start();
+            } else {
+                is_saves_timeout = true;
             }
+            sdk_common.gp_start();
             urefs.load_scr_go.SetActive(false);
             urefs.music_asrc_as.enabled = true;
         }
     }
 
     public static void call_restores(){
+        restore_gameover_ac_status();
         restore_gameover_status();
-        if (!statics.mngr_gameover.is_gameover){
+        if (!statics.mngr_gameover.is_gameover && !statics.mngr_gameover.is_gameover_anticlicker){
             restore_achs();
             restore_lvlxp();
             restore_tutor_bttns();
@@ -52,7 +55,7 @@ public static class save_module{
             restore_offline_reward();
             restore_tutors();
             restore_quests();
-            is_saves_restored_or_timeout = true;
+            is_saves_restored = true;
         }
     }
 
@@ -276,6 +279,14 @@ public static class save_module{
         }
     }
 
+    public static void restore_gameover_ac_status(){
+        if (CrazySDK.Data.HasKey("is_gameover_ac")){
+            statics.mngr_gameover.is_gameover_anticlicker = 
+                CrazySDK.Data.GetInt("is_gameover_ac") != 0;
+            statics.mngr_gameover.act_ui();
+        }
+    }
+
     public static void restore_tutors(){
         var keys = new List<string>(statics.mngr_tutor.tutor_state_dict.Keys);
 
@@ -302,14 +313,14 @@ public static class save_module{
     }
         
     public static void save_upgr(upgr u){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(u.lvl))   
                 CrazySDK.Data.SetInt(u.nm, u.lvl);
         }
     }
 
     public static void clean_upgrs(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             foreach (string nm in consts.upgrs_data.Keys){
                 CrazySDK.Data.DeleteKey(nm);
             }
@@ -317,7 +328,7 @@ public static class save_module{
     }
 
     public static void save_lvlxp(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_xp.lvl) 
             && common_utils.is_valid(statics.mngr_xp.max_lvl) 
             && common_utils.is_valid(statics.mngr_xp.xp)){
@@ -329,21 +340,21 @@ public static class save_module{
     }
 
     public static void save_diamonds(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_diamonds.amount))
                 CrazySDK.Data.SetInt("diamonds", statics.mngr_diamonds.amount);
         }   
     }
 
     public static void save_cb(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_cb.amount))
                 CrazySDK.Data.SetFloat("cb", statics.mngr_cb.amount);
         }
     }
 
     public static void save_bttn_tutor(string tutor_nm){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_tutor.is_opened_dict[tutor_nm] ? 1 : 0;
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetInt(tutor_nm, res);
@@ -351,7 +362,7 @@ public static class save_module{
     }
 
     public static void save_as_tutor(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_tutor.is_shown_tutor_as ? 1 : 0;
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetInt("as_tutor", res);
@@ -359,42 +370,42 @@ public static class save_module{
     }
 
     public static void save_art(art a){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(a.lvl))
                 CrazySDK.Data.SetInt(a.nm, a.lvl);
         }
     }
 
     public static void save_art_order(art a, int order){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(order))
                 CrazySDK.Data.SetInt(a.nm + "_order", order);
         }
     }
 
     public static void save_skin(skin s){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(s.state))
                 CrazySDK.Data.SetInt(s.nm, s.state);
         }
     }
 
     public static void save_sound_vol(){  
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(urefs.sound_slider_sl.value))
                 CrazySDK.Data.SetFloat("sound_vol", urefs.sound_slider_sl.value);
         }
     }
 
     public static void save_music_vol(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(urefs.music_slider_sl.value))
                 CrazySDK.Data.SetFloat("music_vol", urefs.music_slider_sl.value);
         }
     }
 
     public static void save_as_status(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_prof.as_activated || statics.mngr_prof.is_cd ? 1 : 0;
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetInt("as_activated_or_cd", res);
@@ -402,14 +413,14 @@ public static class save_module{
     }
 
     public static void save_prof(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_prof.cur_prof_nm))
                 CrazySDK.Data.SetString("cur_prof", statics.mngr_prof.cur_prof_nm);
         }
     }
 
     public static void save_ach(ach a){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(a.val) 
             && common_utils.is_valid(a.rewarded_cnt) 
             && common_utils.is_valid(a.last_nofted_idx)){
@@ -421,14 +432,14 @@ public static class save_module{
     }
 
     public static void save_tap(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_tap.lvl))
                 CrazySDK.Data.SetInt("tap", statics.mngr_tap.lvl);
         }
     }
 
     public static void save_last_played_dttm(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             string res = DateTime.Now.ToString("o");
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetString("last_played_dttm", res);
@@ -436,7 +447,7 @@ public static class save_module{
     }
 
     public static void save_balance(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_balance.amount) 
             && common_utils.is_valid(statics.mngr_balance.max_amount)){
                 CrazySDK.Data.SetFloat("balance", statics.mngr_balance.amount);
@@ -446,15 +457,23 @@ public static class save_module{
     }
 
     public static void save_gameover_status(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_gameover.is_gameover ? 1 : 0;
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetInt("is_gameover", res);
         }
     }
 
+    public static void save_gameover_ac_status(){
+        if (!is_all_keys_deleted && is_saves_restored){
+            int res = statics.mngr_gameover.is_gameover_anticlicker ? 1 : 0;
+            if (common_utils.is_valid(res))
+                CrazySDK.Data.SetInt("is_gameover_ac", res);
+        }
+    }
+
     public static void save_tutor(string tutor_nm){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){ 
+        if (!is_all_keys_deleted && is_saves_restored){ 
             int res = statics.mngr_tutor.tutor_state_dict[tutor_nm];
             if (common_utils.is_valid(res))
                 CrazySDK.Data.SetInt(tutor_nm, res);
@@ -462,14 +481,14 @@ public static class save_module{
     }
 
     public static void save_quest(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(statics.mngr_quests.cur_quest_nm))
                 CrazySDK.Data.SetString("quest_nm", statics.mngr_quests.cur_quest_nm);
         }
     }
 
     public static void delete_all(){
-        if (!is_all_keys_deleted && is_saves_restored_or_timeout){
+        if (!is_all_keys_deleted && is_saves_restored){
             is_all_keys_deleted = true;
             CrazySDK.Data.DeleteAll();
         }

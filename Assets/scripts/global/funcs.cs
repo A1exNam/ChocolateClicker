@@ -106,6 +106,7 @@ public static class common_utils{
     }
 
     public static IEnumerator do_every_second(){
+        int tap_cnt_last_sec = -1;
         while (true){
             statics.mngr_achs.achs_dict["hours"].val += 1f/3600f;
             statics.mngr_achs.achs_dict["hours"].on_val_change();
@@ -115,6 +116,15 @@ public static class common_utils{
             }
             save_module.save_balance();
 
+            if (save_module.is_saves_restored || save_module.is_saves_timeout){
+                int cnt_overall = (int)statics.mngr_achs.achs_dict["tap"].val;
+                if (tap_cnt_last_sec != -1 
+                && cnt_overall - tap_cnt_last_sec >= consts.max_taps_per_sec){
+                    statics.mngr_gameover.gameover_anticlicker();
+                }
+                tap_cnt_last_sec = cnt_overall;
+            }
+            
             yield return new WaitForSeconds(1f);
         }
     }

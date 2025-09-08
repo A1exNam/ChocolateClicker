@@ -102,7 +102,8 @@ public static class statics{
     }
     public static class mngr_gameover{
         public static bool 
-            is_gameover = false;
+            is_gameover = false,
+            is_gameover_anticlicker = false;
 
         public static void init(){
             urefs.restart_game_bcc.on_click.AddListener(restart);
@@ -114,8 +115,17 @@ public static class statics{
             save_module.save_gameover_status();
         }
 
+        public static void gameover_anticlicker(){
+            is_gameover_anticlicker = true;
+            act_ui();
+            save_module.save_gameover_ac_status();
+        }
+
         public static void act_ui(){
-            urefs.gameover_screen_go.SetActive(is_gameover);
+            if (is_gameover)
+                urefs.gameover_screen_go.SetActive(true);
+            if (is_gameover_anticlicker)
+                urefs.gameover_ac_screen_go.SetActive(true);
         }
 
         public static void restart(){
