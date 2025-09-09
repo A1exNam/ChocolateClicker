@@ -214,7 +214,8 @@ public class urefs_init : MonoBehaviour{
         tutor_skin_win_bttn_bcc,
         tutor_ach_win_bttn_bcc,
         tutor_arts_panel_bttn_bcc,
-        tutor_arts_discover_bcc;
+        tutor_arts_discover_bcc,
+        quest_reward_bcc;
 
     public Animator 
         ad_button_anmtr,

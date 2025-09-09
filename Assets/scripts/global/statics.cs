@@ -12,6 +12,7 @@ public static class statics{
 
         public static void init(){
             cur_quest_nm = consts.idx_quests_mapping[0];
+            urefs.quest_reward_bcc.on_click.AddListener(() => get_reward());
             act_ui();
         }
 
@@ -24,7 +25,6 @@ public static class statics{
             if (is_quest_completed()){
                 urefs.sound_asrc_as.PlayOneShot(consts.quest_completion_ac);
                 is_reward_shown = true;
-                logic_module.StartCoroutine(turn_off_and_go_next());
             }
         }
 
@@ -46,7 +46,7 @@ public static class statics{
             return vals.Item1 >= vals.Item2;
         }
 
-        public static Tuple<int, int> get_val(){  
+        public static Tuple<int, int> get_val(){
             float val = -1f;
             switch (cur_quest_nm){
                 case "quest_tap_1":
@@ -62,6 +62,14 @@ public static class statics{
                     break;
             }  
             return new((int)val, consts.quests_data[cur_quest_nm].val);
+        }
+
+        public static void get_reward(){
+            if (!is_reward_shown) return;
+            urefs.quest_reward_go.SetActive(false);
+            mngr_balance.amount += consts.quest_rewards[cur_quest_nm];
+            mngr_balance.on_val_change();
+            logic_module.StartCoroutine(turn_off_and_go_next());
         }
 
         //есть защита cur_quest_nm = null
@@ -82,7 +90,7 @@ public static class statics{
                 urefs.quest_progress_go.SetActive(true);
             } else {
                 urefs.quest_progress_go.SetActive(false);
-                urefs.quest_reward_txt.text = consts.quests_data[cur_quest_nm].reward;
+                urefs.quest_reward_txt.text = "+" + common_utils.f2s(consts.quest_rewards[cur_quest_nm]);
                 urefs.quest_reward_go.SetActive(true);
             }
         }
@@ -93,10 +101,10 @@ public static class statics{
             urefs.quest_progress_bar_rt.anchoredPosition = temp;
         }
 
-        public static void init_after_restore(){  
+        public static void init_after_restore(){
             if (cur_quest_nm != "questline_finished" && is_quest_completed()){
                 is_reward_shown = true;
-                logic_module.StartCoroutine(turn_off_and_go_next());
+                act_ui();
             }
         }
     }

@@ -163,10 +163,18 @@ public static class consts{
         quests_data.ToDictionary(kvp => kvp.Value.idx, kvp => kvp.Key)
     );
 
+    public static Dictionary<string, float> quest_rewards = new(){
+        {"quest_tap_1", 100f},
+        {"quest_collect_1", 200f},
+        {"quest_lvl_1", 300f},
+        {"quest_lvl_2", 400f},
+        {"quest_lvl_3", 500f},
+    };
+
     public static Dictionary<string, (
-        string title, 
-        string ps_desc, 
-        string as_desc, 
+        string title,
+        string ps_desc,
+        string as_desc,
         (string l, string r) childs, 
         List<(string format, float val)> val_ps, 
         List<(string format, float val)> val_as,
