@@ -33236,6 +33236,7 @@ GameObject:
   - component: {fileID: 1958276595}
   - component: {fileID: 1958276597}
   - component: {fileID: 1958276596}
+  - component: {fileID: 1958276598}
   m_Layer: 5
   m_Name: reward_txt
   m_TagString: Untagged
@@ -33359,6 +33360,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958276594}
   m_CullTransparentMesh: 1
+--- !u!114 &1958276598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958276594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7361475ddf615f4b8640c9fe062bb46, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  mode: 1
+  on_enter:
+    m_PersistentCalls:
+      m_Calls: []
+  on_exit:
+    m_PersistentCalls:
+      m_Calls: []
+  on_down:
+    m_PersistentCalls:
+      m_Calls: []
+  on_up:
+    m_PersistentCalls:
+      m_Calls: []
+  on_click:
+    m_PersistentCalls:
+      m_Calls: []
+  on_disable:
+    m_PersistentCalls:
+      m_Calls: []
+  x_entered: {fileID: 0}
+  x_exited: {fileID: 0}
+  im: {fileID: 0}
+  anmtr: {fileID: 0}
 --- !u!1 &1958571356
 GameObject:
   m_ObjectHideFlags: 0
@@ -38005,6 +38041,7 @@ MonoBehaviour:
   tutor_ach_win_bttn_bcc: {fileID: 1027822034}
   tutor_arts_panel_bttn_bcc: {fileID: 996742503}
   tutor_arts_discover_bcc: {fileID: 1298617951}
+  quest_reward_bcc: {fileID: 1958276598}
   ad_button_anmtr: {fileID: 616425194}
   ach_noft_anmtr: {fileID: 674755721}
   as_bt_anmtr: {fileID: 0}

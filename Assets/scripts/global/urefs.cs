@@ -210,7 +210,8 @@ public static class urefs{
         tutor_skin_win_bttn_bcc,
         tutor_ach_win_bttn_bcc,
         tutor_arts_panel_bttn_bcc,
-        tutor_arts_discover_bcc;
+        tutor_arts_discover_bcc,
+        quest_reward_bcc;
 
     public static Animator 
         ad_button_anmtr,
