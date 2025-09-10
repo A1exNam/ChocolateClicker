@@ -171,6 +171,10 @@ public static class consts{
         {"quest_lvl_3", 500f},
     };
 
+    public static Color
+        quest_panel_color = new(1f, 1f, 1f, 0.78431374f),
+        reward_panel_color = new(0.21176471f, 0.18039216f, 0.14117648f, 1f);
+
     public static Dictionary<string, (
         string title,
         string ps_desc,
