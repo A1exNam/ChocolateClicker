@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine.UI;
 
 public static class statics{
     public static class mngr_quests{
@@ -12,6 +13,7 @@ public static class statics{
 
         public static void init(){
             cur_quest_nm = consts.idx_quests_mapping[0];
+            urefs.quest_reward_bcc.on_click.AddListener(() => get_reward());
             act_ui();
         }
 
@@ -20,12 +22,11 @@ public static class statics{
         //есть защита cur_quest_nm = null
         public static void recalc(string quest_nm){
             if (cur_quest_nm != quest_nm || is_reward_shown) return;
-            act_ui();
             if (is_quest_completed()){
                 urefs.sound_asrc_as.PlayOneShot(consts.quest_completion_ac);
                 is_reward_shown = true;
-                logic_module.StartCoroutine(turn_off_and_go_next());
             }
+            act_ui();
         }
 
         public static IEnumerator turn_off_and_go_next(){
@@ -38,7 +39,10 @@ public static class statics{
             }
             save_module.save_quest();
             is_reward_shown = false;
-            act_ui();
+            if (cur_quest_nm != "questline_finished")
+                recalc(cur_quest_nm);
+            else
+                act_ui();
         }
 
         public static bool is_quest_completed(){
@@ -46,7 +50,7 @@ public static class statics{
             return vals.Item1 >= vals.Item2;
         }
 
-        public static Tuple<int, int> get_val(){  
+        public static Tuple<int, int> get_val(){
             float val = -1f;
             switch (cur_quest_nm){
                 case "quest_tap_1":
@@ -64,26 +68,38 @@ public static class statics{
             return new((int)val, consts.quests_data[cur_quest_nm].val);
         }
 
+        public static void get_reward(){
+            if (!is_reward_shown) return;
+            urefs.quest_reward_go.SetActive(false);
+            urefs.quest_go.SetActive(false);
+            mngr_balance.amount += consts.quest_rewards[cur_quest_nm];
+            mngr_balance.on_val_change();
+            logic_module.StartCoroutine(turn_off_and_go_next());
+        }
+
         //есть защита cur_quest_nm = null
         public static void act_ui(){
             if (cur_quest_nm == "questline_finished"){
                 urefs.quest_go.SetActive(false);
+                urefs.quest_reward_go.SetActive(false);
                 return;
             }
-            urefs.quest_go.SetActive(true);
-            if (!is_quest_completed()){
+            if (is_reward_shown){
+                urefs.quest_go.SetActive(false);
+                urefs.quest_reward_txt.text = "+" + common_utils.f2s(consts.quest_rewards[cur_quest_nm]);
+                urefs.quest_reward_go.SetActive(true);
+            } else {
+                var quest_img = urefs.quest_go.GetComponent<Image>();
+                quest_img.color = consts.quest_panel_color;
                 urefs.quest_reward_go.SetActive(false);
                 urefs.quest_progress_desc_txt.text = consts.quests_data[cur_quest_nm].desc;
 
                 var vals = get_val();
                 urefs.quest_progress_val_txt.text = vals.Item1.ToString() + "/" + vals.Item2.ToString();
                 change_progress_bar((float)vals.Item1/vals.Item2);
- 
+
                 urefs.quest_progress_go.SetActive(true);
-            } else {
-                urefs.quest_progress_go.SetActive(false);
-                urefs.quest_reward_txt.text = consts.quests_data[cur_quest_nm].reward;
-                urefs.quest_reward_go.SetActive(true);
+                urefs.quest_go.SetActive(true);
             }
         }
 
@@ -93,10 +109,10 @@ public static class statics{
             urefs.quest_progress_bar_rt.anchoredPosition = temp;
         }
 
-        public static void init_after_restore(){  
+        public static void init_after_restore(){
             if (cur_quest_nm != "questline_finished" && is_quest_completed()){
                 is_reward_shown = true;
-                logic_module.StartCoroutine(turn_off_and_go_next());
+                act_ui();
             }
         }
     }
