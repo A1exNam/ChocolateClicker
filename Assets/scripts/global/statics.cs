@@ -1185,7 +1185,6 @@ public static class statics{
         static bool is_visible = false;
         static bool is_bonus_active = false;
         static Coroutine deactivate_coroutine;
-        static float disappear_duration;
 
         public static void init(){
             val = 0f;
@@ -1195,7 +1194,6 @@ public static class statics{
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
                 deactivate_coroutine = null;
             }
-            disappear_duration = get_clip_length("disappear");
             if (urefs.tap_indicator_bonus_txt != null){
                 urefs.tap_indicator_bonus_txt.text =
                     common_utils.f2s(consts.tap_indicator_bonus) + "x";
@@ -1269,7 +1267,7 @@ public static class statics{
             if (deactivate_coroutine != null && statics.logic_module != null)
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
             if (statics.logic_module != null){
-                deactivate_coroutine = statics.logic_module.StartCoroutine(disable_after(disappear_duration));
+                deactivate_coroutine = statics.logic_module.StartCoroutine(disable_after());
             } else {
                 deactivate_coroutine = null;
                 if (urefs.tap_indicator_go != null)
@@ -1277,25 +1275,15 @@ public static class statics{
             }
         }
 
-        static IEnumerator disable_after(float delay){
-            if (delay > 0f)
-                yield return new WaitForSeconds(delay);
+        static IEnumerator disable_after(){
+            if (urefs.tap_indicator_anmtr != null
+                && urefs.tap_indicator_anmtr.gameObject.activeInHierarchy
+                && urefs.tap_indicator_anmtr.isActiveAndEnabled){
+                yield return common_utils.wait_until_state_end(urefs.tap_indicator_anmtr, "disappear");
+            }
             if (urefs.tap_indicator_go != null)
                 urefs.tap_indicator_go.SetActive(false);
             deactivate_coroutine = null;
-        }
-
-        static float get_clip_length(string clip_nm){
-            if (urefs.tap_indicator_anmtr == null)
-                return 0f;
-            var controller = urefs.tap_indicator_anmtr.runtimeAnimatorController;
-            if (controller == null)
-                return 0f;
-            foreach (var clip in controller.animationClips){
-                if (clip.name == clip_nm)
-                    return clip.length;
-            }
-            return 0f;
         }
     }
 
