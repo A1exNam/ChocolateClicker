@@ -64,7 +64,8 @@ public class urefs_init : MonoBehaviour{
         quest_progress_go,
         quest_go,
         as_label_to_trigger_go,
-        gameover_ac_screen_go;
+        gameover_ac_screen_go,
+        tap_indicator_go;
 
     public Transform 
         arts_shop_tr, 
@@ -90,7 +91,8 @@ public class urefs_init : MonoBehaviour{
         chocolate_im,
         prof_window_cur_image_im,
         ach_noft_im,
-        ad_bttn_lifetime_bar_im;
+        ad_bttn_lifetime_bar_im,
+        tap_indicator_fill_im;
 
     public TextMeshProUGUI
         new_art_nm_text_txt,
@@ -150,7 +152,8 @@ public class urefs_init : MonoBehaviour{
         tutor_prof_txt,
         tutor_skin_win_bttn_txt,
         tutor_ach_win_bttn_txt,
-        tutor_diamonds_txt;
+        tutor_diamonds_txt,
+        tap_indicator_bonus_txt;
 
     public AudioSource
         sound_asrc_as,
@@ -241,7 +244,8 @@ public class urefs_init : MonoBehaviour{
         tutor_skin_win_bttn_anmtr,
         tutor_ach_win_bttn_anmtr,
         tutor_diamonds_anmtr,
-        as_label_to_trigger_anmtr;
+        as_label_to_trigger_anmtr,
+        tap_indicator_anmtr;
 
     public CanvasGroup
         prof_window_reset_bt_cg,

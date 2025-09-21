@@ -60,7 +60,8 @@ public static class urefs{
         quest_progress_go,
         quest_go,
         as_label_to_trigger_go,
-        gameover_ac_screen_go;
+        gameover_ac_screen_go,
+        tap_indicator_go;
 
     public static Transform 
         arts_shop_tr, 
@@ -86,7 +87,8 @@ public static class urefs{
         chocolate_im,
         prof_window_cur_image_im,
         ach_noft_im,
-        ad_bttn_lifetime_bar_im;
+        ad_bttn_lifetime_bar_im,
+        tap_indicator_fill_im;
 
     public static TextMeshProUGUI
         new_art_nm_text_txt,
@@ -146,7 +148,8 @@ public static class urefs{
         tutor_prof_txt,
         tutor_skin_win_bttn_txt,
         tutor_ach_win_bttn_txt,
-        tutor_diamonds_txt;
+        tutor_diamonds_txt,
+        tap_indicator_bonus_txt;
 
     public static AudioSource
         sound_asrc_as,
@@ -237,7 +240,8 @@ public static class urefs{
         tutor_skin_win_bttn_anmtr,
         tutor_ach_win_bttn_anmtr,
         tutor_diamonds_anmtr,
-        as_label_to_trigger_anmtr;
+        as_label_to_trigger_anmtr,
+        tap_indicator_anmtr;
 
     public static CanvasGroup
         prof_window_reset_bt_cg,

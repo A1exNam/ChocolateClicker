@@ -12,9 +12,10 @@ public class logic_module : MonoBehaviour{
         statics.mngr_cb.init();
         statics.mngr_diamonds.init();
         statics.mngr_balance.init();
-        statics.mngr_xp.init(); 
-        statics.mngr_prof.init(); 
-        statics.mngr_tap.init();     
+        statics.mngr_xp.init();
+        statics.mngr_prof.init();
+        statics.mngr_tap.init();
+        statics.mngr_indicator.init();
         statics.mngr_menu.init();
         statics.mngr_settings.init(); 
         statics.mngr_upgrs.init(); 
@@ -37,6 +38,8 @@ public class logic_module : MonoBehaviour{
     void Update(){ 
         statics.mngr_balance.amount += statics.mngr_upgrs.gps * Time.deltaTime;
         statics.mngr_balance.on_val_change();
+
+        statics.mngr_indicator.update(Time.deltaTime);
 
         urefs.sun_tr.Rotate(0,0, 6f * Time.deltaTime);
     }

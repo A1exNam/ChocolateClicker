@@ -1179,6 +1179,126 @@ public static class statics{
         }
     }
 
+    public static class mngr_indicator{
+        public static float val;
+
+        static bool is_visible = false;
+        static bool is_bonus_active = false;
+        static Coroutine deactivate_coroutine;
+        static float disappear_duration;
+
+        public static void init(){
+            val = 0f;
+            is_visible = false;
+            is_bonus_active = false;
+            if (deactivate_coroutine != null && statics.logic_module != null){
+                statics.logic_module.StopCoroutine(deactivate_coroutine);
+                deactivate_coroutine = null;
+            }
+            disappear_duration = get_clip_length("disappear");
+            if (urefs.tap_indicator_bonus_txt != null){
+                urefs.tap_indicator_bonus_txt.text =
+                    common_utils.f2s(consts.tap_indicator_bonus) + "x";
+                urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
+            }
+            if (urefs.tap_indicator_fill_im != null)
+                urefs.tap_indicator_fill_im.fillAmount = 0f;
+            if (urefs.tap_indicator_go != null && urefs.tap_indicator_go.activeSelf)
+                urefs.tap_indicator_go.SetActive(false);
+        }
+
+        public static void on_click(){
+            val = Mathf.Clamp01(val + consts.tap_indicator_click_gain);
+            update_state();
+        }
+
+        public static void update(float delta_time){
+            if (val > 0f){
+                val = Mathf.Max(0f, val - consts.tap_indicator_decay_speed * delta_time);
+                update_state();
+            } else if (is_visible || is_bonus_active){
+                update_state();
+            }
+        }
+
+        public static float get_tap_multiplier(){
+            return is_bonus_active ? consts.tap_indicator_bonus : 1f;
+        }
+
+        static void update_state(){
+            if (urefs.tap_indicator_fill_im != null)
+                urefs.tap_indicator_fill_im.fillAmount = val;
+
+            bool should_be_visible = val > 0f;
+            if (should_be_visible != is_visible){
+                if (should_be_visible){
+                    show();
+                } else {
+                    hide();
+                }
+            }
+
+            bool should_show_bonus = val > consts.tap_indicator_bonus_threshold;
+            if (should_show_bonus != is_bonus_active){
+                is_bonus_active = should_show_bonus;
+                if (urefs.tap_indicator_bonus_txt != null)
+                    urefs.tap_indicator_bonus_txt.gameObject.SetActive(is_bonus_active);
+            }
+
+            if (!should_show_bonus && urefs.tap_indicator_bonus_txt != null)
+                urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
+        }
+
+        static void show(){
+            is_visible = true;
+            if (deactivate_coroutine != null && statics.logic_module != null){
+                statics.logic_module.StopCoroutine(deactivate_coroutine);
+                deactivate_coroutine = null;
+            }
+            if (urefs.tap_indicator_go != null && !urefs.tap_indicator_go.activeSelf)
+                urefs.tap_indicator_go.SetActive(true);
+            if (urefs.tap_indicator_anmtr != null)
+                urefs.tap_indicator_anmtr.Play("appear", 0, 0f);
+        }
+
+        static void hide(){
+            if (!is_visible) return;
+            is_visible = false;
+            if (urefs.tap_indicator_anmtr != null)
+                urefs.tap_indicator_anmtr.Play("disappear", 0, 0f);
+            if (deactivate_coroutine != null && statics.logic_module != null)
+                statics.logic_module.StopCoroutine(deactivate_coroutine);
+            if (statics.logic_module != null){
+                deactivate_coroutine = statics.logic_module.StartCoroutine(disable_after(disappear_duration));
+            } else {
+                deactivate_coroutine = null;
+                if (urefs.tap_indicator_go != null)
+                    urefs.tap_indicator_go.SetActive(false);
+            }
+        }
+
+        static IEnumerator disable_after(float delay){
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+            if (urefs.tap_indicator_go != null)
+                urefs.tap_indicator_go.SetActive(false);
+            deactivate_coroutine = null;
+        }
+
+        static float get_clip_length(string clip_nm){
+            if (urefs.tap_indicator_anmtr == null)
+                return 0f;
+            var controller = urefs.tap_indicator_anmtr.runtimeAnimatorController;
+            if (controller == null)
+                return 0f;
+            foreach (var clip in controller.animationClips){
+                if (clip.name == clip_nm)
+                    return clip.length;
+            }
+            return 0f;
+        }
+    }
+
     public static class mngr_tap{
         public static int 
             lvl,
@@ -1319,6 +1439,8 @@ public static class statics{
         public static void on_tap(){
             mngr_tutor.try_close_tutor("tutor_click");
             chocogen.gen();
+            mngr_indicator.on_click();
+            float indicator_multiplier = mngr_indicator.get_tap_multiplier();
             if (UnityEngine.Random.value < diamond_ch){
                 mngr_diamonds.amount++;
                 mngr_diamonds.on_val_change();
@@ -1350,6 +1472,7 @@ public static class statics{
                     recalcs.recalc_cost_m();
                 }
             }
+            temp1 *= indicator_multiplier;
             temp1 = (float)Math.Truncate(temp1);
             change_float_number_params(temp1, tap_clr);
 

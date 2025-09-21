@@ -59,12 +59,16 @@ public static class consts{
         //tap
         st_tap_price = 30f,
         st_b_tap = 1f,
-        st_b_tap_gain = 1f, 
+        st_b_tap_gain = 1f,
         tap_price_coef = 1.6f,
         tap_gain_coef = 1.3f,
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
+        tap_indicator_bonus = 2f,
+        tap_indicator_decay_speed = 0.1f,
+        tap_indicator_click_gain = 0.2f,
+        tap_indicator_bonus_threshold = 0.8f,
 
         //active skill
         as_cd = 30f,
