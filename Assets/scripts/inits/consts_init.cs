@@ -61,7 +61,7 @@ public class consts_init: MonoBehaviour{
         quest_completion_ac,
         typewrite_ac;
 
-    public Color32 
+    public Color32
         active_skin_bttn_clr,
         not_active_skin_bttn_clr,
         active_shop_bt_clr,
@@ -71,6 +71,7 @@ public class consts_init: MonoBehaviour{
         default_tap_clr,
         crit_tap_clr,
         combo_tap_clr,
+        indicator_bonus_tap_clr,
         active_upgr_clr,
         not_active_upgr_clr;
 }
