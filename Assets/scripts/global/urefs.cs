@@ -61,7 +61,8 @@ public static class urefs{
         quest_go,
         as_label_to_trigger_go,
         gameover_ac_screen_go,
-        tap_indicator_go;
+        tap_indicator_go,
+        glowing_choco_go;
 
     public static Transform 
         arts_shop_tr, 
