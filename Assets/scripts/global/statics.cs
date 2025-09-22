@@ -1545,6 +1545,12 @@ public static class statics{
                         outlineColor = tapTextMaterial.GetColor(ShaderUtilities.ID_OutlineColor);
                     }
                     tapTextMaterial.SetColor(ShaderUtilities.ID_OutlineColor, outlineColor);
+                    if (consts.indicator_bonus_tap_outline_width >= 0f){
+                        tapTextMaterial.SetFloat(
+                            ShaderUtilities.ID_OutlineWidth,
+                            consts.indicator_bonus_tap_outline_width
+                        );
+                    }
                     tapText.fontMaterial = tapTextMaterial;
                 }
             } else {

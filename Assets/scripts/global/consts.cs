@@ -72,6 +72,7 @@ public static class consts{
         tap_indicator_bonus_shake_strength = 6f,
         tap_indicator_bonus_shake_angle = 5f,
         tap_indicator_bonus_shake_speed = 18f,
+        indicator_bonus_tap_outline_width = -1f,
 
         //active skill
         as_cd = 30f,
