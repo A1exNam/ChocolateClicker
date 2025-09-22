@@ -1533,14 +1533,24 @@ public static class statics{
         ){
             var temp1 = UnityEngine.Object.Instantiate(consts.click_num_pf, urefs.chocolate_rt)
             .GetComponent<tap_number_refs>();
+            var tapText = temp1.txt;
             string text = common_utils.f2s((float)Math.Truncate(number));
             if (has_indicator_bonus){
                 text += " (" + common_utils.f2s(indicator_multiplier) + "x)";
-                temp1.txt.color = consts.indicator_bonus_tap_clr;
+                tapText.color = consts.indicator_bonus_tap_clr;
+                Material tapTextMaterial = tapText != null ? tapText.fontMaterial : null;
+                if (tapTextMaterial != null){
+                    Color outlineColor = consts.indicator_bonus_tap_outline_clr;
+                    if (consts.indicator_bonus_tap_outline_clr.Equals(default(Color32))){
+                        outlineColor = tapTextMaterial.GetColor(ShaderUtilities.ID_OutlineColor);
+                    }
+                    tapTextMaterial.SetColor(ShaderUtilities.ID_OutlineColor, outlineColor);
+                    tapText.fontMaterial = tapTextMaterial;
+                }
             } else {
-                temp1.txt.color = clr;
+                tapText.color = clr;
             }
-            temp1.txt.text = text;
+            tapText.text = text;
         }
 
         public static void on_tap(){

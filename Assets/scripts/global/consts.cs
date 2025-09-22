@@ -378,6 +378,7 @@ public static class consts{
         crit_tap_clr,
         combo_tap_clr,
         indicator_bonus_tap_clr,
+        indicator_bonus_tap_outline_clr,
         active_upgr_clr,
         not_active_upgr_clr;
 }
