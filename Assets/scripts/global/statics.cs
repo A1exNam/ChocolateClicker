@@ -1335,7 +1335,14 @@ public static class statics{
             if (chocolate_animator == null || !chocolate_animator.isActiveAndEnabled)
                 return;
 
-            chocolate_animator.Play("snap_flash", 2, 0f);
+            int flash_layer_index = chocolate_animator.GetLayerIndex("Flash Layer");
+            if (flash_layer_index < 0 || flash_layer_index >= chocolate_animator.layerCount)
+                return;
+
+            if (chocolate_animator.GetLayerWeight(flash_layer_index) <= 0f)
+                chocolate_animator.SetLayerWeight(flash_layer_index, 1f);
+
+            chocolate_animator.Play("snap_flash", flash_layer_index, 0f);
         }
 
         static void stop_bonus_shake(){
