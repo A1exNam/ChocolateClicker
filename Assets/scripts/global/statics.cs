@@ -1191,6 +1191,7 @@ public static class statics{
         static Vector3 bonus_txt_initial_euler;
         static bool bonus_txt_defaults_initialized = false;
         static Animator bonus_txt_animator;
+        static readonly int chocolate_indicator_flash_hash = Animator.StringToHash("indicator_flash");
 
         public static void init(){
             val = 0f;
@@ -1305,6 +1306,8 @@ public static class statics{
                 if (bonus_txt_animator != null && bonus_txt_animator.isActiveAndEnabled)
                     bonus_txt_animator.Play("appear", 0, 0f);
 
+                play_bonus_activation_flash();
+
                 if (!bonus_txt_defaults_initialized)
                     return;
                 stop_bonus_shake();
@@ -1392,6 +1395,21 @@ public static class statics{
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
 
             bonus_txt_deactivate_coroutine = null;
+        }
+
+        static void play_bonus_activation_flash(){
+            if (urefs.chocolate_bcc == null)
+                return;
+
+            Animator chocolate_animator = urefs.chocolate_bcc.anmtr;
+            if (chocolate_animator == null)
+                chocolate_animator = urefs.chocolate_bcc.GetComponent<Animator>();
+            if (chocolate_animator != null && urefs.chocolate_bcc.anmtr == null)
+                urefs.chocolate_bcc.anmtr = chocolate_animator;
+            if (chocolate_animator == null || !chocolate_animator.isActiveAndEnabled)
+                return;
+
+            chocolate_animator.Play(chocolate_indicator_flash_hash, 0, 0f);
         }
     }
 
