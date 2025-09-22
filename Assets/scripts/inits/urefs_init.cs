@@ -245,6 +245,7 @@ public class urefs_init : MonoBehaviour{
         tutor_ach_win_bttn_anmtr,
         tutor_diamonds_anmtr,
         as_label_to_trigger_anmtr,
+        tap_indicator_bonus_txt_anmtr,
         tap_indicator_anmtr;
 
     public CanvasGroup

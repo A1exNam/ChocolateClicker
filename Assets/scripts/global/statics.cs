@@ -1203,7 +1203,7 @@ public static class statics{
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
                 deactivate_coroutine = null;
             }
-            bonus_txt_animator = null;
+            bonus_txt_animator = urefs.tap_indicator_bonus_txt_anmtr;
             if (urefs.tap_indicator_bonus_txt != null){
                 RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
                 if (bonus_rt != null){
@@ -1212,7 +1212,6 @@ public static class statics{
                     bonus_txt_defaults_initialized = true;
                     reset_bonus_text_transform();
                 }
-                bonus_txt_animator = urefs.tap_indicator_bonus_txt.GetComponent<Animator>();
                 urefs.tap_indicator_bonus_txt.text =
                     common_utils.f2s(consts.tap_indicator_bonus) + "x";
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);

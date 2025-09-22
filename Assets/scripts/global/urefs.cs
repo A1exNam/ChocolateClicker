@@ -215,7 +215,7 @@ public static class urefs{
         tutor_arts_panel_bttn_bcc,
         tutor_arts_discover_bcc;
 
-    public static Animator 
+    public static Animator
         ad_button_anmtr,
         ach_noft_anmtr,
         as_bt_anmtr,
@@ -241,6 +241,7 @@ public static class urefs{
         tutor_ach_win_bttn_anmtr,
         tutor_diamonds_anmtr,
         as_label_to_trigger_anmtr,
+        tap_indicator_bonus_txt_anmtr,
         tap_indicator_anmtr;
 
     public static CanvasGroup
