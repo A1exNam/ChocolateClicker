@@ -1535,7 +1535,7 @@ public static class statics{
             .GetComponent<tap_number_refs>();
             string text = common_utils.f2s((float)Math.Truncate(number));
             if (has_indicator_bonus){
-                text += "(x" + common_utils.f2s(indicator_multiplier) + ")";
+                text += "(" + common_utils.f2s(indicator_multiplier) + "x)";
                 temp1.txt.color = consts.indicator_bonus_tap_clr;
             } else {
                 temp1.txt.color = clr;

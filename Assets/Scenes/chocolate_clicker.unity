@@ -38170,6 +38170,9 @@ MonoBehaviour:
   combo_tap_clr:
     serializedVersion: 2
     rgba: 2664179
+  indicator_bonus_tap_clr:
+    serializedVersion: 2
+    rgba: 3048139
   active_upgr_clr:
     serializedVersion: 2
     rgba: 4290302944
