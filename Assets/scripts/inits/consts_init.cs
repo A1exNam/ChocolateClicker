@@ -75,7 +75,5 @@ public class consts_init: MonoBehaviour{
         indicator_bonus_tap_outline_clr,
         active_upgr_clr,
         not_active_upgr_clr;
-
-    public float indicator_bonus_tap_outline_width = -1f;
 }
 
