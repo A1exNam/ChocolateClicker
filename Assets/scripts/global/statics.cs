@@ -1186,9 +1186,11 @@ public static class statics{
         static bool is_bonus_active = false;
         static Coroutine deactivate_coroutine;
         static Coroutine bonus_shake_coroutine;
+        static Coroutine bonus_txt_deactivate_coroutine;
         static Vector2 bonus_txt_initial_pos;
         static Vector3 bonus_txt_initial_euler;
         static bool bonus_txt_defaults_initialized = false;
+        static Animator bonus_txt_animator;
 
         public static void init(){
             val = 0f;
@@ -1196,10 +1198,12 @@ public static class statics{
             is_bonus_active = false;
             stop_bonus_shake();
             bonus_txt_defaults_initialized = false;
+            bonus_txt_deactivate_coroutine = null;
             if (deactivate_coroutine != null && statics.logic_module != null){
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
                 deactivate_coroutine = null;
             }
+            bonus_txt_animator = null;
             if (urefs.tap_indicator_bonus_txt != null){
                 RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
                 if (bonus_rt != null){
@@ -1208,6 +1212,7 @@ public static class statics{
                     bonus_txt_defaults_initialized = true;
                     reset_bonus_text_transform();
                 }
+                bonus_txt_animator = urefs.tap_indicator_bonus_txt.GetComponent<Animator>();
                 urefs.tap_indicator_bonus_txt.text =
                     common_utils.f2s(consts.tap_indicator_bonus) + "x";
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
@@ -1252,16 +1257,7 @@ public static class statics{
             bool should_show_bonus = val > consts.tap_indicator_bonus_threshold;
             if (should_show_bonus != is_bonus_active){
                 is_bonus_active = should_show_bonus;
-                if (urefs.tap_indicator_bonus_txt != null){
-                    urefs.tap_indicator_bonus_txt.gameObject.SetActive(is_bonus_active);
-                    handle_bonus_text_visibility(is_bonus_active);
-                }
-            }
-
-            if (!should_show_bonus && urefs.tap_indicator_bonus_txt != null
-                && urefs.tap_indicator_bonus_txt.gameObject.activeSelf){
-                urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
-                handle_bonus_text_visibility(false);
+                handle_bonus_text_visibility(is_bonus_active);
             }
         }
 
@@ -1298,7 +1294,18 @@ public static class statics{
             if (urefs.tap_indicator_bonus_txt == null)
                 return;
 
+            if (bonus_txt_deactivate_coroutine != null && statics.logic_module != null){
+                statics.logic_module.StopCoroutine(bonus_txt_deactivate_coroutine);
+                bonus_txt_deactivate_coroutine = null;
+            }
+
             if (visible){
+                GameObject bonus_go = urefs.tap_indicator_bonus_txt.gameObject;
+                if (!bonus_go.activeSelf)
+                    bonus_go.SetActive(true);
+                if (bonus_txt_animator != null && bonus_txt_animator.isActiveAndEnabled)
+                    bonus_txt_animator.Play("appear", 0, 0f);
+
                 if (!bonus_txt_defaults_initialized)
                     return;
                 stop_bonus_shake();
@@ -1306,6 +1313,16 @@ public static class statics{
                     bonus_shake_coroutine = statics.logic_module.StartCoroutine(shake_bonus_text());
             } else {
                 stop_bonus_shake();
+                if (bonus_txt_animator != null && statics.logic_module != null
+                    && bonus_txt_animator.isActiveAndEnabled
+                    && urefs.tap_indicator_bonus_txt.gameObject.activeInHierarchy){
+                    bonus_txt_deactivate_coroutine =
+                        statics.logic_module.StartCoroutine(disable_bonus_text_after_animation());
+                } else if (urefs.tap_indicator_bonus_txt.gameObject.activeSelf){
+                    if (bonus_txt_animator != null && bonus_txt_animator.isActiveAndEnabled)
+                        bonus_txt_animator.Play("disappear", 0, 0f);
+                    urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -1360,6 +1377,22 @@ public static class statics{
             if (urefs.tap_indicator_go != null)
                 urefs.tap_indicator_go.SetActive(false);
             deactivate_coroutine = null;
+        }
+
+        static IEnumerator disable_bonus_text_after_animation(){
+            if (bonus_txt_animator != null)
+                bonus_txt_animator.Play("disappear", 0, 0f);
+
+            if (bonus_txt_animator != null
+                && bonus_txt_animator.gameObject.activeInHierarchy
+                && bonus_txt_animator.isActiveAndEnabled){
+                yield return common_utils.wait_until_state_end(bonus_txt_animator, "disappear");
+            }
+
+            if (urefs.tap_indicator_bonus_txt != null)
+                urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
+
+            bonus_txt_deactivate_coroutine = null;
         }
     }
 
