@@ -17637,6 +17637,8 @@ GameObject:
   - component: {fileID: 1077401232}
   - component: {fileID: 1077401231}
   - component: {fileID: 1077401230}
+  - component: {fileID: 1077401234}
+  - component: {fileID: 1077401233}
   m_Layer: 5
   m_Name: indicator_bonus
   m_TagString: Untagged
@@ -17774,6 +17776,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077401228}
   m_CullTransparentMesh: 1
+--- !u!225 &1077401233
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077401228}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!95 &1077401234
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077401228}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9f8be490ecbfb1e44aa160afe8ac2d24, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1077549808
 GameObject:
   m_ObjectHideFlags: 0
@@ -38370,6 +38405,7 @@ MonoBehaviour:
   tutor_ach_win_bttn_anmtr: {fileID: 740481627}
   tutor_diamonds_anmtr: {fileID: 575539228}
   as_label_to_trigger_anmtr: {fileID: 67886607}
+  tap_indicator_bonus_txt_anmtr: {fileID: 1077401234}
   tap_indicator_anmtr: {fileID: 1741893067}
   prof_window_reset_bt_cg: {fileID: 595972697}
   tempering_reward_bttn_cg: {fileID: 123556886}
