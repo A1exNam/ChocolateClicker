@@ -1185,16 +1185,29 @@ public static class statics{
         static bool is_visible = false;
         static bool is_bonus_active = false;
         static Coroutine deactivate_coroutine;
+        static Coroutine bonus_shake_coroutine;
+        static Vector2 bonus_txt_initial_pos;
+        static Vector3 bonus_txt_initial_euler;
+        static bool bonus_txt_defaults_initialized = false;
 
         public static void init(){
             val = 0f;
             is_visible = false;
             is_bonus_active = false;
+            stop_bonus_shake();
+            bonus_txt_defaults_initialized = false;
             if (deactivate_coroutine != null && statics.logic_module != null){
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
                 deactivate_coroutine = null;
             }
             if (urefs.tap_indicator_bonus_txt != null){
+                RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
+                if (bonus_rt != null){
+                    bonus_txt_initial_pos = bonus_rt.anchoredPosition;
+                    bonus_txt_initial_euler = bonus_rt.localEulerAngles;
+                    bonus_txt_defaults_initialized = true;
+                    reset_bonus_text_transform();
+                }
                 urefs.tap_indicator_bonus_txt.text =
                     common_utils.f2s(consts.tap_indicator_bonus) + "x";
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
@@ -1239,12 +1252,17 @@ public static class statics{
             bool should_show_bonus = val > consts.tap_indicator_bonus_threshold;
             if (should_show_bonus != is_bonus_active){
                 is_bonus_active = should_show_bonus;
-                if (urefs.tap_indicator_bonus_txt != null)
+                if (urefs.tap_indicator_bonus_txt != null){
                     urefs.tap_indicator_bonus_txt.gameObject.SetActive(is_bonus_active);
+                    handle_bonus_text_visibility(is_bonus_active);
+                }
             }
 
-            if (!should_show_bonus && urefs.tap_indicator_bonus_txt != null)
+            if (!should_show_bonus && urefs.tap_indicator_bonus_txt != null
+                && urefs.tap_indicator_bonus_txt.gameObject.activeSelf){
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
+                handle_bonus_text_visibility(false);
+            }
         }
 
         static void show(){
@@ -1264,6 +1282,7 @@ public static class statics{
             is_visible = false;
             if (urefs.tap_indicator_anmtr != null)
                 urefs.tap_indicator_anmtr.Play("disappear", 0, 0f);
+            handle_bonus_text_visibility(false);
             if (deactivate_coroutine != null && statics.logic_module != null)
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
             if (statics.logic_module != null){
@@ -1271,8 +1290,65 @@ public static class statics{
             } else {
                 deactivate_coroutine = null;
                 if (urefs.tap_indicator_go != null)
-                    urefs.tap_indicator_go.SetActive(false);
+                urefs.tap_indicator_go.SetActive(false);
             }
+        }
+
+        static void handle_bonus_text_visibility(bool visible){
+            if (urefs.tap_indicator_bonus_txt == null)
+                return;
+
+            if (visible){
+                if (!bonus_txt_defaults_initialized)
+                    return;
+                stop_bonus_shake();
+                if (statics.logic_module != null)
+                    bonus_shake_coroutine = statics.logic_module.StartCoroutine(shake_bonus_text());
+            } else {
+                stop_bonus_shake();
+            }
+        }
+
+        static void stop_bonus_shake(){
+            if (bonus_shake_coroutine != null && statics.logic_module != null)
+                statics.logic_module.StopCoroutine(bonus_shake_coroutine);
+            bonus_shake_coroutine = null;
+            reset_bonus_text_transform();
+        }
+
+        static void reset_bonus_text_transform(){
+            if (!bonus_txt_defaults_initialized || urefs.tap_indicator_bonus_txt == null)
+                return;
+            RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
+            if (bonus_rt == null)
+                return;
+            bonus_rt.anchoredPosition = bonus_txt_initial_pos;
+            bonus_rt.localEulerAngles = bonus_txt_initial_euler;
+        }
+
+        static IEnumerator shake_bonus_text(){
+            if (!bonus_txt_defaults_initialized || urefs.tap_indicator_bonus_txt == null)
+                yield break;
+            RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
+            if (bonus_rt == null)
+                yield break;
+
+            float time = UnityEngine.Random.value * 10f;
+            while (is_bonus_active && bonus_rt.gameObject.activeInHierarchy){
+                time += Time.unscaledDeltaTime;
+                float speed = consts.tap_indicator_bonus_shake_speed;
+                float strength = consts.tap_indicator_bonus_shake_strength;
+                float noise_x = Mathf.PerlinNoise(time * speed, 0f) * 2f - 1f;
+                float noise_y = Mathf.PerlinNoise(0f, time * speed) * 2f - 1f;
+                Vector2 offset = new Vector2(noise_x * strength, noise_y * strength * 0.6f);
+                bonus_rt.anchoredPosition = bonus_txt_initial_pos + offset;
+                float angle = Mathf.Sin(time * speed * 1.5f) * consts.tap_indicator_bonus_shake_angle;
+                bonus_rt.localEulerAngles = bonus_txt_initial_euler + new Vector3(0f, 0f, angle);
+                yield return null;
+            }
+
+            reset_bonus_text_transform();
+            bonus_shake_coroutine = null;
         }
 
         static IEnumerator disable_after(){

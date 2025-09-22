@@ -69,6 +69,9 @@ public static class consts{
         tap_indicator_decay_speed = 0.1f,
         tap_indicator_click_gain = 0.2f,
         tap_indicator_bonus_threshold = 0.8f,
+        tap_indicator_bonus_shake_strength = 6f,
+        tap_indicator_bonus_shake_angle = 5f,
+        tap_indicator_bonus_shake_speed = 18f,
 
         //active skill
         as_cd = 30f,
