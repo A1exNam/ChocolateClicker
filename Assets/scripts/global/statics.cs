@@ -1305,6 +1305,8 @@ public static class statics{
                 if (bonus_txt_animator != null && bonus_txt_animator.isActiveAndEnabled)
                     bonus_txt_animator.Play("appear", 0, 0f);
 
+                play_chocolate_snap_flash();
+
                 if (!bonus_txt_defaults_initialized)
                     return;
                 stop_bonus_shake();
@@ -1323,6 +1325,17 @@ public static class statics{
                     urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
                 }
             }
+        }
+
+        static void play_chocolate_snap_flash(){
+            if (urefs.chocolate_bcc == null)
+                return;
+
+            Animator chocolate_animator = urefs.chocolate_bcc.anmtr;
+            if (chocolate_animator == null || !chocolate_animator.isActiveAndEnabled)
+                return;
+
+            chocolate_animator.Play("snap_flash", 2, 0f);
         }
 
         static void stop_bonus_shake(){
