@@ -66,8 +66,8 @@ public static class consts{
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
         tap_indicator_bonus = 2f,
-        tap_indicator_decay_speed = 0.1f,
-        tap_indicator_click_gain = 0.2f,
+        tap_indicator_decay_speed = 0.3f,
+        tap_indicator_click_gain = 0.06f,
         tap_indicator_bonus_threshold = 0.8f,
 
         //active skill
