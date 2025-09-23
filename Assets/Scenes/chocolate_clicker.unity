@@ -38119,6 +38119,7 @@ MonoBehaviour:
   upgr_slot_pf: {fileID: 4793260231359470432, guid: 7334289bafaa3b94aba50f51bc90ae96, type: 3}
   art_slot_pf: {fileID: 4793260231359470432, guid: fb8eebb9203bc6246a7f47db451e4142, type: 3}
   click_num_pf: {fileID: 7736573471094483815, guid: c8e11f15c23915b43b7d2801395d2ece, type: 3}
+  tap_popup_bonus_ind_pf: {fileID: 7736573471094483815, guid: 18955d4cab3af614cbd26401bb39501d, type: 3}
   chocofall_pf: {fileID: 908331211877498039, guid: d58d7e9f453d6c446b5a779794232ea9, type: 3}
   ach_slot_pf: {fileID: 8369392294980996517, guid: 32e4864ed639de04298bae2870b49bbb, type: 3}
   skin_slot_pf: {fileID: 5961218400834735748, guid: 2db579c8e163a5645930d4216c9d06bc, type: 3}
@@ -38170,6 +38171,9 @@ MonoBehaviour:
   combo_tap_clr:
     serializedVersion: 2
     rgba: 2664179
+  tap_indicator_multiplier_clr:
+    serializedVersion: 2
+    rgba: 3125237
   active_upgr_clr:
     serializedVersion: 2
     rgba: 4290302944
