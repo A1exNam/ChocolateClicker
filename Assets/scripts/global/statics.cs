@@ -1077,16 +1077,6 @@ public static class statics{
             urefs.as_circle_timer_go.SetActive(false);
         }
 
-        public static IEnumerator start_cf(){
-            while (statics.mngr_prof.as_activated){
-                GameObject cf_instance_temp = 
-                    UnityEngine.Object.Instantiate(consts.chocofall_pf, urefs.cfrd_zone_rt);
-
-                UnityEngine.Object.Destroy(cf_instance_temp, consts.cf_sample_lifetime);
-                yield return new WaitForSeconds(consts.cf_spawn_interval);
-            }
-        }
-
         public static IEnumerator try_activate_as(){
             if (consts.profs_data[cur_prof_nm].grade != 0){
                 logic_module.StartCoroutine(show_as_label());
@@ -1098,7 +1088,6 @@ public static class statics{
                 as_activated = true;
                 save_module.save_as_status();
                 change_params_for_as();
-                logic_module.StartCoroutine(start_cf());
                 yield return start_as_timer();
                 as_activated = false;
                 save_module.save_as_status();
@@ -1187,6 +1176,7 @@ public static class statics{
         static Coroutine deactivate_coroutine;
         static Coroutine bonus_shake_coroutine;
         static Coroutine bonus_txt_deactivate_coroutine;
+        static Coroutine chocorain_coroutine;
         static Vector2 bonus_txt_initial_pos;
         static Vector3 bonus_txt_initial_euler;
         static bool bonus_txt_defaults_initialized = false;
@@ -1197,6 +1187,7 @@ public static class statics{
             is_visible = false;
             is_bonus_active = false;
             stop_bonus_shake();
+            stop_chocorain();
             bonus_txt_defaults_initialized = false;
             bonus_txt_deactivate_coroutine = null;
             if (deactivate_coroutine != null && statics.logic_module != null){
@@ -1257,6 +1248,7 @@ public static class statics{
             if (should_show_bonus != is_bonus_active){
                 is_bonus_active = should_show_bonus;
                 handle_bonus_text_visibility(is_bonus_active);
+                update_chocorain_state();
             }
         }
 
@@ -1392,6 +1384,38 @@ public static class statics{
                 urefs.tap_indicator_bonus_txt.gameObject.SetActive(false);
 
             bonus_txt_deactivate_coroutine = null;
+        }
+
+        static void update_chocorain_state(){
+            if (statics.logic_module == null){
+                stop_chocorain();
+                return;
+            }
+
+            if (is_bonus_active){
+                if (chocorain_coroutine == null)
+                    chocorain_coroutine = statics.logic_module.StartCoroutine(run_chocorain());
+            } else {
+                stop_chocorain();
+            }
+        }
+
+        static void stop_chocorain(){
+            if (chocorain_coroutine != null && statics.logic_module != null)
+                statics.logic_module.StopCoroutine(chocorain_coroutine);
+            chocorain_coroutine = null;
+        }
+
+        static IEnumerator run_chocorain(){
+            while (is_bonus_active){
+                GameObject cf_instance_temp =
+                    UnityEngine.Object.Instantiate(consts.chocofall_pf, urefs.cfrd_zone_rt);
+
+                UnityEngine.Object.Destroy(cf_instance_temp, consts.cf_sample_lifetime);
+                yield return new WaitForSeconds(consts.cf_spawn_interval);
+            }
+
+            chocorain_coroutine = null;
         }
     }
 
