@@ -65,7 +65,8 @@ public class urefs_init : MonoBehaviour{
         quest_go,
         as_label_to_trigger_go,
         gameover_ac_screen_go,
-        tap_indicator_go;
+        tap_indicator_go,
+        glowing_choco_go;
 
     public Transform 
         arts_shop_tr, 
@@ -246,7 +247,8 @@ public class urefs_init : MonoBehaviour{
         tutor_diamonds_anmtr,
         as_label_to_trigger_anmtr,
         tap_indicator_bonus_txt_anmtr,
-        tap_indicator_anmtr;
+        tap_indicator_anmtr,
+        glowing_choco_anmtr;
 
     public CanvasGroup
         prof_window_reset_bt_cg,
