@@ -59,7 +59,7 @@ public class golden_chocolate_behaviour : MonoBehaviour, IPointerClickHandler{
         statics.mngr_quests.recalc("quest_collect_1");
 
         spawn_effects(reward);
-
+        urefs.sound_asrc_as.PlayOneShot(consts.gold_chocolate_ac);
         UnityEngine.Object.Destroy(gameObject);
     }
 

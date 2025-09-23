@@ -127,8 +127,8 @@ public static class consts{
         gen_lifetime = 3f,
 
         //golden chocolate
-        golden_spawn_mean_delay = 20f,
-        golden_spawn_pity = 15f,
+        golden_spawn_mean_delay = 180f,
+        golden_spawn_pity = 300f,
         golden_spawn_wave_min_delay = 0.1f, //minimum delay between chocolates within a wave
         golden_spawn_wave_max_delay = 0.5f, //maximum delay between chocolates within a wave
         golden_chocolate_move_speed = 600f,
@@ -397,7 +397,8 @@ public static class consts{
         diamond_on_tap_ac,
         reveal_bttn_from_lock_ac,
         quest_completion_ac,
-        typewrite_ac;
+        typewrite_ac,
+        gold_chocolate_ac;
 
     public static Color32
         active_skin_bttn_clr,

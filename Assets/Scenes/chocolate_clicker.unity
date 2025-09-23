@@ -7590,6 +7590,7 @@ RectTransform:
   - {fileID: 1209231689}
   - {fileID: 674755718}
   - {fileID: 2135270494}
+  - {fileID: 978811556}
   - {fileID: 225490492}
   - {fileID: 2039943239}
   - {fileID: 799528612}
@@ -11152,7 +11153,6 @@ RectTransform:
   - {fileID: 692163242}
   - {fileID: 1215760109}
   - {fileID: 34444135}
-  - {fileID: 978811556}
   - {fileID: 498507391}
   m_Father: {fileID: 453307978}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15220,7 +15220,6 @@ GameObject:
   m_Component:
   - component: {fileID: 978811556}
   - component: {fileID: 978811559}
-  - component: {fileID: 978811558}
   - component: {fileID: 978811557}
   m_Layer: 5
   m_Name: goldenchocozone
@@ -15236,12 +15235,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978811555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 704278506}
+  m_Father: {fileID: 453307978}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15262,7 +15261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -15278,19 +15277,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &978811558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978811555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!222 &978811559
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38235,6 +38221,7 @@ MonoBehaviour:
   reveal_bttn_from_lock_ac: {fileID: 8300000, guid: 4ff9cd1daeb465e48826f3bd86207c47, type: 3}
   quest_completion_ac: {fileID: 8300000, guid: 95f370d4c0fe1c84aa1aaeb648e528af, type: 3}
   typewrite_ac: {fileID: 8300000, guid: 1ffaeecde4177cb46a49823becb119df, type: 3}
+  gold_chocolate_ac: {fileID: 8300000, guid: 066c5992377606c468e787cc93942adb, type: 3}
   kanit_semibold_font: {fileID: 11400000, guid: d01c456f0c3ef064eaf0653ca07cd2e8, type: 2}
   active_skin_bttn_clr:
     serializedVersion: 2
