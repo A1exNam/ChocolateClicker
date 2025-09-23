@@ -243,7 +243,8 @@ public static class urefs{
         tutor_diamonds_anmtr,
         as_label_to_trigger_anmtr,
         tap_indicator_bonus_txt_anmtr,
-        tap_indicator_anmtr;
+        tap_indicator_anmtr,
+        glowing_choco_anmtr;
 
     public static CanvasGroup
         prof_window_reset_bt_cg,
