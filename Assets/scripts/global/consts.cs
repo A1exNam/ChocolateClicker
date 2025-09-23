@@ -46,7 +46,7 @@ public static class consts{
         cf_max_size = 0.9f,
         cf_sample_lifetime,
         cf_spawn_interval = 0.15f,
-        cf_min_alpha = 0.7f,
+        cf_min_alpha = 0.4f,
 
         //discover
         discover_price_base = 2f,
