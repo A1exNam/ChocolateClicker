@@ -38351,6 +38351,7 @@ MonoBehaviour:
   discover_slot_tr: {fileID: 1926443154}
   ach_panel_tr: {fileID: 888947247}
   genchocozone_tr: {fileID: 34444135}
+  goldenchocozone_tr: {fileID: 978811556}
   new_art_image_im: {fileID: 1961783767}
   shop_upgrs_bt_im: {fileID: 1783425403}
   shop_arts_bt_im: {fileID: 2078304211}
