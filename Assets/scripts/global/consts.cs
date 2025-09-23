@@ -129,6 +129,8 @@ public static class consts{
         //golden chocolate
         golden_spawn_mean_delay = 180f,
         golden_spawn_pity = 300f,
+        golden_spawn_wave_min_delay = 0.1f, //minimum delay between chocolates within a wave
+        golden_spawn_wave_max_delay = 0.5f, //maximum delay between chocolates within a wave
         golden_chocolate_move_speed = 420f,
         golden_chocolate_rotation_speed = 120f,
         golden_reward_gps_fraction = 30f, //seconds worth of current chocolate per second
