@@ -717,7 +717,7 @@ public static class statics{
                 time_since_last_spawn += Time.deltaTime;
                 if ((next_spawn_delay > 0f && time_since_last_spawn >= next_spawn_delay)
                     || time_since_last_spawn >= consts.golden_spawn_pity){
-                    spawn_wave();
+                    yield return spawn_wave();
                     time_since_last_spawn = 0f;
                     next_spawn_delay = get_next_delay();
                 }
@@ -725,9 +725,30 @@ public static class statics{
             }
         }
 
-        static void spawn_wave(){
-            for (int i = 0; i < consts.golden_spawn_wave_count; i++)
+        static IEnumerator spawn_wave(){
+            int wave_count = consts.golden_spawn_wave_count;
+            if (wave_count <= 0)
+                yield break;
+
+            spawn_single();
+
+            if (wave_count <= 1)
+                yield break;
+
+            float min_delay = consts.golden_spawn_wave_min_delay;
+            float max_delay = consts.golden_spawn_wave_max_delay;
+
+            if (max_delay < min_delay){
+                float temp = min_delay;
+                min_delay = max_delay;
+                max_delay = temp;
+            }
+
+            for (int i = 1; i < wave_count; i++){
+                float delay = UnityEngine.Random.Range(min_delay, max_delay);
+                yield return new WaitForSeconds(delay);
                 spawn_single();
+            }
         }
 
         static void spawn_single(){
