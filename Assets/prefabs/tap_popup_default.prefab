@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 735507923224393261}
   - component: {fileID: 8358069724457856852}
   m_Layer: 5
-  m_Name: tap_number
+  m_Name: tap_popup_default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
