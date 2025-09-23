@@ -1543,9 +1543,11 @@ public static class statics{
 
         public static void on_tap(){
             mngr_tutor.try_close_tutor("tutor_click");
-            chocogen.gen();
             mngr_indicator.on_click();
             float indicator_multiplier = mngr_indicator.get_tap_multiplier();
+            bool is_indicator_bonus_active = indicator_multiplier > 1f;
+            if (is_indicator_bonus_active)
+                chocogen.gen();
             if (UnityEngine.Random.value < diamond_ch){
                 mngr_diamonds.amount++;
                 mngr_diamonds.on_val_change();
@@ -1579,7 +1581,6 @@ public static class statics{
             }
             temp1 *= indicator_multiplier;
             temp1 = (float)Math.Truncate(temp1);
-            bool is_indicator_bonus_active = indicator_multiplier > 1f;
             change_float_number_params(temp1, tap_clr, is_indicator_bonus_active);
 
             mngr_balance.amount += temp1; 
