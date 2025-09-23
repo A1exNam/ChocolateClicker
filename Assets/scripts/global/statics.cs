@@ -701,7 +701,7 @@ public static class statics{
         public static void init(){
             if (statics.logic_module == null)
                 return;
-            if (consts.golden_chocolate_pf == null || urefs.genchocozone_tr == null)
+            if (consts.golden_chocolate_pf == null || urefs.goldenchocozone_tr == null)
                 return;
 
             time_since_last_spawn = 0f;
@@ -731,10 +731,10 @@ public static class statics{
         }
 
         static void spawn_single(){
-            if (consts.golden_chocolate_pf == null || urefs.genchocozone_tr == null)
+            if (consts.golden_chocolate_pf == null || urefs.goldenchocozone_tr == null)
                 return;
 
-            RectTransform parent_rect = urefs.genchocozone_tr as RectTransform;
+            RectTransform parent_rect = urefs.goldenchocozone_tr as RectTransform;
             if (parent_rect == null)
                 return;
 

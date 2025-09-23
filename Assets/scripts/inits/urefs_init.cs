@@ -76,7 +76,8 @@ public class urefs_init : MonoBehaviour{
         skins_content_panel_tr,
         discover_slot_tr,
         ach_panel_tr,
-        genchocozone_tr;
+        genchocozone_tr,
+        goldenchocozone_tr;
 
     public Image 
         new_art_image_im,
