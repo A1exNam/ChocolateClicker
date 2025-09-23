@@ -41,11 +41,11 @@ public static class consts{
         x1_cf_crd,
         x2_cf_crd,
         y_cf_crd,
-        cf_speed = 440f,
+        cf_speed = 1500f,
         cf_min_size = 0.6f,
         cf_max_size = 0.9f,
         cf_sample_lifetime,
-        cf_spawn_interval = 0.2f,
+        cf_spawn_interval = 0.15f,
         cf_min_alpha = 0.7f,
 
         //discover
