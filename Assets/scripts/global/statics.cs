@@ -1177,10 +1177,13 @@ public static class statics{
         static Coroutine bonus_shake_coroutine;
         static Coroutine bonus_txt_deactivate_coroutine;
         static Coroutine chocorain_coroutine;
+        static Coroutine glowing_choco_deactivate_coroutine;
         static Vector2 bonus_txt_initial_pos;
         static Vector3 bonus_txt_initial_euler;
         static bool bonus_txt_defaults_initialized = false;
         static Animator bonus_txt_animator;
+        static Animator glowing_choco_animator;
+        const int glowing_choco_anim_layer = 2;
 
         public static void init(){
             val = 0f;
@@ -1188,6 +1191,7 @@ public static class statics{
             is_bonus_active = false;
             stop_bonus_shake();
             stop_chocorain();
+            stop_glowing_choco_transition();
             bonus_txt_defaults_initialized = false;
             bonus_txt_deactivate_coroutine = null;
             if (deactivate_coroutine != null && statics.logic_module != null){
@@ -1195,6 +1199,7 @@ public static class statics{
                 deactivate_coroutine = null;
             }
             bonus_txt_animator = urefs.tap_indicator_bonus_txt_anmtr;
+            glowing_choco_animator = urefs.glowing_choco_anmtr;
             if (urefs.tap_indicator_bonus_txt != null){
                 RectTransform bonus_rt = urefs.tap_indicator_bonus_txt.rectTransform;
                 if (bonus_rt != null){
@@ -1211,6 +1216,8 @@ public static class statics{
                 urefs.tap_indicator_fill_im.fillAmount = 0f;
             if (urefs.tap_indicator_go != null && urefs.tap_indicator_go.activeSelf)
                 urefs.tap_indicator_go.SetActive(false);
+            if (urefs.glowing_choco_go != null && urefs.glowing_choco_go.activeSelf)
+                urefs.glowing_choco_go.SetActive(false);
         }
 
         public static void on_click(){
@@ -1245,11 +1252,8 @@ public static class statics{
             }
 
             bool should_show_bonus = val > consts.tap_indicator_bonus_threshold;
-            if (should_show_bonus != is_bonus_active){
-                is_bonus_active = should_show_bonus;
-                handle_bonus_text_visibility(is_bonus_active);
-                update_chocorain_state();
-            }
+            if (should_show_bonus != is_bonus_active)
+                set_bonus_active(should_show_bonus);
         }
 
         static void show(){
@@ -1269,7 +1273,7 @@ public static class statics{
             is_visible = false;
             if (urefs.tap_indicator_anmtr != null)
                 urefs.tap_indicator_anmtr.Play("disappear", 0, 0f);
-            handle_bonus_text_visibility(false);
+            set_bonus_active(false, true);
             if (deactivate_coroutine != null && statics.logic_module != null)
                 statics.logic_module.StopCoroutine(deactivate_coroutine);
             if (statics.logic_module != null){
@@ -1279,6 +1283,16 @@ public static class statics{
                 if (urefs.tap_indicator_go != null)
                 urefs.tap_indicator_go.SetActive(false);
             }
+        }
+
+        static void set_bonus_active(bool active, bool force = false){
+            if (!force && is_bonus_active == active)
+                return;
+
+            is_bonus_active = active;
+            handle_bonus_text_visibility(is_bonus_active);
+            update_chocorain_state();
+            update_glowing_choco_state(force);
         }
 
         static void handle_bonus_text_visibility(bool visible){
@@ -1406,6 +1420,62 @@ public static class statics{
             chocorain_coroutine = null;
         }
 
+        static void stop_glowing_choco_transition(){
+            if (glowing_choco_deactivate_coroutine != null && statics.logic_module != null)
+                statics.logic_module.StopCoroutine(glowing_choco_deactivate_coroutine);
+            glowing_choco_deactivate_coroutine = null;
+        }
+
+        static void update_glowing_choco_state(bool force = false){
+            GameObject glowing_choco = urefs.glowing_choco_go;
+
+            if (is_bonus_active){
+                stop_glowing_choco_transition();
+                if (glowing_choco != null && !glowing_choco.activeSelf)
+                    glowing_choco.SetActive(true);
+                if (glowing_choco_animator != null && glowing_choco_animator.isActiveAndEnabled)
+                    glowing_choco_animator.Play("appear", glowing_choco_anim_layer, 0f);
+                return;
+            }
+
+            if (glowing_choco == null){
+                stop_glowing_choco_transition();
+                return;
+            }
+
+            bool glowing_choco_active = glowing_choco.activeInHierarchy;
+
+            if (!glowing_choco_active){
+                stop_glowing_choco_transition();
+                if (glowing_choco.activeSelf)
+                    glowing_choco.SetActive(false);
+                return;
+            }
+
+            if (glowing_choco_animator == null || !glowing_choco_animator.isActiveAndEnabled){
+                stop_glowing_choco_transition();
+                glowing_choco.SetActive(false);
+                return;
+            }
+
+            if (statics.logic_module == null){
+                glowing_choco_animator.Play("disappear", glowing_choco_anim_layer, 0f);
+                glowing_choco.SetActive(false);
+                stop_glowing_choco_transition();
+                return;
+            }
+
+            if (force && glowing_choco_deactivate_coroutine != null){
+                statics.logic_module.StopCoroutine(glowing_choco_deactivate_coroutine);
+                glowing_choco_deactivate_coroutine = null;
+            }
+
+            if (glowing_choco_deactivate_coroutine == null){
+                glowing_choco_animator.Play("disappear", glowing_choco_anim_layer, 0f);
+                glowing_choco_deactivate_coroutine = statics.logic_module.StartCoroutine(disable_glowing_choco_after_animation());
+            }
+        }
+
         static IEnumerator run_chocorain(){
             while (is_bonus_active){
                 GameObject cf_instance_temp =
@@ -1416,6 +1486,31 @@ public static class statics{
             }
 
             chocorain_coroutine = null;
+        }
+
+        static IEnumerator disable_glowing_choco_after_animation(){
+            if (glowing_choco_animator != null){
+                int layer = glowing_choco_anim_layer;
+
+                while (glowing_choco_animator.gameObject.activeInHierarchy
+                    && glowing_choco_animator.isActiveAndEnabled
+                    && !glowing_choco_animator.GetCurrentAnimatorStateInfo(layer).IsName("disappear")){
+                    yield return null;
+                }
+
+                while (glowing_choco_animator.gameObject.activeInHierarchy
+                    && glowing_choco_animator.isActiveAndEnabled){
+                    AnimatorStateInfo state_info = glowing_choco_animator.GetCurrentAnimatorStateInfo(layer);
+                    if (!state_info.IsName("disappear") || state_info.normalizedTime >= 1f)
+                        break;
+                    yield return null;
+                }
+            }
+
+            if (urefs.glowing_choco_go != null)
+                urefs.glowing_choco_go.SetActive(false);
+
+            glowing_choco_deactivate_coroutine = null;
         }
     }
 
