@@ -1528,13 +1528,13 @@ public static class statics{
         public static void change_float_number_params(
             float number,
             Color32 clr,
-            bool has_indicator_bonus,
+            bool indicator_bonus_active,
             float indicator_multiplier
         ){
             var temp1 = UnityEngine.Object.Instantiate(consts.click_num_pf, urefs.chocolate_rt)
             .GetComponent<tap_number_refs>();
             string text = common_utils.f2s((float)Math.Truncate(number));
-            if (has_indicator_bonus){
+            if (indicator_bonus_active){
                 text += "(" + common_utils.f2s(indicator_multiplier) + "x)";
                 temp1.txt.color = consts.indicator_bonus_tap_clr;
             } else {
@@ -1545,9 +1545,12 @@ public static class statics{
 
         public static void on_tap(){
             mngr_tutor.try_close_tutor("tutor_click");
-            chocogen.gen();
             mngr_indicator.on_click();
             float indicator_multiplier = mngr_indicator.get_tap_multiplier();
+            bool indicator_bonus_active = indicator_multiplier > 1f;
+            if (indicator_bonus_active){
+                chocogen.gen();
+            }
             if (UnityEngine.Random.value < diamond_ch){
                 mngr_diamonds.amount++;
                 mngr_diamonds.on_val_change();
@@ -1581,8 +1584,7 @@ public static class statics{
             }
             temp1 *= indicator_multiplier;
             temp1 = (float)Math.Truncate(temp1);
-            bool has_indicator_bonus = indicator_multiplier > 1f;
-            change_float_number_params(temp1, tap_clr, has_indicator_bonus, indicator_multiplier);
+            change_float_number_params(temp1, tap_clr, indicator_bonus_active, indicator_multiplier);
 
             mngr_balance.amount += temp1; 
             mngr_balance.on_val_change();
