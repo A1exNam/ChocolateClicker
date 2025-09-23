@@ -1525,11 +1525,20 @@ public static class statics{
             }
         }
 
-        public static void change_float_number_params(float number, Color32 clr){
-            var temp1 = UnityEngine.Object.Instantiate(consts.click_num_pf, urefs.chocolate_rt)
-            .GetComponent<tap_number_refs>();
+        public static void change_float_number_params(float number, Color32 clr, bool is_indicator_bonus_active){
+            GameObject popup_prefab = consts.click_num_pf;
+            if (is_indicator_bonus_active && consts.tap_popup_bonus_ind_pf != null){
+                popup_prefab = consts.tap_popup_bonus_ind_pf;
+            }
+
+            var temp1 = UnityEngine.Object.Instantiate(popup_prefab, urefs.chocolate_rt)
+                .GetComponent<tap_number_refs>();
             temp1.txt.text = common_utils.f2s((float)Math.Truncate(number));
             temp1.txt.color = clr;
+            if (is_indicator_bonus_active && temp1.multiplier_txt != null){
+                temp1.multiplier_txt.text = common_utils.f2s(consts.tap_indicator_bonus) + "x";
+                temp1.multiplier_txt.color = clr;
+            }
         }
 
         public static void on_tap(){
@@ -1570,7 +1579,8 @@ public static class statics{
             }
             temp1 *= indicator_multiplier;
             temp1 = (float)Math.Truncate(temp1);
-            change_float_number_params(temp1, tap_clr);
+            bool is_indicator_bonus_active = indicator_multiplier > 1f;
+            change_float_number_params(temp1, tap_clr, is_indicator_bonus_active);
 
             mngr_balance.amount += temp1; 
             mngr_balance.on_val_change();
