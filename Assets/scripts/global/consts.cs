@@ -126,10 +126,38 @@ public static class consts{
         gen_angular_velocity = 100f,
         gen_lifetime = 3f,
 
+        //golden chocolate
+        golden_spawn_mean_delay = 180f,
+        golden_spawn_pity = 300f,
+        golden_chocolate_move_speed = 420f,
+        golden_chocolate_rotation_speed = 120f,
+        golden_reward_gps_fraction = 30f, //seconds worth of current chocolate per second
+        golden_reward_minimum = 1f,
+        golden_text_move_speed = 90f,
+        golden_text_lifetime = 1.2f,
+        golden_text_font_size = 72f,
+        golden_particle_speed = 260f,
+        golden_particle_horizontal_speed = 110f,
+        golden_particle_lifetime = 1.1f,
+        golden_particle_min_scale = 0.25f,
+        golden_particle_max_scale = 0.55f,
+        golden_particle_size = 80f,
+
         //quests
         reward_period = 4f,
         //anticlicker
         max_taps_per_sec = 45f;
+
+    public static int
+        golden_spawn_wave_count = 3,
+        golden_particle_count = 12;
+
+    public static Color32
+        golden_particle_color = new Color32(255, 222, 128, 255),
+        golden_text_color = new Color32(255, 232, 128, 255);
+
+    public static TMP_FontAsset
+        kanit_semibold_font;
 
     public static string
         //prof
@@ -144,7 +172,7 @@ public static class consts{
         //arts
         first_art = "Bar of Wealth";
 
-    public static List<string> tutor_label_list = 
+    public static List<string> tutor_label_list =
         new(){"prof_lbl_tutor", "tempering_lbl_tutor", "skins_lbl_tutor", "arts_lbl_tutor", "click_lbl_tutor"};
 
     public static List<(TextMeshProUGUI unlock_txt, GameObject unlock_go, Image bttn_im)> 
@@ -345,7 +373,8 @@ public static class consts{
         ach_slot_pf,
         skin_slot_pf,
         ach_star_pf,
-        gen_choco_pf;
+        gen_choco_pf,
+        golden_chocolate_pf;
 
     public static AudioClip 
         ach_noft_ac, 

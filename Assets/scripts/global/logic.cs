@@ -25,8 +25,9 @@ public class logic_module : MonoBehaviour{
         statics.mngr_ad_bttn.init();
         statics.mngr_tutor.init();
         statics.mngr_quests.init();
+        statics.mngr_golden_chocolate.init();
 
-        recalcs.init(); 
+        recalcs.init();
 
         statics.mngr_gameover.init();
 

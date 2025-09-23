@@ -668,10 +668,10 @@ public static class statics{
     }
 
     public static class mngr_balance{
-        public static float 
+        public static float
             amount = 0f,
             max_amount = 0f;
-        
+
         public static void init(){
             act_ui();
         }
@@ -682,7 +682,7 @@ public static class statics{
             mngr_upgrs.act_ui(new(){"alpha"});
             act_ui();
         }
-        
+
         public static void clear_balance(){
             amount = 0f;
             on_val_change();
@@ -693,8 +693,91 @@ public static class statics{
         }
     }
 
+    public static class mngr_golden_chocolate{
+        static Coroutine spawn_coroutine;
+        static float time_since_last_spawn;
+        static float next_spawn_delay;
+
+        public static void init(){
+            if (statics.logic_module == null)
+                return;
+            if (consts.golden_chocolate_pf == null || urefs.genchocozone_tr == null)
+                return;
+
+            time_since_last_spawn = 0f;
+            next_spawn_delay = get_next_delay();
+
+            if (spawn_coroutine != null)
+                statics.logic_module.StopCoroutine(spawn_coroutine);
+            spawn_coroutine = statics.logic_module.StartCoroutine(spawn_loop());
+        }
+
+        static IEnumerator spawn_loop(){
+            while (true){
+                time_since_last_spawn += Time.deltaTime;
+                if ((next_spawn_delay > 0f && time_since_last_spawn >= next_spawn_delay)
+                    || time_since_last_spawn >= consts.golden_spawn_pity){
+                    spawn_wave();
+                    time_since_last_spawn = 0f;
+                    next_spawn_delay = get_next_delay();
+                }
+                yield return null;
+            }
+        }
+
+        static void spawn_wave(){
+            for (int i = 0; i < consts.golden_spawn_wave_count; i++)
+                spawn_single();
+        }
+
+        static void spawn_single(){
+            if (consts.golden_chocolate_pf == null || urefs.genchocozone_tr == null)
+                return;
+
+            RectTransform parent_rect = urefs.genchocozone_tr as RectTransform;
+            if (parent_rect == null)
+                return;
+
+            GameObject go = UnityEngine.Object.Instantiate(consts.golden_chocolate_pf, parent_rect);
+            go.transform.SetAsLastSibling();
+
+            RectTransform rect = go.transform as RectTransform;
+            if (rect == null)
+                return;
+
+            golden_chocolate_behaviour behaviour = go.GetComponent<golden_chocolate_behaviour>();
+            if (behaviour == null)
+                behaviour = go.AddComponent<golden_chocolate_behaviour>();
+
+            float half_width = rect.rect.width * rect.localScale.x / 2f;
+            float half_height = rect.rect.height * rect.localScale.y / 2f;
+
+            float left_edge = -parent_rect.rect.width * parent_rect.pivot.x;
+            float right_edge = parent_rect.rect.width * (1f - parent_rect.pivot.x);
+            float bottom_edge = -parent_rect.rect.height * parent_rect.pivot.y;
+            float top_edge = parent_rect.rect.height * (1f - parent_rect.pivot.y);
+
+            float spawn_x = left_edge - half_width;
+            float min_y = bottom_edge + half_height;
+            float max_y = top_edge - half_height;
+            float spawn_y = (max_y > min_y)
+                ? UnityEngine.Random.Range(min_y, max_y)
+                : (min_y + max_y) * 0.5f;
+            rect.anchoredPosition = new(spawn_x, spawn_y);
+
+            float destroy_x = right_edge + half_width;
+            behaviour.Initialize(parent_rect, destroy_x, consts.golden_chocolate_move_speed, consts.golden_chocolate_rotation_speed);
+        }
+
+        static float get_next_delay(){
+            float mean = Mathf.Max(consts.golden_spawn_mean_delay, 0.1f);
+            float rand = Mathf.Clamp(UnityEngine.Random.value, 1e-3f, 0.999f);
+            return -Mathf.Log(rand) * mean;
+        }
+    }
+
     public static class mngr_prof{
-        public static string 
+        public static string
             cur_prof_nm;
         public static bool 
             as_activated = false,

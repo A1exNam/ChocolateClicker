@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class consts_init: MonoBehaviour{
     void Awake(){
@@ -39,7 +40,8 @@ public class consts_init: MonoBehaviour{
         ach_slot_pf,
         skin_slot_pf,
         ach_star_pf,
-        gen_choco_pf;
+        gen_choco_pf,
+        golden_chocolate_pf;
 
     public AudioClip 
         ach_noft_ac, 
@@ -61,6 +63,9 @@ public class consts_init: MonoBehaviour{
         reveal_bttn_from_lock_ac,
         quest_completion_ac,
         typewrite_ac;
+
+    public TMP_FontAsset
+        kanit_semibold_font;
 
     public Color32 
         active_skin_bttn_clr,
