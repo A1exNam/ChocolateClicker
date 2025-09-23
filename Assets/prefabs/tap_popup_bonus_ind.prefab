@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 3686307139601087360}
+  multiplier_txt: {fileID: 6729588071463605177}
   rt: {fileID: 1715948680885543649}
   speed: 0
   elapsedTime: 0
@@ -316,6 +317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 6729588071463605177}
+  multiplier_txt: {fileID: 0}
   rt: {fileID: 7267551321192004341}
   speed: 0
   elapsedTime: 0

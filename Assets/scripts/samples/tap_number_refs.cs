@@ -3,7 +3,9 @@ using TMPro;
 
 public class tap_number_refs: MonoBehaviour{
     public TextMeshProUGUI 
-        txt;
+        txt,
+        multiplier_txt;
+        
     public RectTransform 
         rt;
 
