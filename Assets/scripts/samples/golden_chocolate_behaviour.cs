@@ -112,9 +112,15 @@ public class golden_chocolate_behaviour : MonoBehaviour, IPointerClickHandler{
         tmp.color = consts.golden_text_color;
         tmp.fontSize = consts.golden_text_font_size;
         tmp.alignment = TextAlignmentOptions.Center;
+        tmp.enableWordWrapping = false;
+        tmp.overflowMode = TextOverflowModes.Overflow;
         tmp.raycastTarget = false;
         if (consts.kanit_semibold_font != null)
             tmp.font = consts.kanit_semibold_font;
+
+        ContentSizeFitter content_size_fitter = text_go.AddComponent<ContentSizeFitter>();
+        content_size_fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        content_size_fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         golden_reward_text reward_text = text_go.AddComponent<golden_reward_text>();
         reward_text.Initialize();
