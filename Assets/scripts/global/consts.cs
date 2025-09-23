@@ -41,7 +41,7 @@ public static class consts{
         x1_cf_crd,
         x2_cf_crd,
         y_cf_crd,
-        cf_acceleration = 440f,
+        cf_speed = 440f,
         cf_min_size = 0.6f,
         cf_max_size = 0.9f,
         cf_sample_lifetime,

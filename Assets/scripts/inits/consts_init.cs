@@ -19,8 +19,8 @@ public class consts_init: MonoBehaviour{
         consts.y_cf_crd = 
             + urefs.cfrd_zone_rt.rect.height/2 + cf_pf_height_temp/2;
 
-        consts.cf_sample_lifetime = 
-            Mathf.Sqrt(2f * (urefs.cfrd_zone_rt.rect.height + cf_pf_height_temp) / consts.cf_acceleration);
+        consts.cf_sample_lifetime =
+            (urefs.cfrd_zone_rt.rect.height + cf_pf_height_temp) / consts.cf_speed;
         
         consts.x1_nmbr_tap_crd = - urefs.chocolate_rt.rect.width/2;
         consts.x2_nmbr_tap_crd = + urefs.chocolate_rt.rect.width/2;

@@ -5,8 +5,7 @@ public class chocofall : MonoBehaviour{
     public Image
         im;
 
-    public float 
-        velocity = 0f,
+    public float
         cur_lifetime = 0f;
     
     public RectTransform
@@ -22,8 +21,7 @@ public class chocofall : MonoBehaviour{
 
     void Update(){
         cur_lifetime += Time.deltaTime;
-        rt.anchoredPosition -= new Vector2(0, velocity * Time.deltaTime);
-        velocity += consts.cf_acceleration * Time.deltaTime;
+        rt.anchoredPosition -= new Vector2(0, consts.cf_speed * Time.deltaTime);
         var temp = im.color;
         temp.a = Mathf.Lerp(1f, consts.cf_min_alpha, cur_lifetime/consts.cf_sample_lifetime);
         im.color = temp;
