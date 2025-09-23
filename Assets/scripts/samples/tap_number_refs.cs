@@ -29,6 +29,11 @@ public class tap_number_refs: MonoBehaviour{
             Color temp1 = txt.color;
             temp1.a = 1 - elapsedTime/consts.duration_tap_number;
             txt.color = temp1;
+            if (multiplier_txt != null){
+                Color multiplier_clr = multiplier_txt.color;
+                multiplier_clr.a = temp1.a;
+                multiplier_txt.color = multiplier_clr;
+            }
         } else {
             Destroy(gameObject);
         }

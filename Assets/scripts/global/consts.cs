@@ -337,9 +337,10 @@ public static class consts{
     public static List<Sprite> gen_on_click_sprites;
 
     public static GameObject
-        upgr_slot_pf, 
-        art_slot_pf, 
-        click_num_pf, 
+        upgr_slot_pf,
+        art_slot_pf,
+        click_num_pf,
+        tap_popup_bonus_ind_pf,
         chocofall_pf,
         ach_slot_pf,
         skin_slot_pf,
@@ -377,6 +378,7 @@ public static class consts{
         default_tap_clr,
         crit_tap_clr,
         combo_tap_clr,
+        tap_indicator_multiplier_clr,
         active_upgr_clr,
         not_active_upgr_clr;
 }
