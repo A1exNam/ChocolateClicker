@@ -38716,7 +38716,7 @@ MonoBehaviour:
   empty_click_ac: {fileID: 8300000, guid: 8dde31034a19f8a44bf34401f1790d48, type: 3}
   discover_final_ac: {fileID: 8300000, guid: da262877de73bc64c8d37554725d7e2c, type: 3}
   discover_waiting_ac: {fileID: 8300000, guid: 2671aba9c9d317c4984b9ef60495871a, type: 3}
-  lvlup_ac: {fileID: 8300000, guid: 6a47c4a6e9ec28d4d9adeb844dfbc3cc, type: 3}
+  lvlup_ac: {fileID: 8300000, guid: 95f370d4c0fe1c84aa1aaeb648e528af, type: 3}
   open_u_ac: {fileID: 8300000, guid: 6e70fc231f0d7cb4eaee8088ba0e78e5, type: 3}
   ach_reward_ac: {fileID: 8300000, guid: 2538ef102409be24da49e5f96023ca72, type: 3}
   tempering_ac: {fileID: 8300000, guid: e7457a8c2a7aa80428be975f4e39b378, type: 3}
@@ -38728,7 +38728,7 @@ MonoBehaviour:
   change_shop_ac: {fileID: 8300000, guid: 458b3d08830db3a409e20d32ee9763c8, type: 3}
   diamond_on_tap_ac: {fileID: 8300000, guid: 8b09faadbec32c74a9f10fba9387d2e9, type: 3}
   reveal_bttn_from_lock_ac: {fileID: 8300000, guid: 4ff9cd1daeb465e48826f3bd86207c47, type: 3}
-  quest_completion_ac: {fileID: 8300000, guid: 95f370d4c0fe1c84aa1aaeb648e528af, type: 3}
+  quest_completion_ac: {fileID: 8300000, guid: f91e03ed16e0f944bbcbe1e9000a3675, type: 3}
   typewrite_ac: {fileID: 8300000, guid: 1ffaeecde4177cb46a49823becb119df, type: 3}
   gold_chocolate_ac: {fileID: 8300000, guid: 066c5992377606c468e787cc93942adb, type: 3}
   kanit_semibold_font: {fileID: 11400000, guid: d01c456f0c3ef064eaf0653ca07cd2e8, type: 2}
