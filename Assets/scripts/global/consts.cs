@@ -55,6 +55,7 @@ public static class consts{
         //xp
         xp_base = 1.5f, //xp_base^lvl * xp_coef
         xp_coef = 10f,
+        xp_gps_fraction = 0.1f,
         lvlup_reward_tap_mult = 15f,
         lvlup_reward_gps_mult = 20f,
 

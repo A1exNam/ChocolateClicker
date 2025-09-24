@@ -743,8 +743,14 @@ public static class statics{
                 amount += gps_value;
                 on_val_change();
 
+                float gps_xp = gps_value * consts.xp_gps_fraction;
+                if (gps_xp > 0f){
+                    mngr_xp.add(gps_xp);
+                    mngr_xp.act_ui();
+                }
+
                 yield return common_utils.wait_until_state_end(urefs.balance_gain_txt_anmtr, "disappear");
-                gain_go_temp.SetActive(false);   
+                gain_go_temp.SetActive(false);
             }
         }
 
