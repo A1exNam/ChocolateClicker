@@ -672,8 +672,11 @@ public static class statics{
             amount = 0f,
             max_amount = 0f;
 
+        static Coroutine gps_income_coroutine;
+
         public static void init(){
             act_ui();
+            start_gps_income_loop();
         }
 
         public static void on_val_change(){
@@ -681,6 +684,67 @@ public static class statics{
             mngr_tap.act_ui(new(){"alpha"});
             mngr_upgrs.act_ui(new(){"alpha"});
             act_ui();
+
+            if (gps_income_coroutine == null)
+                start_gps_income_loop();
+        }
+
+        public static void ensure_gps_income_loop(){
+            if (gps_income_coroutine == null)
+                start_gps_income_loop();
+        }
+
+        static void start_gps_income_loop(){
+            if (statics.logic_module == null)
+                return;
+
+            if (gps_income_coroutine != null)
+                statics.logic_module.StopCoroutine(gps_income_coroutine);
+
+            gps_income_coroutine = statics.logic_module.StartCoroutine(gps_income_loop());
+        }
+
+        static IEnumerator gps_income_loop(){
+            WaitForSeconds wait = new WaitForSeconds(1f);
+
+            while (true){
+                yield return wait;
+
+                float gps_value = statics.mngr_upgrs.gps;
+                if (gps_value <= 0f){
+                    if (urefs.balance_gain_txt_txt != null){
+                        GameObject gain_go = urefs.balance_gain_txt_txt.gameObject;
+                        if (gain_go.activeSelf)
+                            gain_go.SetActive(false);
+                    }
+                    continue;
+                }
+
+                float gps_to_display = (float)Math.Truncate(gps_value);
+                if (urefs.balance_gain_txt_txt != null){
+                    urefs.balance_gain_txt_txt.text =
+                        "+" + common_utils.f2s(gps_to_display) + " coins/sec";
+                }
+
+                GameObject gain_go_temp = urefs.balance_gain_txt_txt != null
+                    ? urefs.balance_gain_txt_txt.gameObject
+                    : null;
+
+                if (gain_go_temp != null){
+                    if (gain_go_temp.activeSelf)
+                        gain_go_temp.SetActive(false);
+                    gain_go_temp.SetActive(true);
+                }
+
+                if (urefs.balance_gain_txt_anmtr != null){
+                    yield return common_utils.wait_until_state_end(urefs.balance_gain_txt_anmtr, "appear");
+                } else {
+                    yield return null;
+                }
+
+                amount += gps_value;
+                on_val_change();
+            }
         }
 
         public static void clear_balance(){

@@ -34,12 +34,10 @@ public class logic_module : MonoBehaviour{
         statics.logic_module.StartCoroutine(save_module.init());
 
         StartCoroutine(common_utils.do_every_second());
+        statics.mngr_balance.ensure_gps_income_loop();
     }
 
-    void Update(){ 
-        statics.mngr_balance.amount += statics.mngr_upgrs.gps * Time.deltaTime;
-        statics.mngr_balance.on_val_change();
-
+    void Update(){
         statics.mngr_indicator.update(Time.deltaTime);
 
         urefs.sun_tr.Rotate(0,0, 6f * Time.deltaTime);

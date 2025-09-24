@@ -118,6 +118,7 @@ public static class urefs{
         prof_window_reset_price_text_txt,
         prof_window_reset_class_text_txt,
         balance_text_txt,
+        balance_gain_txt_txt,
         as_numbers_timer_txt,
         stats_upgrs_text_txt,
         stats_arts_text_txt,
@@ -248,7 +249,8 @@ public static class urefs{
         tap_indicator_bonus_txt_anmtr,
         tap_indicator_anmtr,
         glowing_choco_anmtr,
-        levelup_banner_anmtr;
+        levelup_banner_anmtr,
+        balance_gain_txt_anmtr;
 
     public static CanvasGroup
         prof_window_reset_bt_cg,
