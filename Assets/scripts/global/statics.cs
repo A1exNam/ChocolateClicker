@@ -2002,7 +2002,7 @@ public static class statics{
                 );
             }
 
-            urefs.levelup_banner_anmtr.Play("disappear", 0, 0f);
+            urefs.levelup_banner_anmtr.Play("disappear", 0);
 
             if (urefs.levelup_banner_anmtr.gameObject.activeInHierarchy
                 && urefs.levelup_banner_anmtr.isActiveAndEnabled){
@@ -2013,6 +2013,7 @@ public static class statics{
             }
 
             urefs.levelup_banner_go.SetActive(false);
+            urefs.levelup_banner_go.GetComponent<CanvasGroup>().alpha = 1f;
             levelup_banner_coroutine = null;
         }
     }
