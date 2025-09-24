@@ -743,9 +743,11 @@ public static class statics{
                 amount += gps_value;
                 on_val_change();
 
+                urefs.sound_asrc_as.PlayOneShot(consts.gain_gps_ac);
+
                 float gps_xp = gps_value * consts.xp_gps_fraction;
-                if (gps_xp > 0f){
-                    mngr_xp.add(gps_xp);
+                if (gps_xp > 1f){
+                    mngr_xp.add((float)Math.Truncate(gps_xp));
                     mngr_xp.act_ui();
                 }
 

@@ -401,7 +401,8 @@ public static class consts{
         reveal_bttn_from_lock_ac,
         quest_completion_ac,
         typewrite_ac,
-        gold_chocolate_ac;
+        gold_chocolate_ac,
+        gain_gps_ac;
 
     public static Color32
         active_skin_bttn_clr,

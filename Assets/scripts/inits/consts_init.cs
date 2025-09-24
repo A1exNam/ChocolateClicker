@@ -63,7 +63,8 @@ public class consts_init: MonoBehaviour{
         reveal_bttn_from_lock_ac,
         quest_completion_ac,
         typewrite_ac,
-        gold_chocolate_ac;
+        gold_chocolate_ac,
+        gain_gps_ac;
 
     public TMP_FontAsset
         kanit_semibold_font;
