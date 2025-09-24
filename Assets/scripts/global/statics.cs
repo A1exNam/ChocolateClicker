@@ -1796,7 +1796,7 @@ public static class statics{
 
             var temp1 = UnityEngine.Object.Instantiate(popup_prefab, urefs.chocolate_rt)
                 .GetComponent<tap_number_refs>();
-            temp1.txt.text = common_utils.f2s((float)Math.Truncate(number));
+            temp1.txt.text = "+" + common_utils.f2s((float)Math.Truncate(number));
             temp1.txt.color = clr;
             if (is_indicator_bonus_active && temp1.multiplier_txt != null){
                 temp1.multiplier_txt.text = "(" + common_utils.f2s(consts.tap_indicator_bonus) + "x)";
