@@ -723,7 +723,7 @@ public static class statics{
                 float gps_to_display = (float)Math.Truncate(gps_value);
                 if (urefs.balance_gain_txt_txt != null){
                     urefs.balance_gain_txt_txt.text =
-                        "+" + common_utils.f2s(gps_to_display) + " coins/sec";
+                        "+" + common_utils.f2s(gps_to_display);
                 }
 
                 GameObject gain_go_temp = urefs.balance_gain_txt_txt != null
@@ -731,8 +731,6 @@ public static class statics{
                     : null;
 
                 if (gain_go_temp != null){
-                    if (gain_go_temp.activeSelf)
-                        gain_go_temp.SetActive(false);
                     gain_go_temp.SetActive(true);
                 }
 
@@ -744,6 +742,9 @@ public static class statics{
 
                 amount += gps_value;
                 on_val_change();
+
+                yield return common_utils.wait_until_state_end(urefs.balance_gain_txt_anmtr, "disappear");
+                gain_go_temp.SetActive(false);   
             }
         }
 

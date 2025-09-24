@@ -11180,7 +11180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &694403355
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11197,9 +11197,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 97.7, y: -3.6}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 17.4, y: -4.7}
+  m_SizeDelta: {x: 158.94, y: 82.23}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!95 &694403356
 Animator:
   serializedVersion: 5
@@ -11290,7 +11290,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -18117,7 +18117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1077401229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18135,7 +18135,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -827.23, y: -127}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 83.1, y: 104.66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1077401230
 MonoBehaviour:
@@ -30409,7 +30409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1741893066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37255,9 +37255,9 @@ RectTransform:
   - {fileID: 694403355}
   m_Father: {fileID: 453307978}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -218.08, y: 427.73}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 692.90015, y: -100}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2118950931
@@ -38888,6 +38888,7 @@ MonoBehaviour:
   prof_window_reset_price_text_txt: {fileID: 1223568552}
   prof_window_reset_class_text_txt: {fileID: 2118375109}
   balance_text_txt: {fileID: 2118950931}
+  balance_gain_txt_txt: {fileID: 694403358}
   as_numbers_timer_txt: {fileID: 1160771689}
   stats_upgrs_text_txt: {fileID: 930984932}
   stats_arts_text_txt: {fileID: 1974855918}
@@ -39005,6 +39006,7 @@ MonoBehaviour:
   tap_indicator_anmtr: {fileID: 1741893067}
   glowing_choco_anmtr: {fileID: 1215760112}
   levelup_banner_anmtr: {fileID: 1825832167}
+  balance_gain_txt_anmtr: {fileID: 694403356}
   prof_window_reset_bt_cg: {fileID: 595972697}
   tempering_reward_bttn_cg: {fileID: 123556886}
   open_prof_win_bttn_cg: {fileID: 931681612}
