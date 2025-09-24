@@ -66,7 +66,8 @@ public class urefs_init : MonoBehaviour{
         as_label_to_trigger_go,
         gameover_ac_screen_go,
         tap_indicator_go,
-        glowing_choco_go;
+        glowing_choco_go,
+        levelup_banner_go;
 
     public Transform 
         arts_shop_tr, 
@@ -144,6 +145,7 @@ public class urefs_init : MonoBehaviour{
         quest_progress_desc_txt,
         quest_progress_val_txt,
         quest_reward_txt,
+        levelup_banner_reward_txt,
         tutor_click_txt,
         tutor_tap_txt,
         tutor_upgr_txt,
@@ -249,7 +251,8 @@ public class urefs_init : MonoBehaviour{
         as_label_to_trigger_anmtr,
         tap_indicator_bonus_txt_anmtr,
         tap_indicator_anmtr,
-        glowing_choco_anmtr;
+        glowing_choco_anmtr,
+        levelup_banner_anmtr;
 
     public CanvasGroup
         prof_window_reset_bt_cg,

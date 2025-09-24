@@ -21057,7 +21057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.6750474, b: 0, a: 0.6156863}
+  m_Color: {r: 0.9685534, g: 0.7236858, b: 0.21624927, a: 0.6156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -38667,6 +38667,7 @@ MonoBehaviour:
   gameover_ac_screen_go: {fileID: 532375214}
   tap_indicator_go: {fileID: 1741893065}
   glowing_choco_go: {fileID: 1215760108}
+  levelup_banner_go: {fileID: 1825832162}
   arts_shop_tr: {fileID: 826947269}
   upgrs_shop_tr: {fileID: 1603209665}
   stats_upgrs_text_tr: {fileID: 930984931}
@@ -38738,6 +38739,7 @@ MonoBehaviour:
   quest_progress_desc_txt: {fileID: 314416393}
   quest_progress_val_txt: {fileID: 651677866}
   quest_reward_txt: {fileID: 1958276596}
+  levelup_banner_reward_txt: {fileID: 170220030}
   tutor_click_txt: {fileID: 2097790541}
   tutor_tap_txt: {fileID: 65200134}
   tutor_upgr_txt: {fileID: 115019572}
@@ -38830,6 +38832,7 @@ MonoBehaviour:
   tap_indicator_bonus_txt_anmtr: {fileID: 1077401234}
   tap_indicator_anmtr: {fileID: 1741893067}
   glowing_choco_anmtr: {fileID: 1215760112}
+  levelup_banner_anmtr: {fileID: 1825832167}
   prof_window_reset_bt_cg: {fileID: 595972697}
   tempering_reward_bttn_cg: {fileID: 123556886}
   open_prof_win_bttn_cg: {fileID: 931681612}
