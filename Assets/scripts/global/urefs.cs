@@ -62,7 +62,8 @@ public static class urefs{
         as_label_to_trigger_go,
         gameover_ac_screen_go,
         tap_indicator_go,
-        glowing_choco_go;
+        glowing_choco_go,
+        levelup_banner_go;
 
     public static Transform 
         arts_shop_tr, 
@@ -245,7 +246,8 @@ public static class urefs{
         as_label_to_trigger_anmtr,
         tap_indicator_bonus_txt_anmtr,
         tap_indicator_anmtr,
-        glowing_choco_anmtr;
+        glowing_choco_anmtr,
+        levelup_banner_anmtr;
 
     public static CanvasGroup
         prof_window_reset_bt_cg,

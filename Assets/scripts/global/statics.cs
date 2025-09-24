@@ -1874,6 +1874,8 @@ public static class statics{
 
     public static class mngr_xp{
 
+        static Coroutine levelup_banner_coroutine;
+
         public static float 
             xp;
 
@@ -1946,10 +1948,11 @@ public static class statics{
 
                 urefs.sound_asrc_as.PlayOneShot(consts.lvlup_ac);
                 urefs.lvl_text_anmtr.Play("start");
+                try_show_levelup_banner();
             }
             save_module.save_lvlxp();
         }
-        
+
         public static float get_xp_to_next_lvl(){
             return (float)Math.Truncate(
                 (float)Math.Pow(consts.xp_base, lvl) * consts.xp_coef
@@ -1962,11 +1965,55 @@ public static class statics{
         }
 
         public static void act_ui(){
-            urefs.xp1_text_txt.text = 
+            urefs.xp1_text_txt.text =
                 common_utils.f2s(xp) + "/" + common_utils.f2s(get_xp_to_next_lvl());
             urefs.xp2_text_txt.text = urefs.xp1_text_txt.text;
-            urefs.xp_bar_image_im.fillAmount = xp/get_xp_to_next_lvl(); 
+            urefs.xp_bar_image_im.fillAmount = xp/get_xp_to_next_lvl();
             urefs.lvl_text_txt.text = "Level " + lvl.ToString();
+        }
+
+        static void try_show_levelup_banner(){
+            if (urefs.levelup_banner_go == null
+                || urefs.levelup_banner_anmtr == null
+                || statics.logic_module == null)
+                return;
+
+            if (levelup_banner_coroutine != null){
+                statics.logic_module.StopCoroutine(levelup_banner_coroutine);
+                levelup_banner_coroutine = null;
+            }
+
+            if (urefs.levelup_banner_go.activeSelf)
+                urefs.levelup_banner_go.SetActive(false);
+
+            levelup_banner_coroutine =
+                statics.logic_module.StartCoroutine(show_levelup_banner());
+        }
+
+        static IEnumerator show_levelup_banner(){
+            urefs.levelup_banner_go.SetActive(true);
+            urefs.levelup_banner_anmtr.Play("appear", 0, 0f);
+
+            if (urefs.levelup_banner_anmtr.gameObject.activeInHierarchy
+                && urefs.levelup_banner_anmtr.isActiveAndEnabled){
+                yield return common_utils.wait_until_state_end(
+                    urefs.levelup_banner_anmtr,
+                    "appear"
+                );
+            }
+
+            urefs.levelup_banner_anmtr.Play("disappear", 0, 0f);
+
+            if (urefs.levelup_banner_anmtr.gameObject.activeInHierarchy
+                && urefs.levelup_banner_anmtr.isActiveAndEnabled){
+                yield return common_utils.wait_until_state_end(
+                    urefs.levelup_banner_anmtr,
+                    "disappear"
+                );
+            }
+
+            urefs.levelup_banner_go.SetActive(false);
+            levelup_banner_coroutine = null;
         }
     }
 
