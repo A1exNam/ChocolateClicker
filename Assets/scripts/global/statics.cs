@@ -1972,7 +1972,23 @@ public static class statics{
             urefs.lvl_text_txt.text = "Level " + lvl.ToString();
         }
 
+        static float get_levelup_reward(){
+            float tap_reward = consts.lvlup_reward_tap_mult * mngr_tap.f_tap;
+            float gps_reward = consts.lvlup_reward_gps_mult * mngr_upgrs.gps;
+            return (float)Math.Truncate(tap_reward + gps_reward);
+        }
+
         static void try_show_levelup_banner(){
+            float reward = get_levelup_reward();
+            if (reward > 0f){
+                mngr_balance.amount += reward;
+                mngr_balance.on_val_change();
+            }
+
+            if (urefs.levelup_banner_reward_txt != null){
+                urefs.levelup_banner_reward_txt.text = "+" + common_utils.f2s(reward);
+            }
+
             if (urefs.levelup_banner_go == null
                 || urefs.levelup_banner_anmtr == null
                 || statics.logic_module == null)

@@ -141,6 +141,7 @@ public static class urefs{
         quest_progress_desc_txt,
         quest_progress_val_txt,
         quest_reward_txt,
+        levelup_banner_reward_txt,
         tutor_click_txt,
         tutor_tap_txt,
         tutor_upgr_txt,
