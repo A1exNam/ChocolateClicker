@@ -3,8 +3,6 @@ using CrazyGames;
 using System;
 using UnityEngine;
 using System.Collections;
-using System.Linq;
-
 public static class save_module{
     public static bool 
         is_saves_restored = false,
@@ -69,10 +67,6 @@ public static class save_module{
             }
         }
 
-        if (CrazySDK.Data.HasKey("as_tutor")){
-            statics.mngr_tutor.is_shown_tutor_as = 
-                CrazySDK.Data.GetInt("as_tutor") != 0;
-        }
     }
 
     //call strictly after restore_lvlxp
@@ -198,11 +192,6 @@ public static class save_module{
             statics.mngr_prof.change_params_for_ps(old_prof_nm);
             statics.mngr_prof.change_params_for_ps(statics.mngr_prof.cur_prof_nm);
             statics.mngr_prof.act_ui(new(){"win_bttn", "prof_w", "reset", "bttn_reset_alpha"});
-        }
-        if (CrazySDK.Data.HasKey("as_activated_or_cd")){
-            if (CrazySDK.Data.GetInt("as_activated_or_cd") == 1){
-                statics.logic_module.StartCoroutine(statics.mngr_prof.start_cd());
-            }
         }
     }
     
@@ -361,14 +350,6 @@ public static class save_module{
         }
     }
 
-    public static void save_as_tutor(){
-        if (!is_all_keys_deleted && is_saves_restored){
-            int res = statics.mngr_tutor.is_shown_tutor_as ? 1 : 0;
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt("as_tutor", res);
-        }
-    }
-
     public static void save_art(art a){
         if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(a.lvl))
@@ -401,14 +382,6 @@ public static class save_module{
         if (!is_all_keys_deleted && is_saves_restored){
             if (common_utils.is_valid(urefs.music_slider_sl.value))
                 CrazySDK.Data.SetFloat("music_vol", urefs.music_slider_sl.value);
-        }
-    }
-
-    public static void save_as_status(){
-        if (!is_all_keys_deleted && is_saves_restored){
-            int res = statics.mngr_prof.as_activated || statics.mngr_prof.is_cd ? 1 : 0;
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt("as_activated_or_cd", res);
         }
     }
 

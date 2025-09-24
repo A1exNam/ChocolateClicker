@@ -66,9 +66,6 @@ public static class recalcs{
         switch (statics.mngr_prof.cur_prof_nm){
             case "Chocolate Industrialist":
                 statics.mngr_upgrs.gps_m *= 1 + statics.mngr_prof.get_fval_ps()[0];
-                if (statics.mngr_prof.as_activated) {
-                    statics.mngr_upgrs.gps_m *= 1 + statics.mngr_prof.get_fval_as()[0]; 
-                }
                 break;
             case "Manufacturer":
                 int opened_u = 0;
@@ -77,19 +74,8 @@ public static class recalcs{
                         opened_u++;
                     }
                 }
-                statics.mngr_upgrs.gps_m *= 1 + statics.mngr_prof.get_fval_ps()[0] 
+                statics.mngr_upgrs.gps_m *= 1 + statics.mngr_prof.get_fval_ps()[0]
                     * opened_u;
-                if (statics.mngr_prof.as_activated) {
-                    statics.mngr_upgrs.gps_m *= statics.mngr_prof.get_fval_as()[0]; 
-                }
-                break;
-            case "Combo Master":
-                if (statics.mngr_prof.as_activated) {
-                    statics.mngr_upgrs.gps_m *= (float)Math.Pow(
-                        statics.mngr_prof.get_fval_as()[0], 
-                        statics.mngr_tap.click_cnt_while_as
-                    ); 
-                }
                 break;
         }
         if (statics.mngr_arts.opened_arts_dict.TryGetValue("Bar of Wealth", out var art1)){
@@ -114,9 +100,6 @@ public static class recalcs{
                 break;
             case "Chocolate Crusher":
                 statics.mngr_tap.crit_ch += temp1[0];
-                if (statics.mngr_prof.as_activated){
-                    statics.mngr_tap.crit_ch += statics.mngr_prof.get_fval_as()[0];
-                }
                 break;
         }
         if (statics.mngr_arts.opened_arts_dict.TryGetValue("Critical Chocoarrow", out var art1)){
@@ -148,9 +131,6 @@ public static class recalcs{
 
     public static void recalc_tap_m(){
         statics.mngr_tap.tap_m = 1f;
-        if (statics.mngr_prof.cur_prof_nm == "Chocolate Enthusiast" && statics.mngr_prof.as_activated){
-            statics.mngr_tap.tap_m *= 1 + statics.mngr_prof.get_fval_as()[0];
-        }
         if (statics.mngr_arts.opened_arts_dict.TryGetValue("Sweetie Hand", out var art1)){
             statics.mngr_tap.tap_m *= art1.str;
         }
@@ -165,16 +145,8 @@ public static class recalcs{
     }
 
     public static void recalc_cost_m(){
-        statics.mngr_upgrs.cost_m = 1f; 
-        if (statics.mngr_prof.cur_prof_nm == "Economist"){
-            if (statics.mngr_prof.as_activated){
-                statics.mngr_upgrs.cost_m *= (float)Math.Pow(
-                    statics.mngr_prof.get_fval_as()[0],
-                    statics.mngr_tap.click_cnt_while_as
-                );
-            }
-        }
-        
+        statics.mngr_upgrs.cost_m = 1f;
+
         recalc_upgrs_f_price(statics.mngr_upgrs.upgrs_list);
     }
 

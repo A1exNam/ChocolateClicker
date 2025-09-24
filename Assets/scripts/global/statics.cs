@@ -202,11 +202,8 @@ public static class statics{
         public static Dictionary<string, (GameObject go, button_custom_class bcc, Animator anmtr, TextMeshProUGUI txt)> tutor_go_bcc_dict;
         public static Dictionary<string, int> tutor_state_dict = new();
 
-        public static Dictionary<string, bool> 
+        public static Dictionary<string, bool>
             is_opened_dict = new(); //bttns
-
-        public static bool 
-            is_shown_tutor_as = false; //txt + circle
 
         public static void init(){
             bttn_tutor_dict_collection = new(){
@@ -873,10 +870,6 @@ public static class statics{
     public static class mngr_prof{
         public static string
             cur_prof_nm;
-        public static bool 
-            as_activated = false,
-            is_cd = false;
-
         public static void init(){
             //пересчет параметров не производится
             cur_prof_nm = consts.start_prof_nm;
@@ -892,31 +885,6 @@ public static class statics{
                 () => logic_module.StartCoroutine(try_reset_prof())
             );
 
-            // urefs.as_bt_bcc.on_down.AddListener(
-            //     () => {
-            //         if (!mngr_prof.as_activated && !mngr_prof.is_cd){
-            //             urefs.as_bt_anmtr.Play("make_smaller");
-            //         }
-            //     }
-            // );
-            // urefs.as_bt_bcc.on_up.AddListener(
-            //     () => {
-            //         if (!mngr_prof.as_activated && !mngr_prof.is_cd){
-            //             urefs.as_bt_anmtr.Play("make_normal_from_smaller");
-            //         }
-            //     }
-            // );
-            urefs.as_bt_bcc.on_click.AddListener(
-                () => {
-                    if (mngr_prof.cur_prof_nm == "Novice" || mngr_prof.is_cd || mngr_prof.as_activated){
-                        mngr_tap.try_buy();
-                    } else {
-                        if (!mngr_prof.as_activated && !mngr_prof.is_cd){
-                            logic_module.StartCoroutine(try_activate_as());
-                        }
-                    }
-                }
-            );
             urefs.prof_window_l_bcc.on_enter.AddListener(
                 () => {urefs.prof_window_l_im.color = consts.prof_entered_clr;}
             );
@@ -955,7 +923,7 @@ public static class statics{
         public static IEnumerator try_reset_prof(){
             int reset_price_temp = 
                 consts.prof_grade_lvl_mapping[consts.profs_data[cur_prof_nm].grade].reset_price;
-            if (!as_activated && !is_cd && statics.mngr_diamonds.amount >= reset_price_temp){
+            if (statics.mngr_diamonds.amount >= reset_price_temp){
                 statics.mngr_diamonds.amount -= reset_price_temp;
                 statics.mngr_diamonds.on_val_change();
 
@@ -979,11 +947,6 @@ public static class statics{
                 );
                 urefs.prof_change_flash_go.SetActive(false);
 
-                if (urefs.tutor_as_go.activeSelf || urefs.tutor_label_as_go.activeSelf){
-                    urefs.tutor_as_go.SetActive(false);
-                    urefs.tutor_label_as_go.SetActive(false);
-                }
-
                 save_module.save_prof();
             } else {
                 urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
@@ -992,8 +955,8 @@ public static class statics{
 
         public static IEnumerator try_up_prof(string target_prof_nm){
             var temp = consts.profs_data[cur_prof_nm];
-            if (!as_activated && !is_cd && temp.grade < consts.prof_grade_lvl_mapping.Keys.Max() 
-            && mngr_xp.max_lvl >= consts.prof_grade_lvl_mapping[temp.grade + 1].lvl){ 
+            if (temp.grade < consts.prof_grade_lvl_mapping.Keys.Max()
+            && mngr_xp.max_lvl >= consts.prof_grade_lvl_mapping[temp.grade + 1].lvl){
                 mngr_tutor.try_close_tutor("tutor_prof");
 
                 urefs.prof_change_flash_go.SetActive(true); //Start Anim Flash
@@ -1007,14 +970,8 @@ public static class statics{
                 change_params_for_ps(old_prof_nm);
                 change_params_for_ps(cur_prof_nm);
                 act_ui(new(){"win_bttn", "prof_w", "reset", "bttn_reset_alpha"});
-                if (!mngr_tutor.is_shown_tutor_as){
-                    urefs.tutor_as_go.SetActive(true);
-                    urefs.tutor_label_as_go.SetActive(true);
-                    mngr_tutor.is_shown_tutor_as = true;
-                    save_module.save_as_tutor();
-                }
                 yield return common_utils.wait_until_state_end(
-                    urefs.prof_change_flash_anmtr, 
+                    urefs.prof_change_flash_anmtr,
                     "end_flash"
                 );
                 urefs.prof_change_flash_go.SetActive(false);
@@ -1045,36 +1002,6 @@ public static class statics{
             return res;
         }
 
-        public static List<float> get_fval_as(string prof_nm = null){
-            prof_nm ??= cur_prof_nm;
-            List<(string, float)> temp = consts.profs_data[prof_nm].val_as;
-            List<float> res = new();
-            foreach (var (format, value) in temp){
-                float temp1 = value;
-                switch (format){
-                    case "f":
-                    case "a1":
-                    case "p":
-                        if (statics.mngr_arts.opened_arts_dict.TryGetValue("Chococharger", out var art1)){
-                            temp1 *= art1.str;
-                        }
-                        break;
-                    case "d":
-                        if (statics.mngr_arts.opened_arts_dict.TryGetValue("Chocoextender", out var art2)){
-                            temp1 *= art2.str;
-                        }
-                        break;
-                    case "o":
-                        if (statics.mngr_arts.opened_arts_dict.TryGetValue("Chococharger", out var art3)){
-                            temp1 = (float)Math.Pow(temp1, Math.Pow(art3.str, 1/consts.o_art_damping_power));
-                        }
-                        break;
-                }
-                res.Add(temp1);
-            }
-            return res;
-        }
-
         public static List<float> get_fval_ps_ui(string prof_nm){
             List<float> res = new();
             List<float> temp1 = get_fval_ps(prof_nm);
@@ -1082,22 +1009,6 @@ public static class statics{
             string temp3;
             for (int i=0; i<temp1.Count; i++){
                 temp3 = consts.profs_data[prof_nm].val_ps[i].format;
-                temp2 = temp1[i];
-                if (temp3 == "f" || temp3 == "p"){
-                    temp2 *= 100;
-                }
-                res.Add(temp2);
-            }
-            return res;
-        }
-
-        public static List<float> get_fval_as_ui(string prof_nm){
-            List<float> res = new();
-            List<float> temp1 = get_fval_as(prof_nm);
-            float temp2;
-            string temp3;
-            for(int i=0; i<temp1.Count; i++){
-                temp3 = consts.profs_data[prof_nm].val_as[i].format;
                 temp2 = temp1[i];
                 if (temp3 == "f" || temp3 == "p"){
                     temp2 *= 100;
@@ -1147,21 +1058,8 @@ public static class statics{
                     urefs.prof_window_l_desc_text_txt.text = temp1.title;
                     urefs.prof_window_r_desc_text_txt.text = temp2.title;                    
 
-                    urefs.prof_window_l_desc_as_text_txt.text =
-                        string.Format(
-                            temp1.as_desc, 
-                            common_utils.f2s(
-                                get_fval_as_ui(temp.childs.l)
-                            ).Cast<object>().ToArray()
-                        );
-                    urefs.prof_window_r_desc_as_text_txt.text =
-                        string.Format(temp2.as_desc, 
-                            common_utils.f2s(
-                                get_fval_as_ui(temp.childs.r)
-                            ).Cast<object>().ToArray()
-                        );
                     urefs.prof_window_l_desc_ps_text_txt.text =
-                        string.Format(temp1.ps_desc, 
+                        string.Format(temp1.ps_desc,
                             common_utils.f2s(
                                 get_fval_ps_ui(temp.childs.l)
                             ).Cast<object>().ToArray()
@@ -1182,14 +1080,8 @@ public static class statics{
                 } else {
                     urefs.prof_window_cur_nm_txt.text = cur_prof_nm;
                     urefs.prof_window_cur_desc_text_txt.text = temp.title;
-                    urefs.prof_window_cur_desc_as_text_txt.text =
-                        string.Format(temp.as_desc, 
-                            common_utils.f2s(
-                                get_fval_as_ui(cur_prof_nm)
-                            ).Cast<object>().ToArray()
-                        );
                     urefs.prof_window_cur_desc_ps_text_txt.text =
-                        string.Format(temp.ps_desc, 
+                        string.Format(temp.ps_desc,
                             common_utils.f2s(
                                 get_fval_ps_ui(cur_prof_nm)
                             ).Cast<object>().ToArray()
@@ -1220,100 +1112,6 @@ public static class statics{
                         urefs.prof_window_reset_bt_cg.alpha = 1f;
                     }
                 }
-            }
-        }
-
-        public static IEnumerator start_as_timer(){
-            float duration = get_fval_as()[1];
-            float elapsedTime = 0f;
-            urefs.as_circle_timer_go.SetActive(true);
-            urefs.as_numbers_timer_go.SetActive(true);
-            while (elapsedTime < duration){
-                float rem = duration - elapsedTime;
-                int minutes = (int)(rem / 60);
-                int seconds = (int)(rem % 60);
-                elapsedTime += Time.deltaTime;
-                urefs.as_numbers_timer_txt.text = 
-                    minutes.ToString("D2") + ":" + seconds.ToString("D2");
-                yield return null;
-            }
-            urefs.as_circle_timer_go.SetActive(false);
-            urefs.as_numbers_timer_go.SetActive(false);
-        }
-
-        public static IEnumerator start_as_cd_timer(){
-            float elapsedTime = 0f;
-            float dur = consts.as_cd;
-            urefs.as_circle_timer_go.SetActive(true);
-            while (elapsedTime < dur){
-                elapsedTime += Time.deltaTime;
-                urefs.as_circle_timer_im.fillAmount = 1 - elapsedTime/dur;
-                yield return null;
-            }
-            urefs.as_circle_timer_im.fillAmount = 1;
-            urefs.as_circle_timer_go.SetActive(false);
-        }
-
-        public static IEnumerator try_activate_as(){
-            if (consts.profs_data[cur_prof_nm].grade != 0){
-                logic_module.StartCoroutine(show_as_label());
-                urefs.sound_asrc_as.PlayOneShot(consts.active_skill_ac);
-                if (urefs.tutor_as_go.activeSelf){
-                    urefs.tutor_as_go.SetActive(false);
-                    urefs.tutor_label_as_go.SetActive(false);
-                }
-                as_activated = true;
-                save_module.save_as_status();
-                change_params_for_as();
-                yield return start_as_timer();
-                as_activated = false;
-                save_module.save_as_status();
-                change_params_for_as();
-                statics.mngr_tap.click_cnt_while_as = 0;
-                yield return start_cd();
-            }
-        }
-
-        public static IEnumerator show_as_label(){
-            urefs.as_label_to_trigger_go.SetActive(true);
-            //yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr, "appear", 1);
-            urefs.as_label_to_trigger_anmtr.Play("inc-dec", 0);
-            yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr,"inc-dec", 0);
-            urefs.as_label_to_trigger_anmtr.Play("disappear", 1);
-            yield return common_utils.wait_until_state_end(urefs.as_label_to_trigger_anmtr,"disappear", 1);
-            urefs.as_label_to_trigger_go.SetActive(false);
-        }
-
-        public static IEnumerator start_cd(){
-            is_cd = true;
-            save_module.save_as_status();
-            yield return start_as_cd_timer();
-            is_cd = false;
-            save_module.save_as_status();
-        }
-
-        public static void change_params_for_as(){
-            switch (cur_prof_nm){
-                case "Novice":
-                    break;
-                case "Chocolate Industrialist":
-                    recalcs.recalc_gps_m();
-                    break;
-                case "Chocolate Enthusiast":
-                    recalcs.recalc_tap_m();
-                    break;
-                case "Manufacturer":
-                    recalcs.recalc_gps_m();
-                    break;
-                case "Economist":
-                    recalcs.recalc_cost_m(); //нужно только в случае деактивации активного навыка
-                    break;
-                case "Combo Master":
-                    recalcs.recalc_gps_m(); //нужно только в случае деактивации активного навыка
-                    break;
-                case "Chocolate Crusher":
-                    recalcs.recalc_crit_ch();
-                    break;
             }
         }
 
@@ -1732,9 +1530,8 @@ public static class statics{
     }
 
     public static class mngr_tap{
-        public static int 
+        public static int
             lvl,
-            click_cnt_while_as = 0, //для combo master/economist
             combo_click_cnt = 0; //для combo master
 
         public static float 
@@ -1892,9 +1689,6 @@ public static class statics{
             }
             float temp1 = f_tap;
             Color32 tap_clr = consts.default_tap_clr;
-            if (mngr_prof.as_activated) {
-                click_cnt_while_as++;
-            }
             if (UnityEngine.Random.value < crit_ch){
                 tap_clr = consts.crit_tap_clr;
                 temp1 = f_tap * crit_m;
@@ -1903,16 +1697,9 @@ public static class statics{
                 combo_click_cnt++;
                 var temp2 = statics.mngr_prof.get_fval_ps();
                 if (combo_click_cnt == temp2[0]){
-                    temp1 = UnityEngine.Random.Range((int)temp2[1], (int)temp2[2] + 1) * f_tap; 
+                    temp1 = UnityEngine.Random.Range((int)temp2[1], (int)temp2[2] + 1) * f_tap;
                     combo_click_cnt = 0;
                     tap_clr = consts.combo_tap_clr;
-                }
-                if (statics.mngr_prof.as_activated){
-                    recalcs.recalc_gps_m();
-                }
-            } else if (statics.mngr_prof.cur_prof_nm == "Economist"){
-                if (statics.mngr_prof.as_activated){
-                    recalcs.recalc_cost_m();
                 }
             }
             temp1 *= indicator_multiplier;
@@ -2468,12 +2255,6 @@ public static class statics{
                     break;
                 case "Smooth Gear":
                     mngr_prof.change_params_for_ps();
-                    mngr_prof.act_ui(new(){"prof_w"});
-                    break;
-                case "Chocoextender":
-                    mngr_prof.act_ui(new(){"prof_w"});
-                    break;
-                case "Chococharger":
                     mngr_prof.act_ui(new(){"prof_w"});
                     break;
                 case "Fortune Crystal":

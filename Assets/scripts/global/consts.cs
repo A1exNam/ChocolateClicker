@@ -76,9 +76,6 @@ public static class consts{
         tap_indicator_bonus_shake_angle = 5f,
         tap_indicator_bonus_shake_speed = 18f,
 
-        //active skill
-        as_cd = 30f,
-
         //upgrs
         upgrs_price_coef = 1.8f,
         upgrs_gain_coef = 1.3f,
@@ -204,12 +201,10 @@ public static class consts{
     );
 
     public static Dictionary<string, (
-        string title, 
-        string ps_desc, 
-        string as_desc, 
-        (string l, string r) childs, 
-        List<(string format, float val)> val_ps, 
-        List<(string format, float val)> val_as,
+        string title,
+        string ps_desc,
+        (string l, string r) childs,
+        List<(string format, float val)> val_ps,
         int grade
     )> profs_data = new(){
         //f - fraction/доля
@@ -220,65 +215,51 @@ public static class consts{
         //o - other
         {"Novice", (
             "Produce with every chocolate click!",
-            "No passive skill, you're a Novice!", 
-            "Level up to get better grade profession!", 
+            "No passive skill, you're a Novice!",
             ("Chocolate Industrialist", "Chocolate Enthusiast"),
-            new(), 
-            new(), 
+            new(),
             0
         )},
         {"Chocolate Industrialist", (
             "Increases base chocolate production",
             "Chocolate per Second increases by {0}%",
-            "For {1} seconds Chocolate per Second increases by {0}%",
             ("Manufacturer", "Economist"),
             new(){("f", 0.2f)},
-            new(){("f", 0.35f), ("d", 10f)},
             1
         )},
         {"Chocolate Enthusiast", (
             "Enhances click efficiency and critical hits",
             "+{0}% chance for a critical click",
-            "For {1} seconds taps get {0}% more chocolate",
             ("Combo Master", "Chocolate Crusher"),
             new(){("p", 0.05f)},
-            new(){("f", 0.2f), ("d", 10f)},
             1
         )},
         {"Manufacturer", (
             "Increases production on a permanent basis",
             "+{0}% Chocolate per Second for each opened upgrade",
-            "x{0} Chocolate per Second for {1} seconds",
             (null, null),
             new(){("f", 0.2f)},
-            new(){("a1", 3f), ("d", 15f)},
             2
         )},
         {"Economist", (
             "Improves purchase efficiency",
             "{0}% chance to immediately upgrade an item by {1} levels upon purchase",
-            "For {1} seconds each tap reduces the cost of all upgrades by x{0}",
             (null, null),
             new(){("p", 0.2f), ("a0", 2f)},
-            new(){("o", 0.99f), ("d", 15f)},
             2
         )},
         {"Combo Master", (
             "Boosts bonuses for click combos",
             "Every {0}th click yields x{1} - x{2} the usual tap chocolate",
-            "For {1} seconds each click increases total chocolate production by x{0}",
             (null, null),
             new(){("a0", 10f), ("a1", 10f), ("a1", 30f)},
-            new(){("o", 1.025f), ("d", 15f)},
             2
         )},
         {"Chocolate Crusher", (
             "Strengthens critical clicks and increases their activation chances",
             "+{0}% Critical Chance. Critical clicks yield x{1} chocolate",
-            "For {1} seconds critical click chance increases by {0}%",
             (null, null),
             new(){("p", 0.25f), ("a1", 3f)},
-            new(){("f", 0.5f), ("d", 15f)},
             2
         )}
     };
@@ -292,8 +273,6 @@ public static class consts{
         {"Cacao Multiplier", (1.15f, "m", -1, 1f, "x{0} Cacao Beans")},
         {"Critical Chocoarrow", (0.05f, "p", 10, 0f, "+{0}% Critical Chance")},
         {"Smooth Gear", (1.3f, "m", -1, 1f, "x{0} Passive Skill Efficiency")},
-        {"Chocoextender", (1.2f, "m", -1, 1f, "x{0} Active Skill Duration")},
-        {"Chococharger", (1.2f, "m", -1, 1f, "x{0} Active Skill Efficiency")},
         {"Fortune Crystal", (0.001f, "p", 10, 0f, "+{0}% Diamond Chance on Tap")},
         {"Caramel Essence", (0.01f, "p", 15, 0f, "+{0}% Tap Chocolate From Upgrades")},
     };
@@ -390,9 +369,8 @@ public static class consts{
         lvlup_ac,
         open_u_ac, 
         ach_reward_ac, 
-        tempering_ac, 
-        close_win_ac, 
-        active_skill_ac, 
+        tempering_ac,
+        close_win_ac,
         change_ac,
         click_ac,
         open_win_ac,
