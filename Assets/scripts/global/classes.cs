@@ -258,6 +258,12 @@ public class upgr{
             statics.mngr_balance.amount -= price_real;
             statics.mngr_balance.on_val_change();
 
+            float xp_reward = price_old_temp * consts.xp_purchase_fraction;
+            if (xp_reward > 0f){
+                statics.mngr_xp.add(xp_reward);
+                statics.mngr_xp.act_ui();
+            }
+
             urefs.sound_asrc_as.PlayOneShot(consts.currency);
             statics.mngr_tutor.try_close_tutor("tutor_upgr");
             save_module.save_upgr(this);

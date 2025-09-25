@@ -58,6 +58,7 @@ public static class consts{
         xp_gps_fraction = 0.2f,
         lvlup_reward_tap_mult = 15f,
         lvlup_reward_gps_mult = 20f,
+        xp_purchase_fraction = 0.1f,
 
         //tap
         st_tap_price = 30f,

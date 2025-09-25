@@ -1665,6 +1665,12 @@ public static class statics{
                 statics.mngr_balance.amount -= price_old_temp;
                 statics.mngr_balance.on_val_change();
 
+                float xp_reward = price_old_temp * consts.xp_purchase_fraction;
+                if (xp_reward > 0f){
+                    mngr_xp.add(xp_reward);
+                    mngr_xp.act_ui();
+                }
+
                 save_module.save_tap();
 
                 mngr_tutor.try_close_tutor("tutor_tap");
