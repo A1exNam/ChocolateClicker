@@ -262,7 +262,7 @@ public static class statics{
 
 		public static void try_show_tutor(string tutor_nm){
 			if (tutor_state_dict[tutor_nm] == 0){
-                urefs.music_asrc_as.volume *= consts.music_val_dec_while_tutor;
+                mngr_settings.apply_tutor_music_duck();
 				tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
                 if (tutor_go_bcc_dict[tutor_nm].txt)
                     logic_module.StartCoroutine(
@@ -297,7 +297,7 @@ public static class statics{
             }
 
             if (at_least_one_closed)
-                urefs.music_asrc_as.volume /= consts.music_val_dec_while_tutor;
+                mngr_settings.release_tutor_music_duck();
         }
 
         public static IEnumerator deact_tutor_after_delay(string tutor_nm){
@@ -1988,6 +1988,13 @@ public static class statics{
     }
 
     public static class mngr_settings{
+        private static float _musicBaseVolume;
+        private static float _musicDuckMultiplier = 1f;
+        private static int _tutorDuckRequests;
+
+        private static float music_target_volume =>
+            Mathf.Clamp01(_musicBaseVolume * _musicDuckMultiplier);
+
         public static void init(){
             urefs.sound_slider_sl.onValueChanged.AddListener(sound_sl_upd);
             urefs.music_slider_sl.onValueChanged.AddListener(music_sl_upd);
@@ -2002,7 +2009,15 @@ public static class statics{
                 urefs.sound_loop_asrc_as.priority = consts.sound_loop_priority;
             }
 
-            urefs.music_asrc_as.volume = consts.dec_music_vol_coef;
+            _musicDuckMultiplier = 1f;
+            _tutorDuckRequests = 0;
+            urefs.music_asrc_as.ignoreListenerVolume = true;
+            urefs.music_asrc_as.bypassEffects = true;
+            urefs.music_asrc_as.bypassListenerEffects = true;
+            urefs.music_asrc_as.bypassReverbZones = true;
+
+            _musicBaseVolume = urefs.music_slider_sl.value * consts.dec_music_vol_coef;
+            apply_music_volume();
         }
 
         public static void open_win(){
@@ -2023,8 +2038,37 @@ public static class statics{
         //for bind
         public static void music_sl_upd(float val){
             urefs.music_text_txt.text = ((int)(val*100)).ToString();
-            urefs.music_asrc_as.volume = val * consts.dec_music_vol_coef;
+            _musicBaseVolume = val * consts.dec_music_vol_coef;
+            apply_music_volume();
             save_module.save_music_vol();
+        }
+
+        public static void apply_tutor_music_duck(){
+            if (_tutorDuckRequests == 0){
+                _musicDuckMultiplier *= consts.music_val_dec_while_tutor;
+                apply_music_volume();
+            }
+
+            _tutorDuckRequests++;
+        }
+
+        public static void release_tutor_music_duck(){
+            if (_tutorDuckRequests == 0)
+                return;
+
+            _tutorDuckRequests--;
+            if (_tutorDuckRequests == 0){
+                _musicDuckMultiplier /= consts.music_val_dec_while_tutor;
+                apply_music_volume();
+            }
+        }
+
+        public static void refresh_music_volume(){
+            apply_music_volume();
+        }
+
+        private static void apply_music_volume(){
+            urefs.music_asrc_as.volume = music_target_volume;
         }
 
         public static void open_changelog_win(){
