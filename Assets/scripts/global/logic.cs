@@ -39,6 +39,7 @@ public class logic_module : MonoBehaviour{
 
     void Update(){
         statics.mngr_indicator.update(Time.deltaTime);
+        statics.mngr_settings.tick();
 
         urefs.sun_tr.Rotate(0,0, 6f * Time.deltaTime);
     }

@@ -1991,6 +1991,7 @@ public static class statics{
         private static float _musicBaseVolume;
         private static float _musicDuckMultiplier = 1f;
         private static int _tutorDuckRequests;
+        private static bool _musicVolumeGuardReady;
 
         private static float music_target_volume =>
             Mathf.Clamp01(_musicBaseVolume * _musicDuckMultiplier);
@@ -2018,6 +2019,7 @@ public static class statics{
 
             _musicBaseVolume = urefs.music_slider_sl.value * consts.dec_music_vol_coef;
             apply_music_volume();
+            _musicVolumeGuardReady = true;
         }
 
         public static void open_win(){
@@ -2065,6 +2067,16 @@ public static class statics{
 
         public static void refresh_music_volume(){
             apply_music_volume();
+        }
+
+        public static void tick(){
+            if (!_musicVolumeGuardReady || urefs.music_asrc_as == null
+                || !urefs.music_asrc_as.enabled)
+                return;
+
+            if (!Mathf.Approximately(urefs.music_asrc_as.volume, music_target_volume)){
+                apply_music_volume();
+            }
         }
 
         private static void apply_music_volume(){
