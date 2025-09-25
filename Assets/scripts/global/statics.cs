@@ -449,9 +449,22 @@ public static class statics{
     }
 
     public static class mngr_tempering{
-        public static float 
+        public static float
             cb_reward_amount_f,
             cb_reward_m;
+
+        static float calc_reward_for_lvl(int lvl){
+            if (lvl < consts.min_temper_lvl){
+                return 0f;
+            }
+            return (float)Math.Truncate(
+                (float)Math.Pow(
+                    consts.tempering_base_reward,
+                    lvl - consts.min_temper_lvl + 1
+                )
+                * cb_reward_m
+            );
+        }
 
         public static void init(){
             urefs.open_temper_win_bcc.on_click.AddListener(open_win);
@@ -482,9 +495,13 @@ public static class statics{
                 act_amount = modes.Contains("amount"),
                 act_bttn_alpha = modes.Contains("bttn_alpha");
             
-            if (act_amount){     
-                urefs.tempering_cb_cnt_txt.text = "+" 
+            if (act_amount){
+                urefs.tempering_cb_cnt_txt.text = "+"
                     + common_utils.f2s(cb_reward_amount_f);
+                var next_lvl_reward = calc_reward_for_lvl(mngr_xp.lvl + 1);
+                var diff_with_next_lvl = next_lvl_reward - cb_reward_amount_f;
+                urefs.forecast_cb_txt.text = "(+" + common_utils.f2s(diff_with_next_lvl)
+                    + " cacao beans more next level!)";
             }
             if (act_bttn_alpha){
                 if (mngr_xp.lvl < consts.min_temper_lvl){
