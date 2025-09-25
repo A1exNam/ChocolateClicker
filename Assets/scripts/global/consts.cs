@@ -42,11 +42,11 @@ public static class consts{
         x2_cf_crd,
         y_cf_crd,
         cf_speed = 1900f,
-        cf_min_size = 0.7f,
+        cf_min_size = 0.8f,
         cf_max_size = 1f,
         cf_sample_lifetime,
-        cf_spawn_interval = 0.12f,
-        cf_min_alpha = 0.5f,
+        cf_spawn_interval = 0.09f,
+        cf_min_alpha = 0.7f,
 
         //discover
         discover_price_base = 2f,
