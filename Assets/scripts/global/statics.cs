@@ -857,8 +857,9 @@ public static class statics{
             if (behaviour == null)
                 behaviour = go.AddComponent<golden_chocolate_behaviour>();
 
-            float half_width = rect.rect.width * rect.localScale.x / 2f;
-            float half_height = rect.rect.height * rect.localScale.y / 2f;
+            float half_width = rect.rect.width * rect.localScale.x * 0.5f;
+            float half_height = rect.rect.height * rect.localScale.y * 0.5f;
+            float half_diagonal = Mathf.Sqrt(half_width * half_width + half_height * half_height);
 
             float left_edge = -parent_rect.rect.width * parent_rect.pivot.x;
             float right_edge = parent_rect.rect.width * (1f - parent_rect.pivot.x);
@@ -866,8 +867,8 @@ public static class statics{
             float top_edge = parent_rect.rect.height * (1f - parent_rect.pivot.y);
 
             float spawn_x = left_edge - half_width;
-            float min_y = bottom_edge + half_height;
-            float max_y = top_edge - half_height;
+            float min_y = bottom_edge + half_diagonal;
+            float max_y = top_edge - half_diagonal;
             float spawn_y = (max_y > min_y)
                 ? UnityEngine.Random.Range(min_y, max_y)
                 : (min_y + max_y) * 0.5f;
