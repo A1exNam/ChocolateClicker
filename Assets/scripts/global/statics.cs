@@ -1996,8 +1996,14 @@ public static class statics{
 
             urefs.open_changelog_w_bcc.on_click.AddListener(open_changelog_win);
 
+            urefs.music_asrc_as.priority = consts.music_priority;
+            urefs.sound_asrc_as.priority = consts.sound_priority;
+            if (urefs.sound_loop_asrc_as != null){
+                urefs.sound_loop_asrc_as.priority = consts.sound_loop_priority;
+            }
+
             urefs.music_asrc_as.volume = consts.dec_music_vol_coef;
-        }   
+        }
 
         public static void open_win(){
             mngr_tutor.try_close_tutor("tutor_diamonds");

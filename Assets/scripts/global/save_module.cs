@@ -176,7 +176,7 @@ public static class save_module{
         if (CrazySDK.Data.HasKey("sound_vol")){
             urefs.sound_slider_sl.value = CrazySDK.Data.GetFloat("sound_vol");
             urefs.sound_text_txt.text = ((int)(urefs.sound_slider_sl.value * 100)).ToString();
-            urefs.music_asrc_as.volume = urefs.sound_slider_sl.value;
+            urefs.sound_asrc_as.volume = urefs.sound_slider_sl.value;
         }
         if (CrazySDK.Data.HasKey("music_vol")){
             urefs.music_slider_sl.value = CrazySDK.Data.GetFloat("music_vol");

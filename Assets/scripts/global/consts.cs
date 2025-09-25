@@ -153,7 +153,12 @@ public static class consts{
 
     public static int
         golden_spawn_wave_count = 3,
-        golden_particle_count = 12;
+        golden_particle_count = 12,
+
+        //audio priorities (lower value means higher priority)
+        music_priority = 0,
+        sound_priority = 128,
+        sound_loop_priority = 140;
 
     public static Color32
         golden_particle_color = new Color32(255, 222, 128, 255),
