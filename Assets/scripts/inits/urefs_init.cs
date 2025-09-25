@@ -148,7 +148,8 @@ public class urefs_init : MonoBehaviour{
         tutor_skin_win_bttn_txt,
         tutor_ach_win_bttn_txt,
         tutor_diamonds_txt,
-        tap_indicator_bonus_txt;
+        tap_indicator_bonus_txt,
+        forecast_cb_txt;
 
     public AudioSource
         sound_asrc_as,
@@ -211,7 +212,8 @@ public class urefs_init : MonoBehaviour{
         tutor_skin_win_bttn_bcc,
         tutor_ach_win_bttn_bcc,
         tutor_arts_panel_bttn_bcc,
-        tutor_arts_discover_bcc;
+        tutor_arts_discover_bcc,
+        ach_noft_bcc;
 
     public Animator 
         ad_button_anmtr,

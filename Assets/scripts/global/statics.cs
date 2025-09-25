@@ -2277,6 +2277,7 @@ public static class statics{
             }
 
             urefs.open_ach_win_bcc.on_click.AddListener(open_win);
+            urefs.ach_noft_bcc.on_click.AddListener(open_win);
             urefs.close_ach_win_bcc.on_click.AddListener(on_close_win);
         }
 
