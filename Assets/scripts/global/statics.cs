@@ -1667,7 +1667,7 @@ public static class statics{
 
                 float xp_reward = price_old_temp * consts.xp_purchase_fraction;
                 if (xp_reward > 0f){
-                    mngr_xp.add(xp_reward);
+                    mngr_xp.add((float)Math.Truncate(xp_reward));
                     mngr_xp.act_ui();
                 }
 

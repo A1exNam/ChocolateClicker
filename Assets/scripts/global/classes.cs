@@ -260,7 +260,7 @@ public class upgr{
 
             float xp_reward = price_old_temp * consts.xp_purchase_fraction;
             if (xp_reward > 0f){
-                statics.mngr_xp.add(xp_reward);
+                statics.mngr_xp.add((float)Math.Truncate(xp_reward));
                 statics.mngr_xp.act_ui();
             }
 
