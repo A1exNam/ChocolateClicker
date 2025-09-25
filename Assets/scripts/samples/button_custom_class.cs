@@ -59,7 +59,7 @@ public class button_custom_class : MonoBehaviour,
 
             on_click.AddListener(
                 () => {
-                    urefs.sound_asrc_as.PlayOneShot(consts.close_win_ac);
+                    statics.mngr_settings.play_sound(consts.close_win_ac);
                     sdk_common.gp_start();
                 }
             );

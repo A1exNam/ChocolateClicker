@@ -88,7 +88,7 @@ public class skin{
             statics.mngr_achs.achs_dict["skins"].val += 1;
             statics.mngr_achs.achs_dict["skins"].on_val_change();
 
-            urefs.sound_asrc_as.PlayOneShot(consts.currency);
+            statics.mngr_settings.play_sound(consts.currency);
             save_module.save_skin(this);
         } else if (state == 1){
 
@@ -100,11 +100,11 @@ public class skin{
             act_ui(new(){"all_except_alpha"});
             statics.mngr_skins.cur_skin = this;
 
-            urefs.sound_asrc_as.PlayOneShot(consts.change_ac);
+            statics.mngr_settings.play_sound(consts.change_ac);
 
             save_module.save_skin(this);
         } else {
-            urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+            statics.mngr_settings.play_sound(consts.empty_click_ac);
         }
     }
 }
@@ -264,11 +264,11 @@ public class upgr{
                 statics.mngr_xp.act_ui();
             }
 
-            urefs.sound_asrc_as.PlayOneShot(consts.currency);
+            statics.mngr_settings.play_sound(consts.currency);
             statics.mngr_tutor.try_close_tutor("tutor_upgr");
             save_module.save_upgr(this);
         } else {
-            urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+            statics.mngr_settings.play_sound(consts.empty_click_ac);
         }
     } 
 }
@@ -364,11 +364,11 @@ public class art{
             statics.mngr_cb.amount -= price_old_temp;
             statics.mngr_cb.on_val_change();
 
-            urefs.sound_asrc_as.PlayOneShot(consts.currency);
+            statics.mngr_settings.play_sound(consts.currency);
 
             save_module.save_art(this);
         } else {
-            urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+            statics.mngr_settings.play_sound(consts.empty_click_ac);
         }
     } 
 }
@@ -488,11 +488,11 @@ public class ach{
             statics.mngr_diamonds.amount += consts.achs_reward[rewarded_cnt];
             statics.mngr_diamonds.on_val_change();
 
-            urefs.sound_asrc_as.PlayOneShot(consts.ach_reward_ac);
+            statics.mngr_settings.play_sound(consts.ach_reward_ac);
 
             save_module.save_ach(this);
         } else {
-            urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+            statics.mngr_settings.play_sound(consts.empty_click_ac);
         }
     }
 }

@@ -22,7 +22,7 @@ public static class statics{
             if (cur_quest_nm != quest_nm || is_reward_shown) return;
             act_ui();
             if (is_quest_completed()){
-                urefs.sound_asrc_as.PlayOneShot(consts.quest_completion_ac);
+                mngr_settings.play_sound(consts.quest_completion_ac);
                 is_reward_shown = true;
                 logic_module.StartCoroutine(turn_off_and_go_next());
             }
@@ -187,7 +187,7 @@ public static class statics{
             mngr_balance.amount += (float)Math.Truncate(reward * m); 
             mngr_balance.on_val_change();
 
-            urefs.sound_asrc_as.PlayOneShot(consts.currency);
+            mngr_settings.play_sound(consts.currency);
             urefs.offln_rwrd_w_go.SetActive(false);
             urefs.coin_get_rwrd_anmtr.Play("start");
 
@@ -328,7 +328,7 @@ public static class statics{
                     bttn_tutor_keyval.Value.bttn_anmtr.Play("start_show");
                     is_opened_dict[bttn_tutor_keyval.Key] = true; 
                     save_module.save_bttn_tutor(bttn_tutor_keyval.Key);
-                    urefs.sound_asrc_as.PlayOneShot(consts.reveal_bttn_from_lock_ac);
+                    mngr_settings.play_sound(consts.reveal_bttn_from_lock_ac);
                 }
             }
         }
@@ -484,9 +484,9 @@ public static class statics{
                 mngr_tutor.try_close_tutor("tutor_tempering_win_bttn");
                 mngr_tutor.try_show_tutor("tutor_tempering");
                 mngr_tutor.try_close_tutor("tutor_diamonds");
-                urefs.sound_asrc_as.PlayOneShot(consts.open_win_ac);
+                mngr_settings.play_sound(consts.open_win_ac);
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -518,7 +518,7 @@ public static class statics{
             if (mngr_xp.lvl >= consts.min_temper_lvl){
                 mngr_tutor.try_close_tutor("tutor_tempering");
                 urefs.tempering_flash_go.SetActive(true);
-                urefs.sound_asrc_as.PlayOneShot(consts.tempering_ac);
+                mngr_settings.play_sound(consts.tempering_ac);
                 yield return common_utils.wait_until_state_end(
                     urefs.tempering_flash_anmtr,
                     "enabling"
@@ -552,7 +552,7 @@ public static class statics{
 
                 mngr_tutor.try_show_tutor("tutor_arts");
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -616,9 +616,9 @@ public static class statics{
                     }
                 }
 
-                urefs.sound_asrc_as.PlayOneShot(consts.open_win_ac);
+                mngr_settings.play_sound(consts.open_win_ac);
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -757,7 +757,7 @@ public static class statics{
                 amount += gps_value;
                 on_val_change();
 
-                urefs.sound_asrc_as.PlayOneShot(consts.gain_gps_ac);
+                mngr_settings.play_sound(consts.gain_gps_ac);
 
                 float gps_xp = gps_value * consts.xp_gps_fraction;
                 if (gps_xp > 1f){
@@ -927,15 +927,15 @@ public static class statics{
                 mngr_tutor.try_close_tutor("tutor_prof_win_bttn");
                 mngr_tutor.try_close_tutor("tutor_diamonds");
                 mngr_tutor.try_show_tutor("tutor_prof");
-                urefs.sound_asrc_as.PlayOneShot(consts.open_win_ac);
+                mngr_settings.play_sound(consts.open_win_ac);
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
         public static void try_open_reset_win(){
             urefs.prof_reset_win_go.SetActive(true);
-            urefs.sound_asrc_as.PlayOneShot(consts.change_shop_ac);
+            mngr_settings.play_sound(consts.change_shop_ac);
         }
 
         public static IEnumerator try_reset_prof(){
@@ -946,7 +946,7 @@ public static class statics{
                 statics.mngr_diamonds.on_val_change();
 
                 urefs.prof_change_flash_go.SetActive(true);
-                urefs.sound_asrc_as.PlayOneShot(consts.change_ac);
+                mngr_settings.play_sound(consts.change_ac);
                 yield return common_utils.wait_until_state_end(
                     urefs.prof_change_flash_anmtr, 
                     "start_flash"
@@ -967,7 +967,7 @@ public static class statics{
 
                 save_module.save_prof();
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -978,7 +978,7 @@ public static class statics{
                 mngr_tutor.try_close_tutor("tutor_prof");
 
                 urefs.prof_change_flash_go.SetActive(true); //Start Anim Flash
-                urefs.sound_asrc_as.PlayOneShot(consts.change_ac);
+                mngr_settings.play_sound(consts.change_ac);
                 yield return common_utils.wait_until_state_end(
                     urefs.prof_change_flash_anmtr, 
                     "start_flash"
@@ -996,7 +996,7 @@ public static class statics{
 
                 save_module.save_prof();
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -1676,9 +1676,9 @@ public static class statics{
 
                 mngr_tutor.try_close_tutor("tutor_tap");
 
-                urefs.sound_asrc_as.PlayOneShot(consts.currency);
+                mngr_settings.play_sound(consts.currency);
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -1709,7 +1709,7 @@ public static class statics{
                 mngr_diamonds.amount++;
                 mngr_diamonds.on_val_change();
 
-                urefs.sound_asrc_as.PlayOneShot(consts.diamond_on_tap_ac);
+                mngr_settings.play_sound(consts.diamond_on_tap_ac);
             }
             float temp1 = f_tap;
             Color32 tap_clr = consts.default_tap_clr;
@@ -1752,7 +1752,7 @@ public static class statics{
             mngr_quests.recalc("quest_tap_1");
             mngr_quests.recalc("quest_collect_1");
 
-            urefs.sound_asrc_as.PlayOneShot(consts.click_ac);
+            mngr_settings.play_sound(consts.click_ac);
         }
     }
 
@@ -1830,7 +1830,7 @@ public static class statics{
                     mngr_quests.recalc("quest_lvl_3");
                 }
 
-                urefs.sound_asrc_as.PlayOneShot(consts.lvlup_ac);
+                mngr_settings.play_sound(consts.lvlup_ac);
                 urefs.lvl_text_anmtr.Play("start");
                 try_show_levelup_banner();
             }
@@ -1941,12 +1941,12 @@ public static class statics{
                 mngr_tutor.try_close_tutor("tutor_arts");
                 mngr_tutor.try_show_tutor("tutor_arts_discover");
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
         private static void shop_activate(string shop_nm){
-            urefs.sound_asrc_as.PlayOneShot(consts.change_shop_ac);
+            mngr_settings.play_sound(consts.change_shop_ac);
             switch (shop_nm){
                 case "upgrs":
                     urefs.shop_scrrt_sr.content = urefs.shop_upgrs_rt;
@@ -1992,6 +1992,8 @@ public static class statics{
         private static float _musicDuckMultiplier = 1f;
         private static int _tutorDuckRequests;
         private static bool _musicVolumeGuardReady;
+        private static float _soundBaseVolume;
+        private static int _activeSoundOneShots;
 
         private static float music_target_volume =>
             Mathf.Clamp01(_musicBaseVolume * _musicDuckMultiplier);
@@ -2017,6 +2019,10 @@ public static class statics{
             urefs.music_asrc_as.bypassListenerEffects = true;
             urefs.music_asrc_as.bypassReverbZones = true;
 
+            _soundBaseVolume = Mathf.Clamp01(urefs.sound_slider_sl.value);
+            apply_sound_volume();
+            _activeSoundOneShots = 0;
+
             _musicBaseVolume = urefs.music_slider_sl.value * consts.dec_music_vol_coef;
             apply_music_volume();
             _musicVolumeGuardReady = true;
@@ -2027,13 +2033,14 @@ public static class statics{
             sdk_common.gp_stop();
             urefs.win_settings_go.SetActive(true);
             statics.logic_module.StartCoroutine(common_utils.rebuild_layout(urefs.changelog_w_rt));
-            urefs.sound_asrc_as.PlayOneShot(consts.open_win_ac);
+            mngr_settings.play_sound(consts.open_win_ac);
         }
 
         //for bind
         public static void sound_sl_upd(float val){
             urefs.sound_text_txt.text = ((int)(val*100)).ToString();
-            urefs.sound_asrc_as.volume = val;
+            _soundBaseVolume = Mathf.Clamp01(val);
+            apply_sound_volume();
             save_module.save_sound_vol();
         }
 
@@ -2069,6 +2076,11 @@ public static class statics{
             apply_music_volume();
         }
 
+        public static void refresh_sound_volume(){
+            _soundBaseVolume = Mathf.Clamp01(urefs.sound_slider_sl.value);
+            apply_sound_volume();
+        }
+
         public static void tick(){
             if (!_musicVolumeGuardReady || urefs.music_asrc_as == null
                 || !urefs.music_asrc_as.enabled)
@@ -2083,9 +2095,64 @@ public static class statics{
             urefs.music_asrc_as.volume = music_target_volume;
         }
 
+        private static void apply_sound_volume(){
+            update_sound_source_volume();
+
+            if (urefs.sound_loop_asrc_as != null)
+                urefs.sound_loop_asrc_as.volume = _soundBaseVolume;
+        }
+
+        public static void play_sound(AudioClip clip){
+            if (clip == null || urefs.sound_asrc_as == null)
+                return;
+
+            if (_soundBaseVolume <= 0f)
+                return;
+
+            _activeSoundOneShots++;
+            update_sound_source_volume();
+
+            urefs.sound_asrc_as.PlayOneShot(clip);
+
+            if (clip.length <= 0f || statics.logic_module == null){
+                release_sound_one_shot_immediate();
+                return;
+            }
+
+            float duration = clip.length / Mathf.Max(Mathf.Abs(urefs.sound_asrc_as.pitch), 0.01f);
+            statics.logic_module.StartCoroutine(release_sound_one_shot(duration));
+        }
+
+        private static IEnumerator release_sound_one_shot(float delay){
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+
+            release_sound_one_shot_immediate();
+        }
+
+        private static void release_sound_one_shot_immediate(){
+            if (_activeSoundOneShots > 0)
+                _activeSoundOneShots--;
+
+            update_sound_source_volume();
+        }
+
+        private static void update_sound_source_volume(){
+            if (urefs.sound_asrc_as == null)
+                return;
+
+            if (_soundBaseVolume <= 0f){
+                urefs.sound_asrc_as.volume = 0f;
+                return;
+            }
+
+            int active = Mathf.Max(_activeSoundOneShots, 1);
+            urefs.sound_asrc_as.volume = _soundBaseVolume / active;
+        }
+
         public static void open_changelog_win(){
             urefs.changelog_w_go.SetActive(true);
-            urefs.sound_asrc_as.PlayOneShot(consts.change_shop_ac);
+            play_sound(consts.change_shop_ac);
         }
     }
 
@@ -2117,7 +2184,7 @@ public static class statics{
                 urefs.sound_loop_asrc_as.clip = consts.discover_waiting_ac;
                 urefs.sound_loop_asrc_as.Play();
             } else {
-                urefs.sound_asrc_as.PlayOneShot(consts.empty_click_ac);
+                mngr_settings.play_sound(consts.empty_click_ac);
             }
         }
 
@@ -2130,7 +2197,7 @@ public static class statics{
                 urefs.new_art_flash_go.SetActive(true);
                 art_opening_state = "revealed";
                 urefs.sound_loop_asrc_as.Stop();
-                urefs.sound_asrc_as.PlayOneShot(consts.discover_final_ac);
+                mngr_settings.play_sound(consts.discover_final_ac);
             } else if (art_opening_state == "revealed"){
                 urefs.orange_cacao_bean_go.SetActive(true);
                 urefs.new_art_flash_go.SetActive(false);
@@ -2229,7 +2296,7 @@ public static class statics{
                 ach_upgrs_temp.on_val_change();
             }
 
-            urefs.sound_asrc_as.PlayOneShot(consts.open_u_ac);
+            mngr_settings.play_sound(consts.open_u_ac);
         }
 
         public static void act_ui(HashSet<string> modes){
@@ -2375,7 +2442,7 @@ public static class statics{
             foreach (var ach in achs_dict.Values){
                 logic_module.StartCoroutine(common_utils.rebuild_layout(ach.ach_references.collect_gr_rt));
             }
-            urefs.sound_asrc_as.PlayOneShot(consts.open_win_ac);
+            mngr_settings.play_sound(consts.open_win_ac);
         }
 
         public static void on_close_win(){
@@ -2389,7 +2456,7 @@ public static class statics{
 
         public static IEnumerator ach_noft(string nm){
             urefs.ach_noft_im.sprite = Resources.Load<Sprite>("images/" + nm);
-            urefs.sound_asrc_as.PlayOneShot(consts.ach_noft_ac);
+            mngr_settings.play_sound(consts.ach_noft_ac);
             urefs.ach_noft_anmtr.Play("open", 0, 0f);
             yield return common_utils.wait_until_state_end(
                 urefs.ach_noft_anmtr, 
