@@ -1782,32 +1782,104 @@ public static class statics{
             if (urefs.chocolate_bcc == null || urefs.chocolate_bcc.anmtr == null)
                 return;
 
+            Animator animator = urefs.chocolate_bcc.anmtr;
+
             if (is_chocolate_pressed){
                 if (chocolate_release_animation_coroutine != null && statics.logic_module != null){
                     statics.logic_module.StopCoroutine(chocolate_release_animation_coroutine);
                     chocolate_release_animation_coroutine = null;
                 }
-                urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
+
+                float startTime = normalize_animator_time(get_press_resume_time(animator));
+
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("make_smaller") || animator.IsInTransition(0)){
+                    animator.Play("make_smaller", 0, startTime);
+                }
                 return;
             }
+
+            float releaseStartTime = normalize_animator_time(get_release_resume_time(animator));
 
             if (statics.logic_module != null){
                 if (chocolate_release_animation_coroutine == null){
                     chocolate_release_animation_coroutine =
-                        statics.logic_module.StartCoroutine(play_chocolate_release_animation());
+                        statics.logic_module.StartCoroutine(play_chocolate_release_animation(releaseStartTime));
+                } else {
+                    animator.Play("make_normal_from_smaller", 0, releaseStartTime);
                 }
             } else {
-                urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+                animator.Play("make_normal_from_smaller", 0, releaseStartTime);
             }
         }
 
-        static IEnumerator play_chocolate_release_animation(){
-            urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+        static IEnumerator play_chocolate_release_animation(float startTime){
+            startTime = normalize_animator_time(startTime);
+            urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, startTime);
             yield return common_utils.wait_until_state_end(
                 urefs.chocolate_bcc.anmtr,
                 "make_normal_from_smaller"
             );
             chocolate_release_animation_coroutine = null;
+        }
+
+        static bool try_get_animator_state_progress(Animator animator, string stateName, out float normalizedTime){
+            normalizedTime = 0f;
+            if (animator == null)
+                return false;
+
+            AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+            if (currentState.IsName(stateName)){
+                normalizedTime = Mathf.Repeat(currentState.normalizedTime, 1f);
+                return true;
+            }
+
+            if (animator.IsInTransition(0)){
+                AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
+                if (nextState.IsName(stateName)){
+                    normalizedTime = Mathf.Repeat(nextState.normalizedTime, 1f);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static float normalize_animator_time(float normalizedTime){
+            if (float.IsNaN(normalizedTime) || float.IsInfinity(normalizedTime))
+                return 0f;
+
+            float original = normalizedTime;
+            normalizedTime = Mathf.Repeat(normalizedTime, 1f);
+
+            if (Mathf.Approximately(normalizedTime, 0f) && original > 0f)
+                normalizedTime = 0.999f;
+            else if (normalizedTime >= 0.999f)
+                normalizedTime = 0.999f;
+
+            if (normalizedTime < 0f)
+                normalizedTime = 0f;
+
+            return normalizedTime;
+        }
+
+        static float get_press_resume_time(Animator animator){
+            if (try_get_animator_state_progress(animator, "make_normal_from_smaller", out float releaseProgress))
+                return 1f - releaseProgress;
+
+            if (try_get_animator_state_progress(animator, "make_smaller", out float pressProgress))
+                return pressProgress;
+
+            return 0f;
+        }
+
+        static float get_release_resume_time(Animator animator){
+            if (try_get_animator_state_progress(animator, "make_smaller", out float pressProgress))
+                return 1f - pressProgress;
+
+            if (try_get_animator_state_progress(animator, "make_normal_from_smaller", out float releaseProgress))
+                return releaseProgress;
+
+            return 0f;
         }
     }
 
