@@ -66,7 +66,7 @@ public static class consts{
         st_b_tap_gain = 1f,
         tap_price_coef = 1.8f,
         tap_gain_coef = 1.45f,
-        tap_hold_clicks_per_second = 10f,
+        tap_hold_clicks_per_second = 7f,
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
