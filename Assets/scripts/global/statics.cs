@@ -1567,6 +1567,9 @@ public static class statics{
             tap_m, 
             diamond_ch;
 
+        static Coroutine chocolate_release_animation_coroutine;
+        public static bool is_chocolate_pressed;
+
         public static void init(){
             recalcs.recalc_tap_m();
             recalcs.recalc_crit_ch();
@@ -1579,15 +1582,11 @@ public static class statics{
             urefs.chocolate_bcc.on_click.AddListener(on_tap);
 
             urefs.chocolate_bcc.on_down.AddListener(
-                () => {
-                    urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
-                }
+                () => start_hold_clicking()
             );
 
             urefs.chocolate_bcc.on_up.AddListener(
-                () => {
-                    urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
-                }
+                () => stop_hold_clicking()
             );
 
             urefs.tap_references.buy_button_bcc.on_enter.AddListener(
@@ -1610,6 +1609,12 @@ public static class statics{
         }
 
         public static void reset(){
+            if (chocolate_release_animation_coroutine != null && statics.logic_module != null){
+                statics.logic_module.StopCoroutine(chocolate_release_animation_coroutine);
+            }
+            chocolate_release_animation_coroutine = null;
+            is_chocolate_pressed = false;
+
             lvl = consts.st_tap_lvl;
             price = consts.st_tap_price;
             b_gain = consts.st_b_tap_gain;
@@ -1757,6 +1762,52 @@ public static class statics{
             mngr_quests.recalc("quest_collect_1");
 
             mngr_settings.play_sound(consts.click_ac);
+        }
+
+        static void start_hold_clicking(){
+            is_chocolate_pressed = true;
+            trigger_chocolate_animation();
+        }
+
+        public static void stop_hold_clicking(){
+            is_chocolate_pressed = false;
+            restore_chocolate_idle_state();
+        }
+
+        public static void restore_chocolate_idle_state(){
+            trigger_chocolate_animation();
+        }
+
+        public static void trigger_chocolate_animation(){
+            if (urefs.chocolate_bcc == null || urefs.chocolate_bcc.anmtr == null)
+                return;
+
+            if (is_chocolate_pressed){
+                if (chocolate_release_animation_coroutine != null && statics.logic_module != null){
+                    statics.logic_module.StopCoroutine(chocolate_release_animation_coroutine);
+                    chocolate_release_animation_coroutine = null;
+                }
+                urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
+                return;
+            }
+
+            if (statics.logic_module != null){
+                if (chocolate_release_animation_coroutine == null){
+                    chocolate_release_animation_coroutine =
+                        statics.logic_module.StartCoroutine(play_chocolate_release_animation());
+                }
+            } else {
+                urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+            }
+        }
+
+        static IEnumerator play_chocolate_release_animation(){
+            urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+            yield return common_utils.wait_until_state_end(
+                urefs.chocolate_bcc.anmtr,
+                "make_normal_from_smaller"
+            );
+            chocolate_release_animation_coroutine = null;
         }
     }
 
