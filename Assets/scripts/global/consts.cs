@@ -53,24 +53,24 @@ public static class consts{
         discover_price_coef = 1f,
 
         //xp
-        xp_base = 1.5f, //xp_base^lvl * xp_coef
-        xp_coef = 10f,
+        xp_base = 2.3f, //xp_base^lvl * xp_coef
+        xp_coef = 175f,
         xp_gps_fraction = 0.2f,
         lvlup_reward_tap_mult = 15f,
-        lvlup_reward_gps_mult = 20f,
+        lvlup_reward_gps_mult = 10f,
         xp_purchase_fraction = 0.1f,
 
         //tap
-        st_tap_price = 30f,
+        st_tap_price = 80f,
         st_b_tap = 1f,
         st_b_tap_gain = 1f,
-        tap_price_coef = 1.6f,
-        tap_gain_coef = 1.3f,
+        tap_price_coef = 1.8f,
+        tap_gain_coef = 1.45f,
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
         tap_indicator_bonus = 2f,
-        tap_indicator_decay_speed = 0.3f,
+        tap_indicator_decay_speed = 0.25f,
         tap_indicator_click_gain = 0.07f,
         tap_indicator_bonus_threshold = 0.78f,
         tap_indicator_bonus_shake_strength = 6f,
@@ -312,18 +312,18 @@ public static class consts{
     public static Dictionary<string, (int open_lvl, float bs, float bp)> 
     upgrs_data = new(){   
         //lvl: ('upgr_nm', 'upgr_base_str', 'upgr_base_price', 'upgr_info')
-        {"Chocolate Chip", (4, 1f, 40f)},
-        {"Cacao Magic Tree", (10, 7f, 150f)},
-        {"Chocolate Fountain", (15, 50f, 1e3f)},
-        {"Chocolate Factory", (20, 300f, 7e3f)},
-        {"Chocolate River", (25, 1.4e4f, 3.5e5f)},
-        {"Rain of Chocolate", (30, 1e5f, 2.5e6f)},
-        {"Wave of Chocolate", (35, 5e5f, 1.5e7f)},
-        {"Chocolate Volcano", (40, 3.5e6f, 1e8f)},
-        {"Cacao Cyclone", (45, 2.5e7f, 7e8f)},
-        {"Chocolate Singularity", (50, 1.5e8f, 4.9e9f)},
-        {"Chocolate Universe", (55, 1e9f, 3.5e10f)},
-        {"Chocolate Divinity", (99, 1e10f, 2e11f)},
+        {"Chocolate Chip", (2, 15f, 180f)},
+        {"Cacao Magic Tree", (4, 35f, 600f)},
+        {"Chocolate Fountain", (6, 65f, 1900f)},
+        {"Chocolate Factory", (8, 300f, 12000f)},
+        {"Chocolate River", (10, 650f, 40000f)},
+        {"Rain of Chocolate", (12, 1500f, 128000f)},
+        {"Wave of Chocolate", (14, 3700f, 420000f)},
+        {"Chocolate Volcano", (16, 8500f, 1350000f)},
+        {"Cacao Cyclone", (18, 20000f, 4371000f)},
+        {"Chocolate Singularity", (20, 46000f, 14150000f)},
+        {"Chocolate Universe", (22, 100000f, 46000000f)},
+        {"Chocolate Divinity", (24, 250000f, 150000000f)},
     };
 
     public static SortedDictionary<int, string> lvl_upgr_mapping = new(

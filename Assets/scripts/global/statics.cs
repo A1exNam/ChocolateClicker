@@ -261,18 +261,18 @@ public static class statics{
         }
 
 		public static void try_show_tutor(string tutor_nm){
-			if (tutor_state_dict[tutor_nm] == 0){
-                mngr_settings.apply_tutor_music_duck();
-				tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
-                if (tutor_go_bcc_dict[tutor_nm].txt)
-                    logic_module.StartCoroutine(
-                        common_utils.retypewrite(
-                            tutor_go_bcc_dict[tutor_nm].txt,
-                            () => !tutor_go_bcc_dict[tutor_nm].go.activeSelf
-                        )
-                    );
-				tutor_state_dict[tutor_nm] = 1;
-			}
+			// if (tutor_state_dict[tutor_nm] == 0){
+            //     mngr_settings.apply_tutor_music_duck();
+			// 	tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
+            //     if (tutor_go_bcc_dict[tutor_nm].txt)
+            //         logic_module.StartCoroutine(
+            //             common_utils.retypewrite(
+            //                 tutor_go_bcc_dict[tutor_nm].txt,
+            //                 () => !tutor_go_bcc_dict[tutor_nm].go.activeSelf
+            //             )
+            //         );
+			// 	tutor_state_dict[tutor_nm] = 1;
+			// }
 		}
 
         public static void try_close_tutor(string tutor_nm){
@@ -500,8 +500,12 @@ public static class statics{
                     + common_utils.f2s(cb_reward_amount_f);
                 var next_lvl_reward = calc_reward_for_lvl(mngr_xp.lvl + 1);
                 var diff_with_next_lvl = next_lvl_reward - cb_reward_amount_f;
-                urefs.forecast_cb_txt.text = "(+" + common_utils.f2s(diff_with_next_lvl)
+                if (diff_with_next_lvl > 0){
+                    urefs.forecast_cb_txt.text = "(+" + common_utils.f2s(diff_with_next_lvl)
                     + " cacao beans more next level!)";
+                } else {
+                    urefs.forecast_cb_txt.text = "";
+                }
             }
             if (act_bttn_alpha){
                 if (mngr_xp.lvl < consts.min_temper_lvl){
