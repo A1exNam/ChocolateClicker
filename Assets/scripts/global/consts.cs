@@ -5,10 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 
 public static class consts{
-    public static int 
-        //tempering
-        min_temper_lvl = 15,
-        
+    public static int         
         //tap
         st_tap_lvl = 1, 
 
@@ -20,10 +17,13 @@ public static class consts{
         st_arts_lvl = 1,
 
         //tutors
-        open_skins_win_min_lvl = 10,
-        open_tmprng_win_min_lvl = 15,
-        open_prof_win_min_lvl = 20,
-        open_arts_panel_min_lvl = 15;
+        open_skins_win_min_lvl = 5,
+        open_tmprng_win_min_lvl = 10,
+        open_prof_win_min_lvl = 15,
+        open_arts_panel_min_lvl = 10,
+
+        //tempering
+        min_temper_lvl = open_tmprng_win_min_lvl;
 
     public static float 
         //common
@@ -53,19 +53,19 @@ public static class consts{
         discover_price_coef = 1f,
 
         //xp
-        xp_base = 2.3f, //xp_base^lvl * xp_coef
-        xp_coef = 175f,
-        xp_gps_fraction = 0.2f,
-        lvlup_reward_tap_mult = 15f,
-        lvlup_reward_gps_mult = 10f,
-        xp_purchase_fraction = 0.1f,
+        xp_base = 2f, //xp_base^lvl * xp_coef
+        xp_coef = 150f,
+        xp_gps_fraction = 0.5f,
+        lvlup_reward_tap_mult = 20f,
+        lvlup_reward_gps_mult = 15f,
+        xp_purchase_fraction = 0.25f,
 
         //tap
         st_tap_price = 80f,
         st_b_tap = 1f,
         st_b_tap_gain = 1f,
         tap_price_coef = 1.8f,
-        tap_gain_coef = 1.45f,
+        tap_gain_coef = 1.5f,
         tap_hold_clicks_per_second = 7f,
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
@@ -86,7 +86,6 @@ public static class consts{
         st_arts_price = 1f,
         arts_price_coef = 1.5f,
         arts_str_coef = 1.1f,
-        o_art_damping_power = 3f,
 
         //tempering
         tempering_base_reward = 1.35f, //cb_base^(lvl-min_temper_lvl)
@@ -129,12 +128,12 @@ public static class consts{
         gen_lifetime = 3f,
 
         //golden chocolate
-        golden_spawn_mean_delay = 180f,
-        golden_spawn_pity = 300f,
+        golden_spawn_mean_delay = 240f,
+        golden_spawn_pity = 420f,
         golden_spawn_wave_min_delay = 0.1f, //minimum delay between chocolates within a wave
         golden_spawn_wave_max_delay = 0.5f, //maximum delay between chocolates within a wave
-        golden_chocolate_move_speed = 600f,
-        golden_chocolate_rotation_speed = 100f,
+        golden_chocolate_move_speed = 450f,
+        golden_chocolate_rotation_speed = 85f,
         golden_reward_gps_fraction = 30f, //seconds worth of current chocolate per second
         golden_reward_minimum = 1f,
         golden_text_move_speed = 90f,
@@ -196,11 +195,11 @@ public static class consts{
     public static List<string> suffixes = new();
 
     public static Dictionary<string, (int val, string desc, string reward, int idx)> quests_data = new(){
-        {"quest_tap_1", (10, "Tap 10 times!", "Your clicks are pure cocoa magic!", 0)},
-        {"quest_collect_1", (40, "Collect 40 coins!", "Sweet success!", 1)},
-        {"quest_lvl_1", (10, "Reach 10 level!", "Delicious work, keep it up!", 2)},
-        {"quest_lvl_2", (15 ,"Reach 15 level!", "Choco-wow! You’re on fire!", 3)},
-        {"quest_lvl_3", (20, "Reach 20 level!", "You’re melting the competition!", 4)},
+        {"quest_collect_1", (80, "Collect 80 coins!", "Your clicks are pure cocoa magic!", 0)},
+        {"quest_collect_2", (180, "Collect 180 coins!", "Sweet success!", 1)},
+        {"quest_lvl_1", (5, "Reach 5 level!", "Delicious work, keep it up!", 2)},
+        {"quest_lvl_2", (10 ,"Reach 10 level!", "Choco-wow! You’re on fire!", 3)},
+        {"quest_lvl_3", (15, "Reach 15 level!", "Basics done — go melt the world in chocolate!", 4)},
     };
 
     public static SortedDictionary<int, string> idx_quests_mapping = new(
@@ -280,8 +279,8 @@ public static class consts{
         {"Cacao Multiplier", (1.15f, "m", -1, 1f, "x{0} Cacao Beans")},
         {"Critical Chocoarrow", (0.05f, "p", 10, 0f, "+{0}% Critical Chance")},
         {"Smooth Gear", (1.3f, "m", -1, 1f, "x{0} Passive Skill Efficiency")},
-        {"Fortune Crystal", (0.001f, "p", 10, 0f, "+{0}% Diamond Chance on Tap")},
-        {"Caramel Essence", (0.01f, "p", 15, 0f, "+{0}% Tap Chocolate From Upgrades")},
+        {"Fortune Crystal", (0.001f, "p", 20, 0f, "+{0}% Diamond Chance on Tap")},
+        {"Caramel Essence", (0.01f, "p", 20, 0f, "+{0}% Tap Chocolate From Upgrades")},
     };
 
     //nm: price, min_lvl, desc
@@ -289,15 +288,15 @@ public static class consts{
     skins_data = new(){
         {"Just chocolate bar", (-1, -1, 
             "pure chocolate perfection in every tap! For those who appreciate classic style with every click!")},
-        {"Cocoa Whirl", (10, 10,
+        {"Cocoa Whirl", (10, consts.open_skins_win_min_lvl,
             "smooth, rich chocolate candy with a signature swirl, offering a perfect blend of deep cocoa flavor and sweetness.")},
-        {"Caramel Drizzle", (300, 20, 
+        {"Caramel Drizzle", (300, 15, 
             "A smooth chocolate candy with delicate caramel streaks, offering a rich cocoa flavor paired with a gentle caramel sweetness.")},
-        {"Nutty Crunch", (450, 30, 
+        {"Nutty Crunch", (450, 20, 
             "A rich chocolate shell with crunchy nuts and a hint of caramel for the perfect bite.")},
-        {"Cherry Delight", (700, 40, 
+        {"Cherry Delight", (700, 25, 
             "Decadent chocolate cake with rich layers and a cherry on top, balancing sweetness and depth.")},
-        {"Choco Pop", (1, 99, 
+        {"Choco Pop", (1, 30, 
             "Classic chocolate-coated ice cream bar with a creamy, rich center, perfect for a cool treat.")},
     };
 
@@ -337,12 +336,12 @@ public static class consts{
     public static Dictionary<string, (string desc, List<float> val_list, string mode)> achs_data = new(){
         {"tap", ("Tap {0} times", new List<float> {150f, 600f, 2.5e3f, 1e5f, 4e5f}, "int")}, 
         {"artifacts", ("Discover {0} artifact(s)", new List<float> {1f, 6f, 10f}, "int")},
-        {"lvl", ("Achieve {0} level", new List<float> {20f, 30f, 40f, 50f, 99f}, "int")},
+        {"lvl", ("Achieve {0} level", new List<float> {5f, 10f, 15f, 20f, 30f}, "int")},
         {"skins", ("Purchase {0} skin(s)", new List<float> {1f, 2f, 5f}, "int")},
         {"hours", ("Play {0} hour(s)", new List<float> {1f, 2f, 3f, 4f, 5f}, "time")}, 
         {"upgrs", ("Unlock {0} upgrade(s)", new List<float> {6f, 9f, 12f}, "int")},
-        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e7f, 1e12f, 1e20f, 1e30f}, "int")}, 
-        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 100f, 1e3f, 1e7f, 1e20f}, "int")}
+        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e3f, 1e4f, 1e6f, 1e9f}, "int")}, 
+        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 10f, 1e2f, 1e3f, 1e5f}, "int")}
     };
 
     public static Dictionary<int, int> achs_reward = new(){

@@ -57,6 +57,7 @@ public class golden_chocolate_behaviour : MonoBehaviour, IPointerClickHandler{
         statics.mngr_balance.amount += reward;
         statics.mngr_balance.on_val_change();
         statics.mngr_quests.recalc("quest_collect_1");
+        statics.mngr_quests.recalc("quest_collect_2");
 
         spawn_effects(reward);
         statics.mngr_settings.play_sound(consts.gold_chocolate_ac);

@@ -49,10 +49,8 @@ public static class statics{
         public static Tuple<int, int> get_val(){  
             float val = -1f;
             switch (cur_quest_nm){
-                case "quest_tap_1":
-                    val = mngr_achs.achs_dict["tap"].val;
-                    break;
                 case "quest_collect_1":
+                case "quest_collect_2":
                     val = mngr_balance.max_amount;
                     break; 
                 case "quest_lvl_1":
@@ -1846,8 +1844,8 @@ public static class statics{
             mngr_achs.achs_dict["tap"].val += 1;
             mngr_achs.achs_dict["tap"].on_val_change();
 
-            mngr_quests.recalc("quest_tap_1");
             mngr_quests.recalc("quest_collect_1");
+            mngr_quests.recalc("quest_collect_2");
 
             mngr_settings.play_sound(consts.click_ac);
         }
