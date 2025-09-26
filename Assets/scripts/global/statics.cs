@@ -1556,16 +1556,19 @@ public static class statics{
             lvl,
             combo_click_cnt = 0; //для combo master
 
-        public static float 
-            price, 
-            b_gain, 
+        public static float
+            price,
+            b_gain,
             f_gain,
             b_tap,
             f_tap,
-            crit_ch, 
+            crit_ch,
             crit_m,
-            tap_m, 
+            tap_m,
             diamond_ch;
+
+        static Coroutine hold_tap_coroutine;
+        static bool is_chocolate_pressed;
 
         public static void init(){
             recalcs.recalc_tap_m();
@@ -1576,19 +1579,28 @@ public static class statics{
             reset();
 
             urefs.tap_references.buy_button_bcc.on_click.AddListener(try_buy);
-            urefs.chocolate_bcc.on_click.AddListener(on_tap);
 
             urefs.chocolate_bcc.on_down.AddListener(
                 () => {
                     urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
+                    start_hold_clicking();
                 }
             );
 
             urefs.chocolate_bcc.on_up.AddListener(
                 () => {
                     urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+                    stop_hold_clicking();
                 }
             );
+
+            urefs.chocolate_bcc.on_exit.AddListener(
+                () => {
+                    urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+                    stop_hold_clicking();
+                }
+            );
+            urefs.chocolate_bcc.on_disable.AddListener(stop_hold_clicking);
 
             urefs.tap_references.buy_button_bcc.on_enter.AddListener(
                 () => {
@@ -1602,6 +1614,45 @@ public static class statics{
                         urefs.tap_references.backgr_im.color = consts.not_active_upgr_clr;
                 }
             );
+        }
+
+        static void start_hold_clicking(){
+            stop_hold_clicking();
+
+            is_chocolate_pressed = true;
+            on_tap();
+
+            if (statics.logic_module == null)
+                return;
+
+            float clicks_per_second = Mathf.Max(0f, consts.tap_hold_clicks_per_second);
+            if (clicks_per_second <= 0f)
+                return;
+
+            hold_tap_coroutine = statics.logic_module.StartCoroutine(run_hold_clicking(1f / clicks_per_second));
+        }
+
+        static void stop_hold_clicking(){
+            is_chocolate_pressed = false;
+
+            if (hold_tap_coroutine != null && statics.logic_module != null)
+                statics.logic_module.StopCoroutine(hold_tap_coroutine);
+
+            hold_tap_coroutine = null;
+        }
+
+        static IEnumerator run_hold_clicking(float interval){
+            float elapsed = 0f;
+            while (is_chocolate_pressed){
+                elapsed += Time.deltaTime;
+                while (elapsed >= interval && is_chocolate_pressed){
+                    elapsed -= interval;
+                    on_tap();
+                }
+                yield return null;
+            }
+
+            hold_tap_coroutine = null;
         }
 
         public static void clear_tap(){

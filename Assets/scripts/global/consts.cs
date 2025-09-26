@@ -69,6 +69,7 @@ public static class consts{
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
+        tap_hold_clicks_per_second = 12f,
         tap_indicator_bonus = 2f,
         tap_indicator_decay_speed = 0.25f,
         tap_indicator_click_gain = 0.07f,
