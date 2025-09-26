@@ -1556,16 +1556,21 @@ public static class statics{
             lvl,
             combo_click_cnt = 0; //для combo master
 
-        public static float 
-            price, 
-            b_gain, 
+        public static float
+            price,
+            b_gain,
             f_gain,
             b_tap,
             f_tap,
-            crit_ch, 
+            crit_ch,
             crit_m,
-            tap_m, 
+            tap_m,
             diamond_ch;
+
+        static bool is_hold_pressed;
+        static bool hold_generated_click;
+        static bool skip_next_release_click;
+        static Coroutine hold_clicks_coroutine;
 
         public static void init(){
             recalcs.recalc_tap_m();
@@ -1576,19 +1581,12 @@ public static class statics{
             reset();
 
             urefs.tap_references.buy_button_bcc.on_click.AddListener(try_buy);
-            urefs.chocolate_bcc.on_click.AddListener(on_tap);
+            urefs.chocolate_bcc.on_click.AddListener(handle_chocolate_click);
 
-            urefs.chocolate_bcc.on_down.AddListener(
-                () => {
-                    urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
-                }
-            );
-
-            urefs.chocolate_bcc.on_up.AddListener(
-                () => {
-                    urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
-                }
-            );
+            urefs.chocolate_bcc.on_down.AddListener(on_chocolate_pressed);
+            urefs.chocolate_bcc.on_up.AddListener(on_chocolate_released);
+            urefs.chocolate_bcc.on_exit.AddListener(cancel_chocolate_hold);
+            urefs.chocolate_bcc.on_disable.AddListener(cancel_chocolate_hold);
 
             urefs.tap_references.buy_button_bcc.on_enter.AddListener(
                 () => {
@@ -1602,6 +1600,101 @@ public static class statics{
                         urefs.tap_references.backgr_im.color = consts.not_active_upgr_clr;
                 }
             );
+        }
+
+        static void handle_chocolate_click(){
+            if (skip_next_release_click){
+                skip_next_release_click = false;
+                return;
+            }
+
+            on_tap();
+        }
+
+        static void on_chocolate_pressed(){
+            if (urefs.chocolate_bcc.anmtr != null)
+                urefs.chocolate_bcc.anmtr.Play("make_smaller", 0, 0f);
+
+            start_hold_clicks();
+        }
+
+        static void on_chocolate_released(){
+            if (urefs.chocolate_bcc.anmtr != null)
+                urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+
+            stop_hold_clicks(true);
+        }
+
+        static void cancel_chocolate_hold(){
+            if (is_hold_pressed && urefs.chocolate_bcc.anmtr != null)
+                urefs.chocolate_bcc.anmtr.Play("make_normal_from_smaller", 0, 0f);
+
+            stop_hold_clicks(false);
+        }
+
+        static void start_hold_clicks(){
+            is_hold_pressed = true;
+            hold_generated_click = false;
+            skip_next_release_click = false;
+
+            if (statics.logic_module == null)
+                return;
+
+            if (hold_clicks_coroutine != null)
+                statics.logic_module.StopCoroutine(hold_clicks_coroutine);
+
+            hold_clicks_coroutine = statics.logic_module.StartCoroutine(run_hold_clicks());
+        }
+
+        static void stop_hold_clicks(bool shouldSkipReleaseClick){
+            is_hold_pressed = false;
+
+            if (hold_clicks_coroutine != null && statics.logic_module != null){
+                statics.logic_module.StopCoroutine(hold_clicks_coroutine);
+                hold_clicks_coroutine = null;
+            }
+
+            if (shouldSkipReleaseClick && hold_generated_click)
+                skip_next_release_click = true;
+
+            hold_generated_click = false;
+        }
+
+        static IEnumerator run_hold_clicks(){
+            float interval = consts.tap_hold_clicks_per_second > 0f
+                ? 1f / consts.tap_hold_clicks_per_second
+                : 0.1f;
+
+            interval = Mathf.Max(interval, 0.01f);
+
+            yield return new WaitForSeconds(interval);
+
+            while (is_hold_pressed){
+                perform_hold_click();
+                yield return new WaitForSeconds(interval);
+            }
+
+            hold_clicks_coroutine = null;
+        }
+
+        static void perform_hold_click(){
+            on_tap();
+            hold_generated_click = true;
+
+            if (statics.logic_module != null)
+                statics.logic_module.StartCoroutine(play_hold_click_animation());
+        }
+
+        static IEnumerator play_hold_click_animation(){
+            var animator = urefs.chocolate_bcc?.anmtr;
+            if (animator == null)
+                yield break;
+
+            animator.Play("make_normal_from_smaller", 0, 0f);
+            yield return null;
+
+            if (is_hold_pressed)
+                animator.Play("make_smaller", 0, 0f);
         }
 
         public static void clear_tap(){
