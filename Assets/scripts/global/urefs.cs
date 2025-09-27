@@ -59,7 +59,8 @@ public static class urefs{
         tap_indicator_go,
         glowing_choco_go,
         levelup_banner_go,
-        tutor_tempering_bttn_go;
+        tutor_tempering_bttn_go,
+        tutor_diamonds_bttn_go;
 
     public static Transform 
         arts_shop_tr, 
@@ -211,7 +212,8 @@ public static class urefs{
         tutor_ach_win_bttn_bcc,
         tutor_arts_panel_bttn_bcc,
         tutor_arts_discover_bcc,
-        ach_noft_bcc;
+        ach_noft_bcc,
+        tutor_diamonds_bcc;
 
     public static Animator
         ad_button_anmtr,

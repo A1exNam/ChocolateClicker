@@ -41,12 +41,13 @@ public static class consts{
         x1_cf_crd,
         x2_cf_crd,
         y_cf_crd,
-        cf_speed = 1900f,
-        cf_min_size = 0.8f,
+        cf_speed = 1725f,
+        cf_min_size = 0.85f,
         cf_max_size = 1f,
         cf_sample_lifetime,
-        cf_spawn_interval = 0.09f,
-        cf_min_alpha = 0.7f,
+        cf_spawn_interval = 0.0725f,
+        cf_min_alpha = 0.85f,
+        cf_rotation_speed = 360f,
 
         //discover
         discover_price_base = 2f,
@@ -54,8 +55,8 @@ public static class consts{
 
         //xp
         xp_base = 2f, //xp_base^lvl * xp_coef
-        xp_coef = 150f,
-        xp_gps_fraction = 0.5f,
+        xp_coef = 230f,
+        xp_gps_fraction = 0.33f,
         lvlup_reward_tap_mult = 20f,
         lvlup_reward_gps_mult = 15f,
         xp_purchase_fraction = 0.25f,
@@ -66,7 +67,7 @@ public static class consts{
         st_b_tap_gain = 1f,
         tap_price_coef = 1.8f,
         tap_gain_coef = 1.5f,
-        tap_hold_clicks_per_second = 7f,
+        tap_hold_clicks_per_second = 8f,
         b_crit_ch = 0.01f,
         b_crit_m = 2f,
         b_diamond_ch = 0.001f,
@@ -104,7 +105,6 @@ public static class consts{
         bttn_tutor_min_alpha = 0.5f,
         hand_tutor_speed = 20f,
         hand_tutor_max_dist = 10f,
-        diamonds_tutor_interval = 4f,
         typewriter_delay = 0.04f,
         music_val_dec_while_tutor = 0.2f,
 
@@ -188,8 +188,8 @@ public static class consts{
 
     public static Dictionary<int, (int lvl, int reset_price)> prof_grade_lvl_mapping = new(){
         {0, (0, 0)}, 
-        {1, (20, 30)}, 
-        {2, (40, 350)}
+        {1, (open_prof_win_min_lvl, 30)}, 
+        {2, (25, 350)}
     };
 
     public static List<string> suffixes = new();
@@ -334,14 +334,14 @@ public static class consts{
         .OrderBy(kvp => kvp.Value.open_lvl).Select(kvp => kvp.Key).ToList();
 
     public static Dictionary<string, (string desc, List<float> val_list, string mode)> achs_data = new(){
-        {"tap", ("Tap {0} times", new List<float> {150f, 600f, 2.5e3f, 1e5f, 4e5f}, "int")}, 
+        {"tap", ("Tap {0} times", new List<float> {150f, 1000f, 5000f, 25000f, 125000f}, "int")}, 
         {"artifacts", ("Discover {0} artifact(s)", new List<float> {1f, 6f, 10f}, "int")},
-        {"lvl", ("Achieve {0} level", new List<float> {5f, 10f, 15f, 20f, 30f}, "int")},
+        {"lvl", ("Achieve {0} level", new List<float> {5f, 15f, 25f, 35f, 50f}, "int")},
         {"skins", ("Purchase {0} skin(s)", new List<float> {1f, 2f, 5f}, "int")},
         {"hours", ("Play {0} hour(s)", new List<float> {1f, 2f, 3f, 4f, 5f}, "time")}, 
         {"upgrs", ("Unlock {0} upgrade(s)", new List<float> {6f, 9f, 12f}, "int")},
-        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e3f, 1e4f, 1e6f, 1e9f}, "int")}, 
-        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 10f, 1e2f, 1e3f, 1e5f}, "int")}
+        {"gps", ("Reach {0} chocolate/sec", new List<float> {1e2f, 1e4f, 1e5f, 1e7f, 1e11f}, "int")}, 
+        {"cacao beans", ("Collect {0} cacao bean(s)", new List<float> {1f, 10f, 200f, 1e3f, 1e5f}, "int")}
     };
 
     public static Dictionary<int, int> achs_reward = new(){

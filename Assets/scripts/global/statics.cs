@@ -234,7 +234,7 @@ public static class statics{
                 {"tutor_prof", (urefs.tutor_prof_go, null, urefs.tutor_prof_anmtr, urefs.tutor_prof_txt)},
                 {"tutor_skin_win_bttn", (urefs.tutor_skin_win_bttn_go, urefs.tutor_skin_win_bttn_bcc, urefs.tutor_skin_win_bttn_anmtr, urefs.tutor_skin_win_bttn_txt)},
                 {"tutor_ach_win_bttn", (urefs.tutor_ach_win_bttn_go, urefs.tutor_ach_win_bttn_bcc, urefs.tutor_ach_win_bttn_anmtr, urefs.tutor_ach_win_bttn_txt)},
-                {"tutor_diamonds", (urefs.tutor_diamonds_go, null, urefs.tutor_diamonds_anmtr, urefs.tutor_diamonds_txt)}
+                {"tutor_diamonds", (urefs.tutor_diamonds_go, urefs.tutor_diamonds_bcc, urefs.tutor_diamonds_anmtr, urefs.tutor_diamonds_txt)}
             };
 
             foreach (string tutor_nm in tutor_go_bcc_dict.Keys){
@@ -248,11 +248,20 @@ public static class statics{
             tutor_go_bcc_dict["tutor_arts_discover"].bcc.on_click.AddListener(mngr_discover.try_discover_art);
             tutor_go_bcc_dict["tutor_tempering_win_bttn"].bcc.on_click.AddListener(mngr_tempering.open_win);
             tutor_go_bcc_dict["tutor_tempering"].bcc.on_click.AddListener(
-                () => mngr_tutor.try_close_tutor("tutor_tempering")
+                () => {
+                    statics.mngr_settings.play_sound(consts.reveal_bttn_from_lock_ac);
+                    mngr_tutor.try_close_tutor("tutor_tempering");
+                }
             );
             tutor_go_bcc_dict["tutor_prof_win_bttn"].bcc.on_click.AddListener(mngr_prof.try_open_win);
             tutor_go_bcc_dict["tutor_skin_win_bttn"].bcc.on_click.AddListener(mngr_skins.open_win);
             tutor_go_bcc_dict["tutor_ach_win_bttn"].bcc.on_click.AddListener(mngr_achs.open_win);
+            tutor_go_bcc_dict["tutor_diamonds"].bcc.on_click.AddListener(
+                () => {
+                    statics.mngr_settings.play_sound(consts.reveal_bttn_from_lock_ac);
+                    mngr_tutor.try_close_tutor("tutor_diamonds");
+                }
+            );
         }
 
         public static void init_after_restore(){
@@ -267,6 +276,8 @@ public static class statics{
                     UnityAction action_temp = null;
                     if (tutor_nm == "tutor_tempering") 
                         action_temp = () => urefs.tutor_tempering_bttn_go.SetActive(true);
+                    else if (tutor_nm == "tutor_diamonds")
+                        action_temp = () => urefs.tutor_diamonds_bttn_go.SetActive(true);
                     logic_module.StartCoroutine(
                         common_utils.retypewrite_with_postaction(
                             tutor_go_bcc_dict[tutor_nm].txt,
@@ -335,12 +346,6 @@ public static class statics{
                     mngr_settings.play_sound(consts.reveal_bttn_from_lock_ac);
                 }
             }
-        }
-
-        public static IEnumerator try_show_tutor_with_interval(string tutor_nm, float interval){
-		    try_show_tutor(tutor_nm);
-			yield return new WaitForSeconds(interval);
-			try_close_tutor(tutor_nm);
         }
     }
 
@@ -1953,8 +1958,8 @@ public static class statics{
         }
 
         public static void act_ui(){
-            urefs.xp1_text_txt.text =
-                common_utils.f2s(xp) + "/" + common_utils.f2s(get_xp_to_next_lvl());
+            urefs.xp1_text_txt.text = 
+                (float)Math.Truncate(xp/get_xp_to_next_lvl() * 100) + "%";
             urefs.xp2_text_txt.text = urefs.xp1_text_txt.text;
             urefs.xp_bar_image_im.fillAmount = xp/get_xp_to_next_lvl();
             urefs.lvl_text_txt.text = "Level " + lvl.ToString();
@@ -2043,7 +2048,8 @@ public static class statics{
                 shop_deact("upgrs");
                 shop_activate("arts");
                 mngr_tutor.try_close_tutor("tutor_arts");
-                mngr_tutor.try_show_tutor("tutor_arts_discover");
+                if (mngr_tutor.tutor_state_dict["tutor_arts"] == 2)
+                    mngr_tutor.try_show_tutor("tutor_arts_discover");
             } else {
                 mngr_settings.play_sound(consts.empty_click_ac);
             }
@@ -2551,10 +2557,7 @@ public static class statics{
 
         public static void on_close_win(){
             if (mngr_tutor.tutor_state_dict["tutor_diamonds"] == 0){
-                logic_module.StartCoroutine(mngr_tutor.try_show_tutor_with_interval(
-                    "tutor_diamonds", 
-                    consts.diamonds_tutor_interval
-                ));
+                mngr_tutor.try_show_tutor("tutor_diamonds");
             }
         }
 
