@@ -62,7 +62,8 @@ public class urefs_init : MonoBehaviour{
         gameover_ac_screen_go,
         tap_indicator_go,
         glowing_choco_go,
-        levelup_banner_go;
+        levelup_banner_go,
+        tutor_tempering_bttn_go;
 
     public Transform 
         arts_shop_tr, 
@@ -149,7 +150,8 @@ public class urefs_init : MonoBehaviour{
         tutor_ach_win_bttn_txt,
         tutor_diamonds_txt,
         tap_indicator_bonus_txt,
-        forecast_cb_txt;
+        forecast_cb_txt,
+        tutor_tempering_txt;
 
     public AudioSource
         sound_asrc_as,

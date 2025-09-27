@@ -472,7 +472,7 @@ public class ach{
         act_ui(new(){"bar", "bttn_alpha"}); 
         while (last_nofted_idx < consts.achs_data[nm].val_list.Count - 1 
         && (float)Math.Truncate(val) >= consts.achs_data[nm].val_list[last_nofted_idx + 1]){
-            statics.logic_module.StartCoroutine(statics.mngr_achs.ach_noft(nm));
+            statics.mngr_achs.ach_noft(nm);
             last_nofted_idx++;
         }
         save_module.save_ach(this);

@@ -58,7 +58,8 @@ public static class urefs{
         gameover_ac_screen_go,
         tap_indicator_go,
         glowing_choco_go,
-        levelup_banner_go;
+        levelup_banner_go,
+        tutor_tempering_bttn_go;
 
     public static Transform 
         arts_shop_tr, 
@@ -145,7 +146,8 @@ public static class urefs{
         tutor_ach_win_bttn_txt,
         tutor_diamonds_txt,
         tap_indicator_bonus_txt,
-        forecast_cb_txt;
+        forecast_cb_txt,
+        tutor_tempering_txt;
 
     public static AudioSource
         sound_asrc_as,

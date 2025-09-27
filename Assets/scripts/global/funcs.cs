@@ -7,7 +7,7 @@ using System.Globalization;
 using System;
 using UnityEngine.UI;
 using TMPro;
-using CrazyGames;
+using UnityEngine.Events;
 
 public static class common_utils{
     public static void InitStaticDataClassFromMono(Type targetType, object source) {
@@ -165,6 +165,11 @@ public static class common_utils{
             yield return new WaitForSeconds(consts.typewriter_delay);
             statics.mngr_settings.play_sound(consts.typewrite_ac);
         }
+    }
+
+    public static IEnumerator retypewrite_with_postaction(TextMeshProUGUI txt, Func<bool> stop_cond = null, UnityAction action = null){
+        yield return retypewrite(txt, stop_cond);
+        action?.Invoke();
     }
 
     public static bool is_valid(object value){

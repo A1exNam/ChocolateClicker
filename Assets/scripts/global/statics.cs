@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine.Events;
 
 public static class statics{
     public static class mngr_quests{
@@ -228,7 +229,7 @@ public static class statics{
                 {"tutor_arts", (urefs.tutor_arts_panel_bttn_go, urefs.tutor_arts_panel_bttn_bcc, urefs.tutor_arts_panel_bttn_anmtr, urefs.tutor_arts_panel_bttn_txt)},
                 {"tutor_arts_discover", (urefs.tutor_arts_discover_go, urefs.tutor_arts_discover_bcc, urefs.tutor_arts_discover_anmtr, urefs.tutor_arts_discover_txt)},
                 {"tutor_tempering_win_bttn", (urefs.tutor_tempering_win_bttn_go, urefs.tutor_tempering_win_bttn_bcc, urefs.tutor_tempering_win_bttn_anmtr, urefs.tutor_tempering_win_bttn_txt)},
-                {"tutor_tempering", (urefs.tutor_tempering_go, urefs.tutor_tempering_bcc, urefs.tutor_tempering_anmtr, null)},
+                {"tutor_tempering", (urefs.tutor_tempering_go, urefs.tutor_tempering_bcc, urefs.tutor_tempering_anmtr, urefs.tutor_tempering_txt)},
                 {"tutor_prof_win_bttn", (urefs.tutor_prof_win_bttn_go, urefs.tutor_prof_win_bttn_bcc, urefs.tutor_prof_win_bttn_anmtr, urefs.tutor_prof_win_bttn_txt)},
                 {"tutor_prof", (urefs.tutor_prof_go, null, urefs.tutor_prof_anmtr, urefs.tutor_prof_txt)},
                 {"tutor_skin_win_bttn", (urefs.tutor_skin_win_bttn_go, urefs.tutor_skin_win_bttn_bcc, urefs.tutor_skin_win_bttn_anmtr, urefs.tutor_skin_win_bttn_txt)},
@@ -247,7 +248,7 @@ public static class statics{
             tutor_go_bcc_dict["tutor_arts_discover"].bcc.on_click.AddListener(mngr_discover.try_discover_art);
             tutor_go_bcc_dict["tutor_tempering_win_bttn"].bcc.on_click.AddListener(mngr_tempering.open_win);
             tutor_go_bcc_dict["tutor_tempering"].bcc.on_click.AddListener(
-                () => logic_module.StartCoroutine(mngr_tempering.try_tempering())
+                () => mngr_tutor.try_close_tutor("tutor_tempering")
             );
             tutor_go_bcc_dict["tutor_prof_win_bttn"].bcc.on_click.AddListener(mngr_prof.try_open_win);
             tutor_go_bcc_dict["tutor_skin_win_bttn"].bcc.on_click.AddListener(mngr_skins.open_win);
@@ -259,18 +260,23 @@ public static class statics{
         }
 
 		public static void try_show_tutor(string tutor_nm){
-			// if (tutor_state_dict[tutor_nm] == 0){
-            //     mngr_settings.apply_tutor_music_duck();
-			// 	tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
-            //     if (tutor_go_bcc_dict[tutor_nm].txt)
-            //         logic_module.StartCoroutine(
-            //             common_utils.retypewrite(
-            //                 tutor_go_bcc_dict[tutor_nm].txt,
-            //                 () => !tutor_go_bcc_dict[tutor_nm].go.activeSelf
-            //             )
-            //         );
-			// 	tutor_state_dict[tutor_nm] = 1;
-			// }
+			if (tutor_state_dict[tutor_nm] == 0){
+                mngr_settings.apply_tutor_music_duck();
+				tutor_go_bcc_dict[tutor_nm].go.SetActive(true);
+                if (tutor_go_bcc_dict[tutor_nm].txt){
+                    UnityAction action_temp = null;
+                    if (tutor_nm == "tutor_tempering") 
+                        action_temp = () => urefs.tutor_tempering_bttn_go.SetActive(true);
+                    logic_module.StartCoroutine(
+                        common_utils.retypewrite_with_postaction(
+                            tutor_go_bcc_dict[tutor_nm].txt,
+                            () => !tutor_go_bcc_dict[tutor_nm].go.activeSelf,
+                            action_temp
+                        )
+                    );
+                }
+				tutor_state_dict[tutor_nm] = 1;
+			}
 		}
 
         public static void try_close_tutor(string tutor_nm){
@@ -1828,7 +1834,10 @@ public static class statics{
             mngr_balance.amount += temp1; 
             mngr_balance.on_val_change();
 
-			if (mngr_tutor.tutor_state_dict["tutor_upgr"] == 0 && mngr_balance.amount >= consts.upgrs_data[consts.upgrs_sorted_list[0]].bp){
+			if (mngr_tutor.tutor_state_dict["tutor_upgr"] == 0 
+                && mngr_balance.amount >= consts.upgrs_data[consts.upgrs_sorted_list[0]].bp
+                && mngr_xp.lvl >= consts.upgrs_data[consts.upgrs_sorted_list[0]].open_lvl
+            ){
 				mngr_tutor.try_show_tutor("tutor_upgr");
 			}
 
@@ -2549,14 +2558,14 @@ public static class statics{
             }
         }
 
-        public static IEnumerator ach_noft(string nm){
+        public static void ach_noft(string nm){
             urefs.ach_noft_im.sprite = Resources.Load<Sprite>("images/" + nm);
             mngr_settings.play_sound(consts.ach_noft_ac);
             urefs.ach_noft_anmtr.Play("open", 0, 0f);
-            yield return common_utils.wait_until_state_end(
-                urefs.ach_noft_anmtr, 
-                "close"
-            );
+            // yield return common_utils.wait_until_state_end(
+            //     urefs.ach_noft_anmtr, 
+            //     "close"
+            // );
             if (mngr_tutor.tutor_state_dict["tutor_ach_win_bttn"] == 0){
                 mngr_tutor.try_close_tutor("all");
             };
