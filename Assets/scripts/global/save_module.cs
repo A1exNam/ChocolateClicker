@@ -28,6 +28,7 @@ public static class save_module{
     }
 
     public static void call_restores(){
+        //PlayerPrefs.DeleteAll();
         restore_gameover_ac_status();
         restore_gameover_status();
         if (!statics.mngr_gameover.is_gameover && !statics.mngr_gameover.is_gameover_anticlicker){
