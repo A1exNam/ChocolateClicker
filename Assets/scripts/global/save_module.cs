@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using CrazyGames;
 using System;
 using UnityEngine;
 using System.Collections;
@@ -12,28 +11,20 @@ public static class save_module{
         is_all_keys_deleted = false;
     public static IEnumerator init(){
         urefs.load_scr_go.SetActive(true);
-        if (CrazySDK.IsAvailable){
-            CrazySDK.Init(() => {});
-            float elapsed_t = 0f;
-            while (!CrazySDK.IsInitialized && elapsed_t < sdk_common.sdk_timeout_init){
-                yield return null;
-                elapsed_t += Time.deltaTime;
-            }
-            if (CrazySDK.IsInitialized){
-                //CrazySDK.Data.DeleteAll();
-                save_module.call_restores();
+        is_saves_timeout = false;
 
-                statics.mngr_tempering.init_after_save_restore();
-                statics.mngr_ad_bttn.init_after_save_restore();
-                statics.mngr_tutor.init_after_restore();
-                statics.mngr_quests.init_after_restore();
-            } else {
-                is_saves_timeout = true;
-            }
-            sdk_common.gp_start();
-            urefs.load_scr_go.SetActive(false);
-            urefs.music_asrc_as.enabled = true;
-        }
+        save_module.call_restores();
+
+        statics.mngr_tempering.init_after_save_restore();
+        statics.mngr_ad_bttn.init_after_save_restore();
+        statics.mngr_tutor.init_after_restore();
+        statics.mngr_quests.init_after_restore();
+
+        sdk_common.gp_start();
+        urefs.load_scr_go.SetActive(false);
+        urefs.music_asrc_as.enabled = true;
+
+        yield return null;
     }
 
     public static void call_restores(){
@@ -62,9 +53,9 @@ public static class save_module{
     //call strictly after restore_lvlxp
     public static void restore_tutor_bttns(){
         foreach (string tutor_nm in statics.mngr_tutor.bttn_tutor_dict_collection.Keys){
-            if (CrazySDK.Data.HasKey(tutor_nm)){
-                statics.mngr_tutor.is_opened_dict[tutor_nm] = 
-                    CrazySDK.Data.GetInt(tutor_nm) != 0;
+            if (PlayerPrefs.HasKey(tutor_nm)){
+                statics.mngr_tutor.is_opened_dict[tutor_nm] =
+                    PlayerPrefs.GetInt(tutor_nm) != 0;
                 statics.mngr_tutor.act_ui(new(){tutor_nm});;
             }
         }
@@ -74,10 +65,10 @@ public static class save_module{
     //call strictly after restore_lvlxp
     public static void restore_upgrs(){
         foreach (var kv in consts.lvl_upgr_mapping){
-            if (CrazySDK.Data.HasKey(kv.Value)){
+            if (PlayerPrefs.HasKey(kv.Value)){
                 upgr u = statics.mngr_upgrs.upgrs_dict[kv.Value];
 
-                u.lvl = CrazySDK.Data.GetInt(kv.Value);
+                u.lvl = PlayerPrefs.GetInt(kv.Value);
                 for (int i=0; i<u.lvl; i++){
                     u.b_gps += u.b_gain;
                     u.b_gain *= consts.upgrs_gain_coef;
@@ -103,8 +94,8 @@ public static class save_module{
         SortedDictionary<int, string> ordered_arts_to_restore = new();
         foreach (string art_nm in consts.arts_data.Keys){
             string k = art_nm + consts.arts_order_postfix;
-            if (CrazySDK.Data.HasKey(k)){
-                ordered_arts_to_restore[CrazySDK.Data.GetInt(k)] = art_nm; 
+            if (PlayerPrefs.HasKey(k)){
+                ordered_arts_to_restore[PlayerPrefs.GetInt(k)] = art_nm;
             }
         }
         foreach (string v in ordered_arts_to_restore.Values){
@@ -113,7 +104,7 @@ public static class save_module{
             statics.mngr_arts.opened_arts_dict[v] = a;
             statics.mngr_arts.closed_arts_set.Remove(v);
 
-            a.lvl = CrazySDK.Data.GetInt(v);
+            a.lvl = PlayerPrefs.GetInt(v);
             for (int i=consts.st_arts_lvl; i<a.lvl; i++){
                 if (a.lvl == consts.arts_data[v].max_lvl){
                     a.price = -1f;
@@ -131,21 +122,21 @@ public static class save_module{
     }
 
     public static void restore_diamonds(){
-        if (CrazySDK.Data.HasKey("diamonds")){
-            statics.mngr_diamonds.amount = CrazySDK.Data.GetInt("diamonds");
+        if (PlayerPrefs.HasKey("diamonds")){
+            statics.mngr_diamonds.amount = PlayerPrefs.GetInt("diamonds");
             statics.mngr_diamonds.act_ui();
         }
     }
     
     public static void restore_lvlxp(){
-        if (CrazySDK.Data.HasKey("level")){
-            statics.mngr_xp.lvl = CrazySDK.Data.GetInt("level");
+        if (PlayerPrefs.HasKey("level")){
+            statics.mngr_xp.lvl = PlayerPrefs.GetInt("level");
         }
-        if (CrazySDK.Data.HasKey("xp")){
-            statics.mngr_xp.xp = CrazySDK.Data.GetFloat("xp");
+        if (PlayerPrefs.HasKey("xp")){
+            statics.mngr_xp.xp = PlayerPrefs.GetFloat("xp");
         }
-        if (CrazySDK.Data.HasKey("max_lvl")){
-            statics.mngr_xp.max_lvl = CrazySDK.Data.GetInt("max_lvl");
+        if (PlayerPrefs.HasKey("max_lvl")){
+            statics.mngr_xp.max_lvl = PlayerPrefs.GetInt("max_lvl");
         }
         statics.mngr_xp.act_ui();
     }
@@ -154,8 +145,8 @@ public static class save_module{
     public static void restore_skins(){
         recalcs.recalc_skins_state(statics.mngr_skins.skins_list);
         foreach (string nm in consts.skins_data.Keys){
-            if (CrazySDK.Data.HasKey(nm)){
-                statics.mngr_skins.skins_dict[nm].state = CrazySDK.Data.GetInt(nm);
+            if (PlayerPrefs.HasKey(nm)){
+                statics.mngr_skins.skins_dict[nm].state = PlayerPrefs.GetInt(nm);
                 if (statics.mngr_skins.skins_dict[nm].state == 2){
                     statics.mngr_skins.cur_skin = statics.mngr_skins.skins_dict[nm];
                 }
@@ -166,20 +157,20 @@ public static class save_module{
     }
     
     public static void restore_cb(){
-        if (CrazySDK.Data.HasKey("cb")){
-            statics.mngr_cb.amount = CrazySDK.Data.GetFloat("cb");
+        if (PlayerPrefs.HasKey("cb")){
+            statics.mngr_cb.amount = PlayerPrefs.GetFloat("cb");
             statics.mngr_cb.on_val_change();
         }
     }
     
     public static void restore_music_and_sound_vols(){
-        if (CrazySDK.Data.HasKey("sound_vol")){
-            urefs.sound_slider_sl.value = CrazySDK.Data.GetFloat("sound_vol");
+        if (PlayerPrefs.HasKey("sound_vol")){
+            urefs.sound_slider_sl.value = PlayerPrefs.GetFloat("sound_vol");
             urefs.sound_text_txt.text = ((int)(urefs.sound_slider_sl.value * 100)).ToString();
             statics.mngr_settings.refresh_sound_volume();
         }
-        if (CrazySDK.Data.HasKey("music_vol")){
-            urefs.music_slider_sl.value = CrazySDK.Data.GetFloat("music_vol");
+        if (PlayerPrefs.HasKey("music_vol")){
+            urefs.music_slider_sl.value = PlayerPrefs.GetFloat("music_vol");
             urefs.music_text_txt.text = ((int)(urefs.music_slider_sl.value * 100)).ToString();
             statics.mngr_settings.refresh_music_volume();
         }
@@ -188,9 +179,9 @@ public static class save_module{
     //call strictly after restore_xplvl
     public static void restore_prof(){
         statics.mngr_prof.act_ui(new(){"prof_w"});
-        if (CrazySDK.Data.HasKey("cur_prof")){
+        if (PlayerPrefs.HasKey("cur_prof")){
             string old_prof_nm = statics.mngr_prof.cur_prof_nm;
-            statics.mngr_prof.cur_prof_nm = CrazySDK.Data.GetString("cur_prof");
+            statics.mngr_prof.cur_prof_nm = PlayerPrefs.GetString("cur_prof");
             statics.mngr_prof.change_params_for_ps(old_prof_nm);
             statics.mngr_prof.change_params_for_ps(statics.mngr_prof.cur_prof_nm);
             statics.mngr_prof.act_ui(new(){"win_bttn", "prof_w", "reset", "bttn_reset_alpha"});
@@ -200,13 +191,13 @@ public static class save_module{
     //in the end
     public static void restore_achs(){
         foreach (string ach_nm in consts.achs_data.Keys){
-            if (CrazySDK.Data.HasKey(ach_nm + consts.achs_postfix)){
-                statics.mngr_achs.achs_dict[ach_nm].val = 
-                    CrazySDK.Data.GetFloat(ach_nm + consts.achs_postfix);
-                statics.mngr_achs.achs_dict[ach_nm].last_nofted_idx = 
-                    CrazySDK.Data.GetInt(ach_nm + consts.achs_noft_idx_postfix);
-                statics.mngr_achs.achs_dict[ach_nm].rewarded_cnt = 
-                    CrazySDK.Data.GetInt(ach_nm + consts.achs_rewarded_cnt_postfix);
+            if (PlayerPrefs.HasKey(ach_nm + consts.achs_postfix)){
+                statics.mngr_achs.achs_dict[ach_nm].val =
+                    PlayerPrefs.GetFloat(ach_nm + consts.achs_postfix);
+                statics.mngr_achs.achs_dict[ach_nm].last_nofted_idx =
+                    PlayerPrefs.GetInt(ach_nm + consts.achs_noft_idx_postfix);
+                statics.mngr_achs.achs_dict[ach_nm].rewarded_cnt =
+                    PlayerPrefs.GetInt(ach_nm + consts.achs_rewarded_cnt_postfix);
                 statics.mngr_achs.achs_dict[ach_nm]
                 .act_ui(new(){"desc", "bttn_txt", "bar", "stars", "bttn_alpha"});
             }    
@@ -214,8 +205,8 @@ public static class save_module{
     }
 
     public static void restore_tap(){
-        if (CrazySDK.Data.HasKey("tap")){
-            statics.mngr_tap.lvl = CrazySDK.Data.GetInt("tap");
+        if (PlayerPrefs.HasKey("tap")){
+            statics.mngr_tap.lvl = PlayerPrefs.GetInt("tap");
             for (int i=0; i<statics.mngr_tap.lvl - 1; i++){
                 statics.mngr_tap.b_tap += statics.mngr_tap.b_gain;
 
@@ -230,8 +221,8 @@ public static class save_module{
     }
 
     public static void restore_offline_reward(){
-        if (CrazySDK.Data.HasKey("last_played_dttm")){
-            string dttm_to_parse = CrazySDK.Data.GetString("last_played_dttm");
+        if (PlayerPrefs.HasKey("last_played_dttm")){
+            string dttm_to_parse = PlayerPrefs.GetString("last_played_dttm");
             DateTime.TryParse(
                 dttm_to_parse, 
                 null, 
@@ -255,25 +246,25 @@ public static class save_module{
     }
 
     public static void restore_balance(){
-        if (CrazySDK.Data.HasKey("balance")){
-            statics.mngr_balance.amount = CrazySDK.Data.GetFloat("balance");
-            statics.mngr_balance.max_amount = CrazySDK.Data.GetFloat("max_balance");
+        if (PlayerPrefs.HasKey("balance")){
+            statics.mngr_balance.amount = PlayerPrefs.GetFloat("balance");
+            statics.mngr_balance.max_amount = PlayerPrefs.GetFloat("max_balance");
             statics.mngr_balance.on_val_change();
         }
     }
 
     public static void restore_gameover_status(){
-        if (CrazySDK.Data.HasKey("is_gameover")){
-            statics.mngr_gameover.is_gameover = 
-                CrazySDK.Data.GetInt("is_gameover") != 0;
+        if (PlayerPrefs.HasKey("is_gameover")){
+            statics.mngr_gameover.is_gameover =
+                PlayerPrefs.GetInt("is_gameover") != 0;
             statics.mngr_gameover.act_ui();
         }
     }
 
     public static void restore_gameover_ac_status(){
-        if (CrazySDK.Data.HasKey("is_gameover_ac")){
-            statics.mngr_gameover.is_gameover_anticlicker = 
-                CrazySDK.Data.GetInt("is_gameover_ac") != 0;
+        if (PlayerPrefs.HasKey("is_gameover_ac")){
+            statics.mngr_gameover.is_gameover_anticlicker =
+                PlayerPrefs.GetInt("is_gameover_ac") != 0;
             statics.mngr_gameover.act_ui();
         }
     }
@@ -282,15 +273,15 @@ public static class save_module{
         var keys = new List<string>(statics.mngr_tutor.tutor_state_dict.Keys);
 
         foreach(string tutor_nm in keys){
-            if (CrazySDK.Data.HasKey(tutor_nm)){
-                statics.mngr_tutor.tutor_state_dict[tutor_nm] = CrazySDK.Data.GetInt(tutor_nm);
+            if (PlayerPrefs.HasKey(tutor_nm)){
+                statics.mngr_tutor.tutor_state_dict[tutor_nm] = PlayerPrefs.GetInt(tutor_nm);
             }
         }
     }
 
     public static void restore_quests(){
-        if (CrazySDK.Data.HasKey("quest_nm")){
-            statics.mngr_quests.cur_quest_nm = CrazySDK.Data.GetString("quest_nm");
+        if (PlayerPrefs.HasKey("quest_nm")){
+            statics.mngr_quests.cur_quest_nm = PlayerPrefs.GetString("quest_nm");
         } else {
             statics.mngr_quests.cur_quest_nm = consts.idx_quests_mapping.Last().Value;
             //stub
@@ -305,128 +296,156 @@ public static class save_module{
         
     public static void save_upgr(upgr u){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(u.lvl))   
-                CrazySDK.Data.SetInt(u.nm, u.lvl);
+            if (common_utils.is_valid(u.lvl)){
+                PlayerPrefs.SetInt(u.nm, u.lvl);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void clean_upgrs(){
         if (!is_all_keys_deleted && is_saves_restored){
             foreach (string nm in consts.upgrs_data.Keys){
-                CrazySDK.Data.DeleteKey(nm);
+                PlayerPrefs.DeleteKey(nm);
             }
+            PlayerPrefs.Save();
         }
     }
 
     public static void save_lvlxp(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_xp.lvl) 
-            && common_utils.is_valid(statics.mngr_xp.max_lvl) 
+            if (common_utils.is_valid(statics.mngr_xp.lvl)
+            && common_utils.is_valid(statics.mngr_xp.max_lvl)
             && common_utils.is_valid(statics.mngr_xp.xp)){
-                CrazySDK.Data.SetInt("level", statics.mngr_xp.lvl);
-                CrazySDK.Data.SetInt("max_lvl", statics.mngr_xp.max_lvl);
-                CrazySDK.Data.SetFloat("xp", statics.mngr_xp.xp);
+                PlayerPrefs.SetInt("level", statics.mngr_xp.lvl);
+                PlayerPrefs.SetInt("max_lvl", statics.mngr_xp.max_lvl);
+                PlayerPrefs.SetFloat("xp", statics.mngr_xp.xp);
+                PlayerPrefs.Save();
             }
         }
     }
 
     public static void save_diamonds(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_diamonds.amount))
-                CrazySDK.Data.SetInt("diamonds", statics.mngr_diamonds.amount);
-        }   
+            if (common_utils.is_valid(statics.mngr_diamonds.amount)){
+                PlayerPrefs.SetInt("diamonds", statics.mngr_diamonds.amount);
+                PlayerPrefs.Save();
+            }
+        }
     }
 
     public static void save_cb(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_cb.amount))
-                CrazySDK.Data.SetFloat("cb", statics.mngr_cb.amount);
+            if (common_utils.is_valid(statics.mngr_cb.amount)){
+                PlayerPrefs.SetFloat("cb", statics.mngr_cb.amount);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_bttn_tutor(string tutor_nm){
         if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_tutor.is_opened_dict[tutor_nm] ? 1 : 0;
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt(tutor_nm, res);
+            if (common_utils.is_valid(res)){
+                PlayerPrefs.SetInt(tutor_nm, res);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_art(art a){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(a.lvl))
-                CrazySDK.Data.SetInt(a.nm, a.lvl);
+            if (common_utils.is_valid(a.lvl)){
+                PlayerPrefs.SetInt(a.nm, a.lvl);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_art_order(art a, int order){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(order))
-                CrazySDK.Data.SetInt(a.nm + "_order", order);
+            if (common_utils.is_valid(order)){
+                PlayerPrefs.SetInt(a.nm + "_order", order);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_skin(skin s){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(s.state))
-                CrazySDK.Data.SetInt(s.nm, s.state);
+            if (common_utils.is_valid(s.state)){
+                PlayerPrefs.SetInt(s.nm, s.state);
+                PlayerPrefs.Save();
+            }
         }
     }
 
-    public static void save_sound_vol(){  
+    public static void save_sound_vol(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(urefs.sound_slider_sl.value))
-                CrazySDK.Data.SetFloat("sound_vol", urefs.sound_slider_sl.value);
+            if (common_utils.is_valid(urefs.sound_slider_sl.value)){
+                PlayerPrefs.SetFloat("sound_vol", urefs.sound_slider_sl.value);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_music_vol(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(urefs.music_slider_sl.value))
-                CrazySDK.Data.SetFloat("music_vol", urefs.music_slider_sl.value);
+            if (common_utils.is_valid(urefs.music_slider_sl.value)){
+                PlayerPrefs.SetFloat("music_vol", urefs.music_slider_sl.value);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_prof(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_prof.cur_prof_nm))
-                CrazySDK.Data.SetString("cur_prof", statics.mngr_prof.cur_prof_nm);
+            if (common_utils.is_valid(statics.mngr_prof.cur_prof_nm)){
+                PlayerPrefs.SetString("cur_prof", statics.mngr_prof.cur_prof_nm);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_ach(ach a){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(a.val) 
-            && common_utils.is_valid(a.rewarded_cnt) 
+            if (common_utils.is_valid(a.val)
+            && common_utils.is_valid(a.rewarded_cnt)
             && common_utils.is_valid(a.last_nofted_idx)){
-                CrazySDK.Data.SetFloat(a.nm + consts.achs_postfix, a.val);
-                CrazySDK.Data.SetInt(a.nm + consts.achs_rewarded_cnt_postfix, a.rewarded_cnt);
-                CrazySDK.Data.SetInt(a.nm + consts.achs_noft_idx_postfix, a.last_nofted_idx);
+                PlayerPrefs.SetFloat(a.nm + consts.achs_postfix, a.val);
+                PlayerPrefs.SetInt(a.nm + consts.achs_rewarded_cnt_postfix, a.rewarded_cnt);
+                PlayerPrefs.SetInt(a.nm + consts.achs_noft_idx_postfix, a.last_nofted_idx);
+                PlayerPrefs.Save();
             }
         }
     }
 
     public static void save_tap(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_tap.lvl))
-                CrazySDK.Data.SetInt("tap", statics.mngr_tap.lvl);
+            if (common_utils.is_valid(statics.mngr_tap.lvl)){
+                PlayerPrefs.SetInt("tap", statics.mngr_tap.lvl);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_last_played_dttm(){
         if (!is_all_keys_deleted && is_saves_restored){
             string res = DateTime.Now.ToString("o");
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetString("last_played_dttm", res);
+            if (common_utils.is_valid(res)){
+                PlayerPrefs.SetString("last_played_dttm", res);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_balance(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_balance.amount) 
+            if (common_utils.is_valid(statics.mngr_balance.amount)
             && common_utils.is_valid(statics.mngr_balance.max_amount)){
-                CrazySDK.Data.SetFloat("balance", statics.mngr_balance.amount);
-                CrazySDK.Data.SetFloat("max_balance", statics.mngr_balance.max_amount);
+                PlayerPrefs.SetFloat("balance", statics.mngr_balance.amount);
+                PlayerPrefs.SetFloat("max_balance", statics.mngr_balance.max_amount);
+                PlayerPrefs.Save();
             }
         }
     }
@@ -434,38 +453,47 @@ public static class save_module{
     public static void save_gameover_status(){
         if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_gameover.is_gameover ? 1 : 0;
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt("is_gameover", res);
+            if (common_utils.is_valid(res)){
+                PlayerPrefs.SetInt("is_gameover", res);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_gameover_ac_status(){
         if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_gameover.is_gameover_anticlicker ? 1 : 0;
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt("is_gameover_ac", res);
+            if (common_utils.is_valid(res)){
+                PlayerPrefs.SetInt("is_gameover_ac", res);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_tutor(string tutor_nm){
-        if (!is_all_keys_deleted && is_saves_restored){ 
+        if (!is_all_keys_deleted && is_saves_restored){
             int res = statics.mngr_tutor.tutor_state_dict[tutor_nm];
-            if (common_utils.is_valid(res))
-                CrazySDK.Data.SetInt(tutor_nm, res);
+            if (common_utils.is_valid(res)){
+                PlayerPrefs.SetInt(tutor_nm, res);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void save_quest(){
         if (!is_all_keys_deleted && is_saves_restored){
-            if (common_utils.is_valid(statics.mngr_quests.cur_quest_nm))
-                CrazySDK.Data.SetString("quest_nm", statics.mngr_quests.cur_quest_nm);
+            if (common_utils.is_valid(statics.mngr_quests.cur_quest_nm)){
+                PlayerPrefs.SetString("quest_nm", statics.mngr_quests.cur_quest_nm);
+                PlayerPrefs.Save();
+            }
         }
     }
 
     public static void delete_all(){
         if (!is_all_keys_deleted && is_saves_restored){
             is_all_keys_deleted = true;
-            CrazySDK.Data.DeleteAll();
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
         }
     }
 }
